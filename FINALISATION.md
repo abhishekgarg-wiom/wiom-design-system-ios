@@ -23,3 +23,8 @@ Finalised documentation is not a native SDK or native accessibility certificatio
 ## Delivery
 
 Refreshed outputs/skills-ios, wiom-ios-skills-revised.zip, wiom-ios-design-system.html and wiom-ios-contrast-review.html. The user authorised a new private GitHub repository named wiom-design-system-ios and explicitly requested the HTML inside it. That repository contains the iOS skills and offline HTML documents. No commit is made to the existing shared design-system repo. Android skills, builder, Figma and customer-app-ios remain untouched.
+
+
+## Publication update
+
+The owner subsequently requested this repository be public and its HTML be hosted. The repo is now public, with GitHub Pages configured from main /docs. Live preview: https://abhishekgarg-wiom.github.io/wiom-design-system-ios/

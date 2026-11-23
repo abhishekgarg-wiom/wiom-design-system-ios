@@ -2,13 +2,20 @@
 
 Owner-finalised design guidance for Wiom’s native iOS customer app: SwiftUI, iPhone, iOS 16+, light appearance, Hindi first.
 
+## Live preview
+
+- [Open the interactive iOS design system](https://abhishekgarg-wiom.github.io/wiom-design-system-ios/)
+- [Open the contrast review](https://abhishekgarg-wiom.github.io/wiom-design-system-ios/wiom-ios-contrast-review.html)
+
+The repository is public. GitHub Pages serves the complete HTML from `docs/`; no download or local setup is required for previewing.
+
 ## Read the system
 
 - [Main design-system HTML](docs/wiom-ios-design-system.html): full foundation values, 19 guides, iPhone-style examples, interactive state changes, search and a guided walkthrough.
 - [Contrast review HTML](docs/wiom-ios-contrast-review.html): approved Warning pairings and clearly labelled remaining proposals.
 - [iOS skills index](skills-ios/README.md), [decisions contract](skills-ios/IOS_DECISIONS.md), and [finalisation summary](FINALISATION.md).
 
-Download or clone this private repository, then open the HTML file locally in a browser. The documents embed their fonts, icons and content; no server or dependency installation is needed. GitHub may display the HTML source rather than render the page. The two HTML files are kept together so their navigation link works offline.
+Download or clone this repository, then open the HTML file locally in a browser. The documents embed their fonts, icons and content; no server or dependency installation is needed. GitHub may display the HTML source rather than render the page. The two HTML files are kept together so their navigation link works offline.
 
 ## Typography
 
@@ -36,4 +43,4 @@ Derived from Wiom’s shared design-system repository, with owner decisions reco
 
 D29 records the owner’s 8 pt toast clearance; the inspected shared Android source had reverted to 16 pt. D30 records 2–4 pills. D31 records the final Warning colour rule above. These differences need coordinated downstream alignment, not silent edits by an iOS agent.
 
-See [NOTICE](NOTICE.md) for internal-use ownership. No global skill installation was performed.
+Public reference publication was requested by the design-system owner. See [NOTICE](NOTICE.md) for ownership and reuse terms. No global skill installation was performed.
