@@ -51,7 +51,7 @@ Draft created 19 Nov 2026; corrected and audited 22 Nov 2026 against the source 
 When an Android skill changes a **visual** rule, reconcile the matching iOS skill against the explicit owner decisions and the named baseline before updating it. An upstream change does not supersede an owner lock. Behaviour sections (`## iOS (SwiftUI, iOS 16+)`) are iOS-only.
 
 
-Governance: Abhishek Garg owns the design system. Make design changes in the source repository with the owner’s authorisation, never in downstream vendored copies. This iOS audit is uncommitted. Keep unused skills and reference files; mark them not in use. No bottom tab bar is loaded for customer screens (D27).
+Governance: Abhishek Garg owns the design system. Make design changes in the source repository with the owner’s authorisation, never in downstream vendored copies. The final iOS package is versioned in the private wiom-design-system-ios repository; the shared Android design-system repository was not committed or pushed by this task. Keep unused skills and reference files; mark them not in use. No bottom tab bar is loaded for customer screens (D27).
 
 Audit baseline: source remote HEAD `2fa260f`, Android remote HEAD `1ce3c31` (`v2.0.1`), checked 22 Nov 2026. The checkout was behind when the initial audit began; the user subsequently pulled it to `2fa260f` on 23 Nov. That was the round 2 baseline. Round 3 uses `origin/main b480a46` (Android skills PR #18) without editing Android skills.
 
