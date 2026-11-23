@@ -6,7 +6,7 @@
 
 ## 1. Font
 
-**Noto Sans, one supplied family that includes Devanagari.** The four existing customer-app font files were checked with Core Text on 22 Nov 2026: their PostScript names match the table and each covers the tested Devanagari characters in क्षि, र् and ज़. Reuse that approved build; do not assume every download called Noto Sans includes those glyphs. Four weights are bundled and registered in `Info.plist` (`UIAppFonts`):
+**Noto Sans only, for Hindi and English (D32).** Do not add or substitute the separate Noto Sans Devanagari font family. References to Devanagari below describe the Hindi script, not a second font family. The four existing customer-app font files were checked with Core Text on 22 Nov 2026: their PostScript names match the table and each covers the tested Devanagari characters in क्षि, र् and ज़. Reuse that approved build; do not assume every download called Noto Sans includes those glyphs. Four weights are bundled and registered in `Info.plist` (`UIAppFonts`):
 
 | Weight | PostScript name |
 |---|---|

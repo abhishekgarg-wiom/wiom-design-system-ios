@@ -2,7 +2,7 @@
 
 Claude Code skills for the **native iOS customer app** (SwiftUI, iPhone only, iOS 16+), built on **Wiom DS V2**. They are the iOS counterpart of the Android skills in `../skills/` and are written so an iOS user and an Android user see **the same app**: same tokens, type, icons (Material Rounded) and component anatomy. iOS differs only where platform behaviour must win (gestures, safe areas, keyboard, VoiceOver, Dynamic Type, Reduce Motion).
 
-Start with [`IOS_DECISIONS.md`](IOS_DECISIONS.md): the parity rule, the 31 decisions every skill follows, the Swift naming rule, and the questions still open for the design team.
+Start with [`IOS_DECISIONS.md`](IOS_DECISIONS.md): the parity rule, the 32 decisions every skill follows, the Swift naming rule, and the questions still open for the design team.
 
 ## Skills
 
@@ -76,3 +76,6 @@ All 19 skills are documented; that is not a native implementation or release cla
 All 19 skills are included and validated as documentation. D31 is final across components: gold icon/warning is rating-stars-only; Warning indicators use dark icon/action on bg/warning/subtle or bg/warning. See the foundation warning-combinations reference. Existing token values are unchanged. D29 keeps toast clearance at 8 pt and D30 keeps 2–4 pill tabs.
 
 Finalised documentation does not mean every implementation question is closed: switch-thumb mapping remains open by owner choice; toast/input icon-container geometry, remaining border/brand-text contrast and native/device validation remain explicit. Android source and app implementation have not been changed by this package.
+
+
+Typography (D32): use **Noto Sans only for both Hindi and English**, with the four named weights in foundations. No separate Noto Sans Devanagari font family is used. Script-specific Hindi shaping checks do not introduce another font family.

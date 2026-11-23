@@ -5,7 +5,7 @@ description: "Wiom DS V2 foundation tokens and rules for the iOS customer app in
 
 # Wiom foundations for iOS (SwiftUI, iOS 16+)
 
-**Design system:** Wiom DS V2 · **App:** native iOS customer app, iPhone only, portrait, light mode · **Font:** Noto Sans (with Devanagari) · **Copy:** Hindi first, from the string catalog.
+**Design system:** Wiom DS V2 · **App:** native iOS customer app, iPhone only, portrait, light mode · **Font:** Noto Sans only, for Hindi and English · **Copy:** Hindi first, from the string catalog.
 
 **The parity rule.** iOS and Android users see the same app. Visual values follow the named Android baseline unless the owner has explicitly locked a correction in the decisions contract. iOS differs only in behaviour (gestures, safe areas, keyboard, accessibility). The full decision list is [`../IOS_DECISIONS.md`](../IOS_DECISIONS.md); when this skill and that file disagree, that file wins.
 

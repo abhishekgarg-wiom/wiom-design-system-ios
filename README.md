@@ -10,6 +10,10 @@ Owner-finalised design guidance for Wiom’s native iOS customer app: SwiftUI, i
 
 Download or clone this private repository, then open the HTML file locally in a browser. The documents embed their fonts, icons and content; no server or dependency installation is needed. GitHub may display the HTML source rather than render the page. The two HTML files are kept together so their navigation link works offline.
 
+## Typography
+
+Use **Noto Sans only for both Hindi and English** (D32). Regular, Medium, SemiBold and Bold use the supplied NotoSans PostScript names. No separate Noto Sans Devanagari family is used; the existing supplied Noto Sans files support the tested Hindi characters.
+
 ## Final Warning combinations
 
 | Use | Icon role | Surface |
