@@ -1,0 +1,178 @@
+[
+  {
+    "id": "warning",
+    "title": "Warning icons",
+    "intro": "Final D31: gold is for rating stars only. Warning indicators use dark icon/action on subtle or solid Warning surfaces.",
+    "caveat": "Both dark Warning pairings are approved under D31. Gold samples remain historical comparisons only. Example container geometry is illustrative; whole-component accessibility still needs native validation.",
+    "cards": [
+      {
+        "id": "w-old",
+        "title": "Gold on neutral",
+        "state": "Prohibited for Warning",
+        "fg": "#E2B203",
+        "bg": "#FAF9FC",
+        "foregroundToken": "icon/warning",
+        "backgroundToken": "bg/default",
+        "threshold": 3,
+        "ratio": 1.8881736690767013,
+        "note": "Historical comparison only. Final D31 prohibits gold Warning glyphs; icon/warning is rating-stars-only."
+      },
+      {
+        "id": "w-tint",
+        "title": "Gold on warning tint",
+        "state": "Prohibited for Warning",
+        "fg": "#E2B203",
+        "bg": "#FFE9A1",
+        "foregroundToken": "icon/warning",
+        "backgroundToken": "bg/warning/subtle",
+        "threshold": 3,
+        "ratio": 1.6431048601237508,
+        "note": "Historical comparison only. Final D31 prohibits gold Warning glyphs; icon/warning is rating-stars-only."
+      },
+      {
+        "id": "w-dark",
+        "title": "Dark icon on warning tint",
+        "state": "Approved globally",
+        "fg": "#352D42",
+        "bg": "#FFE9A1",
+        "foregroundToken": "icon/action",
+        "backgroundToken": "bg/warning/subtle",
+        "threshold": 3,
+        "ratio": 10.852248074920332,
+        "note": "Final D31 recipe across toast, input and icon badge. Neutral toast/input outer surfaces remain unchanged; container geometry is still open."
+      },
+      {
+        "id": "w-solid",
+        "title": "Dark icon on solid Warning",
+        "state": "Approved globally",
+        "fg": "#352D42",
+        "bg": "#E2B203",
+        "foregroundToken": "icon/action",
+        "backgroundToken": "bg/warning",
+        "threshold": 3,
+        "ratio": 6.6047203305715945,
+        "note": "Second approved Warning indicator recipe. Use only where the component specifies a solid Warning surface, not as permission to recolour the entire toast/input."
+      }
+    ]
+  },
+  {
+    "id": "border",
+    "title": "Resting input boundaries",
+    "intro": "Keep the field fill, dimensions and text identical. Only the boundary colour varies.",
+    "caveat": "The 3:1 comparison applies when the boundary is necessary to identify the control. An otherwise clearly identifiable input may have a decorative border. Determine whether the complete field can be recognised without this line; a darkened stroke is a proposal, not an automatic requirement.",
+    "cards": [
+      {
+        "id": "b-current",
+        "title": "Current subtle boundary",
+        "state": "Current",
+        "fg": "#D7D3E0",
+        "bg": "#FAF9FC",
+        "foregroundToken": "stroke/subtle",
+        "backgroundToken": "bg/default",
+        "threshold": 3,
+        "ratio": 1.4016696278022795,
+        "note": "The existing rest border. Labels and other cues matter when assessing the complete field."
+      },
+      {
+        "id": "b-strong",
+        "title": "Existing strong stroke",
+        "state": "Proposal",
+        "fg": "#473F55",
+        "bg": "#FAF9FC",
+        "foregroundToken": "stroke/strong",
+        "backgroundToken": "bg/default",
+        "threshold": 3,
+        "ratio": 9.488060885448148,
+        "note": "Reuses an existing stroke role, with noticeably stronger visual weight. Input adoption is not approved."
+      },
+      {
+        "id": "b-mid",
+        "title": "Middle neutral candidate",
+        "state": "Proposal",
+        "fg": "#898296",
+        "bg": "#FAF9FC",
+        "foregroundToken": "Neutral/500 primitive",
+        "backgroundToken": "bg/default",
+        "threshold": 3,
+        "ratio": 3.5141791571796483,
+        "note": "A palette candidate only. No semantic rest-border token exists for this mapping; token and component approval would be required."
+      }
+    ]
+  },
+  {
+    "id": "brand",
+    "title": "Brand text on the pressed fill",
+    "intro": "Compare the current Secondary/Tertiary pressed label against two alternatives. The default reading-text threshold is 4.5:1.",
+    "caveat": "The current state is transient, but that alone is not a blanket WCAG exemption for active text. Large text has a different threshold; these 16 pt semibold samples are evaluated conservatively at 4.5:1. A proposed primitive is not an approved semantic text token.",
+    "cards": [
+      {
+        "id": "t-current",
+        "title": "Current brand label",
+        "state": "Current",
+        "fg": "#D9008D",
+        "bg": "#FFE5F6",
+        "foregroundToken": "text/brand",
+        "backgroundToken": "bg/brand/subtle",
+        "threshold": 4.5,
+        "ratio": 4.103956635804009,
+        "note": "Current pressed Secondary/Tertiary recipe; retained in the skills pending review."
+      },
+      {
+        "id": "t-neutral",
+        "title": "Existing default text",
+        "state": "Proposal",
+        "fg": "#161021",
+        "bg": "#FFE5F6",
+        "foregroundToken": "text/default",
+        "backgroundToken": "bg/brand/subtle",
+        "threshold": 4.5,
+        "ratio": 15.741119015337118,
+        "note": "Uses an existing text role and the same pressed fill. This changes brand emphasis and needs shared design approval."
+      },
+      {
+        "id": "t-deep",
+        "title": "Deeper brand candidate",
+        "state": "Proposal",
+        "fg": "#C00080",
+        "bg": "#FFE5F6",
+        "foregroundToken": "Brand/700 primitive",
+        "backgroundToken": "bg/brand/subtle",
+        "threshold": 4.5,
+        "ratio": 5.007179401996719,
+        "note": "Keeps a brand hue but requires a semantic text mapping. It is not a new token or an approved replacement."
+      }
+    ]
+  },
+  {
+    "id": "dark",
+    "title": "Text on a dark brand surface",
+    "intro": "This case already has a safe rule in D26: use text/inverse. It is included so an already settled restriction is not mistaken for a new proposal.",
+    "caveat": "D26 prohibits brand and subtle text on dark surfaces. Existing approved inverse text can be used now; it does not need another colour decision.",
+    "cards": [
+      {
+        "id": "d-old",
+        "title": "Brand text on dark",
+        "state": "Prohibited",
+        "fg": "#D9008D",
+        "bg": "#443152",
+        "foregroundToken": "text/brand",
+        "backgroundToken": "bg/brand/bold",
+        "threshold": 4.5,
+        "ratio": 2.3990442095990425,
+        "note": "Included to illustrate the restricted pairing, not as a permitted implementation."
+      },
+      {
+        "id": "d-inverse",
+        "title": "Inverse text on dark",
+        "state": "Already approved",
+        "fg": "#FAF9FC",
+        "bg": "#443152",
+        "foregroundToken": "text/inverse",
+        "backgroundToken": "bg/brand/bold",
+        "threshold": 4.5,
+        "ratio": 11.079826636319591,
+        "note": "Existing D26 rule. Keep this mapping on bg/brand/bold and bg/inverse."
+      }
+    ]
+  }
+]
