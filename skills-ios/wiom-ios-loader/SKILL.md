@@ -132,10 +132,10 @@ Full-screen. It covers the screen, swallows every touch, and centres a vertical 
 |---|---|---|---|
 | Background | `bg/default` | `bg/brand` | `overlay/scrim` over the current screen |
 | Wordmark "Wiom" | `type/heading/xl`, `text/brand` | `type/heading/xl`, `text/onBrand` | none (the screen behind gives context) |
-| Mark | `loader_infinity` animation (D37) | `loader_infinity` animation | `loader_infinity` animation |
+| Mark | `loader_infinity` animation, 200 × 200 pt (D37) | same, 200 × 200 pt | same, 200 × 200 pt |
 | Message (optional) | `type/body/md`, `text/subtle` | `type/body/md`, `text/onBrand` | `type/body/md`, `text/onBrand` |
 
-**The mark is the `loader_infinity` animation (D37).** It is the infinity stroke-dash chase both apps already ship (`loader_infinity.json`, copied from the Android app), played with `lottie-ios` on a loop. Spinner lg is only the fallback if the file fails to load. Known differences for design to correct in the file later: 2.0 s loop (spec 1.3 s), pink #D92B90 (token `icon/brand` #D9008D), a light-grey track.
+**The mark is the `loader_infinity` animation (D37), played in a 200 × 200 pt frame**, as the app does. The file is a 1920 × 1080 canvas with wide empty margins, so never squeeze it into the 128 × 53 glyph size or it looks tiny. It is the infinity stroke-dash chase both apps already ship (`loader_infinity.json`, copied from the Android app), played with `lottie-ios` on a loop. Spinner lg is only the fallback if the file fails to load. Known differences for design to correct in the file later: 2.0 s loop (spec 1.3 s), pink #D92B90 (token `icon/brand` #D9008D), a light-grey track.
 
 Brand Overlay is a full-screen branded-wait variant, not the required loader for payment. Blocking foreground work such as payment, syncing and submitting uses the Loading dialog (`wiom-ios-dialog`), without a duration cutoff. Routine inline waits use Spinner or Skeleton. Surface choice and the outcome follow `wiom-ios-bottomsheet` → Choosing a surface.
 
