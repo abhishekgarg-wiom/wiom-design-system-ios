@@ -95,7 +95,7 @@ for Warning, the message colour) carries the status.
 | **Positive** (Success) | `check_circle` | `icon/positive` | `text/default` |
 
 - **Action label is always `text/brand`**, whatever the type: Undo /
-  Retry / View is the screen's brand action, not the toast's status.
+  Try again / View is the screen's brand action, not the toast's status.
 - **Warning is the only type whose message is not `text/default`.** It
   uses `text/onWarning`, the one text token of the warning family.
 - The icon is decorative; the message carries the meaning (so the
@@ -119,7 +119,7 @@ the timer.
 | Behaviour | Action | Close ✕ | Duration | Use for |
 |---|---|---|---|---|
 | **Informational** | No | No | **2 s** auto | Fire-and-forget: request rejected, status changed, copied |
-| **Actionable** | Yes | No | **8 s** auto | The user just did something undoable or retryable: delete + Undo, failed call + Retry |
+| **Actionable** | Yes | No | **8 s** auto | The user just did something undoable or retryable: delete + Undo, failed call + Try again |
 | **Persistent** | Optional | **Yes** | None: until ✕ or the state that caused it clears | An ongoing state, including offline while cached data remains visible |
 
 - **2 s**: a fast read, the user moves on. Shorter feels skipped.
@@ -165,7 +165,7 @@ covering or under its buttons.
   **40 grapheme clusters** of Hindi so one line holds on iPhone SE
   (counted with `String.count`; "क्षि" is one). Treat this number as a
   guide, not a hard limit (D44 target).
-- **Action label: one word where possible** ("Undo", "Retry", "View",
+- **Action label: one word where possible** ("Undo", "Try again", "View",
   illustrative), max **12 grapheme clusters** (D44 target). It never truncates the
   message's room to zero; shorten the label instead.
 - All copy above is illustrative. Real strings come from the string

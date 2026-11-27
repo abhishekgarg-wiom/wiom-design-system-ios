@@ -17,6 +17,7 @@ description: "Wiom UX and copy rules for the SwiftUI iOS customer app: Hindi-fir
 | [`references/customer-adoption-doctrine.md`](references/customer-adoption-doctrine.md) | Product Doctrine v1.0, the Access Adoption frame (Risk / Commitment / Outflow / Effort), Journey Architecture v2.0, no-pressure visual doctrine. **Load for every screen.** | LOCKED product principles; workflow dependencies removed |
 | [`references/recharge-belief-model.md`](references/recharge-belief-model.md) | What the customer must believe about recharge, and when it is taught | Approved rows only; unapproved recharge rows moved to unused archive |
 | [`references/chat-copy-guidelines.md`](references/chat-copy-guidelines.md) | Chat thread copy: belief, not sales | Retained chat guidance; three draft state extensions excluded |
+| [`references/copy-rules.md`](references/copy-rules.md) | Hindi and English copy rules: the audit checks, forbidden words, spoken-Hindi swaps, surface shapes, same-state strings | **REQUIRED for any user-facing copy (D52)** |
 | [`references/english-copy-rules.md`](references/english-copy-rules.md) | English copy rules: written not translated, Ghar ka Net / home net, Net-Box, Autopay, net not internet, checklist | **REQUIRED for any user-facing copy** (D48) |
 | [`references/glossary.md`](references/glossary.md) | English → Hindi terms; ⟨iOS⟩ terms नेट and घर का नेट | LOCKED (RB-05) |
 | [`references/writing-playbook.md`](references/writing-playbook.md) | Voice, screen patterns, buttons, casing, limits, inputs, words to avoid | Rewritten for iOS |

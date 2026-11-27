@@ -37,6 +37,11 @@ for s in SK:
 for r in REF:
   t=(S/f"wiom-ios-{r['parent']}/references/{r['slug']}.md").read_text()
   if t!=r['text']: r['text']=t; r['html']=md(t,'ref-'+r['slug']); changed.append(r['slug'])
+known={(r['parent'],r['slug']) for r in REF}
+for p in sorted(S.glob('wiom-ios-*/references/*.md')):
+  parent=p.parent.parent.name.removeprefix('wiom-ios-')
+  if p.stem.endswith('not-in-use') or (parent,p.stem) in known: continue
+  t=p.read_text(); REF.append({'parent':parent,'slug':p.stem,'title':t.splitlines()[0].lstrip('# '),'html':md(t,'ref-'+p.stem),'text':t}); changed.append('new:'+p.stem)
 dec=(S/'wiom-ios-foundations/references/decisions.md').read_text()
 if dec!=DEC: put('DECISIONS',dec); put('CONTRACTDOC',md(dec,'contract')); changed.append('decisions')
 put('SKILLS',SK); put('FULLDOCS',FD); put('REFERENCES',REF)

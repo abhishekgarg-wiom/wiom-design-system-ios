@@ -82,7 +82,7 @@ case):
 | Dot · Critical | On the notification bell in the top bar |
 | Count · Critical, overlay | Bell with "3" |
 | Count · Neutral, inline | Support tab "टिकट" + "2" |
-| Label · Default Filled · Critical | Payment history row: "असफल" / "Failed" |
+| Label · Default Filled · Critical | Payment history row: "नहीं हो सका" / "Failed" |
 | Label · Default Filled · Positive | Payment history row: "पूरा हुआ" / "Completed" |
 | Label · Default Tinted · Info | Complaint row: "प्रगति में" / "In progress" |
 | Label · Small Tinted · Brand | Plan card: "सबसे लोकप्रिय" / "Most popular" |
@@ -180,7 +180,7 @@ into the secondary text.
   only when it alone no longer fits (accessibility text sizes, iPhone
   SE).
 - **Specific, not generic.** Never "Status", "State", "Active" on its
-  own; say what the state is (illustrative: "असफल", "पूरा हुआ").
+  own; say what the state is (illustrative: "नहीं हो सका", "पूरा हुआ").
 - English in sentence case ("In progress", not "IN PROGRESS").
 
 ## 7. Decision logic
