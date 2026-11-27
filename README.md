@@ -44,3 +44,14 @@ Derived from Wiom’s shared design-system repository, with owner decisions reco
 D29 records the 16 pt toast bottom gap (sides 8 pt), same as the Android skill. D30 records 2–4 pills. D31 records the final Warning colour rule above. These differences need coordinated downstream alignment, not silent edits by an iOS agent.
 
 Public reference publication was requested by the design-system owner. See [NOTICE](NOTICE.md) for ownership and reuse terms. No global skill installation was performed.
+
+## Updating the preview
+
+After editing any skill, reference or `IOS_DECISIONS.md`, refresh the HTML preview:
+
+```
+python3 -m venv .venv && .venv/bin/pip install -r scripts/requirements.txt
+.venv/bin/python scripts/update_preview.py
+```
+
+It re-renders only what changed. A new skill also needs a chapter entry in the page's `SKILLS` list.
