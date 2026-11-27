@@ -98,7 +98,7 @@ HTML source rule: the canonical Wiom iOS design-system HTML reference is generat
 
 ## Implementation readiness
 
-All 20 skills are documented; that is not a native implementation or release claim. Track evidence using [native validation](wiom-ios-foundations/references/native-validation.md): specified, implemented, native-tested and parity-reviewed are separate statuses. Native status is **not assessed in this package** until linked build/device evidence exists. The HTML is a reference and preview, not a simulator. Selection transitions are shared by iOS and Android skills under D28, aligned in design-system PR #18 (`b480a46`). Only the `wiom-ds-android` library implementation remains pending with the dev team; this task does not modify Android skills or code.
+All 20 skills are documented; that is not a native implementation or release claim. Track evidence using [native validation](skills-ios/wiom-ios-foundations/references/native-validation.md): specified, implemented, native-tested and parity-reviewed are separate statuses. Native status is **not assessed in this package** until linked build/device evidence exists. The HTML is a reference and preview, not a simulator. Selection transitions are shared by iOS and Android skills under D28, aligned in design-system PR #18 (`b480a46`). Only the `wiom-ds-android` library implementation remains pending with the dev team; this task does not modify Android skills or code.
 
 
 ## Finalised iOS skill package, 23 Nov 2026
@@ -241,7 +241,7 @@ Each skill's Open questions section, word for word (Android code references alre
 
 ### wiom-ios-foundations
 
-Tracked in [`references/decisions.md`](references/decisions.md) §3: Figma alignment for `text/subtle` and tracking (Q1–Q2), `bg/surface` (Q3), motion in Figma (Q4), accepted contrast exceptions (Q5, list in tokens §9), Dynamic Type anchors and cap (Q11), blue/orange mapping for server-driven screens (Q12), `codeSyntax.iOS` (Q13).
+Tracked in [`references/decisions.md`](skills-ios/wiom-ios-foundations/references/decisions.md) §3: Figma alignment for `text/subtle` and tracking (Q1–Q2), `bg/surface` (Q3), motion in Figma (Q4), accepted contrast exceptions (Q5, list in tokens §9), Dynamic Type anchors and cap (Q11), blue/orange mapping for server-driven screens (Q12), `codeSyntax.iOS` (Q13).
 
 ### wiom-ios-icon-badge
 

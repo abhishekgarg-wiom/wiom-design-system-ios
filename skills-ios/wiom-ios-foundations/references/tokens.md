@@ -138,6 +138,7 @@ On iOS the `*/focus` strokes are used for **state borders** (active input, inval
 | `space/8` | `s8` | 8 | Title ↔ subtitle, icon ↔ label in a button |
 | `space/12` | `s12` | 12 | CTA vertical padding, chat gutter |
 | `space/16` | `s16` | 16 | **Screen gutter**, card padding, between cards, sheet padding |
+| `space/20` | `s20` | 20 | Progress Milestones gaps (D42) |
 | `space/24` | `s24` | 24 | Dialog padding, section gap |
 | `space/32` | `s32` | 32 | Between content sections, content → CTA |
 | `space/40` | `s40` | 40 | Loose section gap |
@@ -146,7 +147,7 @@ On iOS the `*/focus` strokes are used for **state borders** (active input, inval
 | `space/72` | `s72` | 72 | Hero spacing |
 | `space/84` | `s84` | 84 | Hero spacing |
 
-`space/1` and `space/2` are **not tokens** on iOS (they are not Figma variables). Hairlines use `Wiom.BorderWidth.small`. Need something else? It is a gap (D24).
+`space/1` and `space/2` are **not tokens** on iOS (they are not Figma variables); use `space/4` where a 2 pt value was drawn (D42). Hairlines use `Wiom.BorderWidth.small`. Need something else? It is a gap (D24).
 
 Hierarchy: 8–12 = one unit · 16–24 = same section · 32+ = separate sections.
 
@@ -206,6 +207,7 @@ Apply with `.wiomShadow(.md)` on the **shape's background**, not on a container 
 | `icon/xs` | `Wiom.IconSize.xs` | 16 | Restricted: inline indicators, input trailing |
 | `icon/sm` | `sm` | 20 | Button icons, compact controls |
 | `icon/md` | `md` | 24 | **Default**: top bar, list, nav, chips |
+| `icon/xl` | `xl` | 32 | Rating stars (D43) |
 | `icon/lg` | `lg` | 48 | Empty states, hero |
 
 Hit areas are a layout rule, not an icon size: `layout.md` §4.

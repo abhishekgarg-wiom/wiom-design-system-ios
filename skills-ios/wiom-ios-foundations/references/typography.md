@@ -30,11 +30,11 @@ Same values as Android. Sizes and line heights in pt at the default text size.
 | `type/heading/lg` | `headingLg` | Bold | 24 / 32 | −0.01 em | Page title |
 | `type/heading/md` | `headingMd` | Bold | 20 / 28 | −0.01 em | Bottom-sheet header, card group |
 | `type/title/lg` | `titleLg` | Medium | 20 / 28 | −0.01 em | Top-bar title |
-| `type/title/sm` | `titleSm` | Bold | 16 / 24 | 0 | Card title, list header |
-| `type/body/lg` | `bodyLg` | Regular | 16 / 24 | 0 | **Default reading text** |
+| `type/title/sm` | `titleSm` | Bold | 16 / 24 | 0 | Card title, list header, input label when empty (D50) |
+| `type/body/lg` | `bodyLg` | Regular | 16 / 24 | 0 | **Default reading text**; input label when focused or filled (D50) |
 | `type/body/md` | `bodyMd` | Regular | 14 / 20 | 0 | Card description, helper, chat bubble |
 | `type/body/sm` | `bodySm` | Regular | 12 / 16 | 0 | Caption, chat reply preview, list secondary/meta (owner lock 23f67f9) |
-| `type/label/lg` | `labelLg` | SemiBold | 16 / 24 | +0.01 em | **Default interactive**: every CTA, input label, toast action |
+| `type/label/lg` | `labelLg` | SemiBold | 16 / 24 | +0.01 em | **Default interactive**: every CTA, toast action |
 | `type/label/md` | `labelMd` | SemiBold | 14 / 20 | +0.01 em | Chip, tab, badge label, inline button |
 | `type/label/sm` | `labelSm` | SemiBold | 12 / 16 | +0.01 em | Bottom nav label, chat reply sender |
 | `type/meta/xs` | `metaXs` | Regular | 10 / 16 | +0.02 em | **Only** Western-digit timestamps and badge counts (D18) |

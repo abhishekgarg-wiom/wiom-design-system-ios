@@ -2,7 +2,7 @@
 
 **Contents:** 1 Voice · 2 Screen patterns · 3 Buttons · 4 Casing · 5 Length limits · 6 Inputs · 7 Words to avoid · 8 Paused service tone · 9 Common phrases
 
-**All examples are illustrative.** Real copy comes from the string catalog, which iOS and Android share: Hindi written first, English written separately (not translated word for word). Never ship an example from this file as UI text.
+**All examples are illustrative.** Real copy comes from the string catalog, which iOS and Android share: Hindi written first, English written separately per [english-copy-rules.md](english-copy-rules.md) (D48) (not translated word for word). Never ship an example from this file as UI text.
 
 ---
 
@@ -113,7 +113,7 @@ Icon:         at the start of the field
 | Field | Label | Placeholder (example) | Helper |
 |---|---|---|---|
 | Name | आपका नाम | राम कुमार | none |
-| Phone | फ़ोन नंबर | 98765 43210 (after the fixed +91) | इसी नंबर पर आगे की जानकारी मिलेगी |
+| Phone | फ़ोन नंबर | 98765 43210 (10 digits, no prefix, D47) | इसी नंबर पर आगे की जानकारी मिलेगी |
 | Address | पूरा पता | मकान नं 12, गली 4, लक्ष्मी नगर | none |
 | Pincode | पिनकोड | 110092 | 6 अंकों का |
 | WiFi name | WiFi का नाम | Ramesh_Home | यह नाम आस-पास सबके फ़ोन में दिखेगा |

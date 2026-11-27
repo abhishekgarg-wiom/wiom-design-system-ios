@@ -1,6 +1,6 @@
 # Wiom glossary (English to Hindi), iOS customer-app copy
 
-> Adapted from the supplied Wiom glossary for customer-app copy. Marked ⟨iOS⟩ terms are the recommended defaults pending the design owner’s ruling. Copy is shared through the string catalog.
+> Adapted from the supplied Wiom glossary for customer-app copy. The ⟨iOS⟩ terms नेट and घर का नेट are locked by approved rule RB-05. English spelling and case follow [english-copy-rules.md](english-copy-rules.md) (D48). Copy is shared through the string catalog.
 
 Term mappings for customer-app copy. Any section marked not in use is a retained vocabulary inventory, not a customer-screen requirement. When writing UI text, ALWAYS use the Hindi term from this glossary. Do not invent new translations.
 
@@ -8,8 +8,8 @@ Term mappings for customer-app copy. Any section marked not in use is a retained
 
 | English | Hindi | Usage Rule |
 |---------|-------|-----------|
-| Internet | नेट | ⟨iOS⟩ Customer surfaces say नेट ("घर का नेट", "नेट चालू है"). Use the approved legal text unchanged when applicable. |
-| Home internet (product name) | घर का नेट | ⟨iOS⟩ The product's name on customer surfaces. Always Devanagari in Hindi copy; "Ghar ka net" in English copy. |
+| Internet | नेट | Locked (RB-05). Customer surfaces say नेट ("घर का नेट", "नेट चालू है"); English says "net", not "internet" (D48). Use the approved legal text unchanged when applicable. |
+| Home internet (product name) | घर का नेट | Locked (RB-05). The product's name on customer surfaces. Always Devanagari in Hindi copy; "Ghar ka Net" in English copy while booking; plain "home net" after booking (english-copy-rules.md, D48). |
 | Data | डाटा | |
 | Unlimited | अनलिमिटेड | |
 | WiFi | WiFi | Keep English |

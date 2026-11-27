@@ -74,7 +74,7 @@ A full-ring **track** plus a **270° arc** with round caps, both on the same cir
 | Neutral | `text/subtle` | `stroke/subtle` | De-emphasised waits, field trailing slot |
 | OnColor | `icon/inverse` | none | `bg/brand`, `overlay/scrim`, other filled surfaces |
 
-Sizes are fixed glyph shapes (D16). Pick a size; never scale a spinner with `.frame` or `.scaleEffect`. The spinner inside a CTA is owned by `wiom-ios-cta` (24 pt, 2 pt stroke, as the Android button ships); see Open questions.
+Sizes are fixed glyph shapes (D16). Pick a size; never scale a spinner with `.frame` or `.scaleEffect`. The spinner inside a CTA is owned by `wiom-ios-cta` (24 pt, 2 pt stroke, as the Android button ships).
 
 ## 4. Linear
 
@@ -101,7 +101,7 @@ Three 8 pt dots in a chat bubble.
 | Part | Value |
 |---|---|
 | Bubble corners | `radius/large` on top-leading, top-trailing, bottom-trailing; `radius/tiny` on bottom-leading (the tail) |
-| Bubble padding | `space/12` horizontal; 10 pt vertical (as Android ships; no 10 token, see Open questions) |
+| Bubble padding | `space/12` horizontal and vertical (D42) |
 | Dots | 8 × 8 pt circles, gap `space/4`, full opacity |
 | Bounce | Each dot rises 3 pt and returns within the first 400 ms of a 1.0 s cycle; dots start 150 ms apart |
 
@@ -209,15 +209,15 @@ All copy below is illustrative; real strings come from the catalog (Hindi first,
 - **Skeleton:** shimmer 1.2 s with a `bg/default` 55 % band; Card has no border; ListItem trailing block 40 pt; Line widths 100 / 75 / 50 %.
 - **In-button spinner:** CTAs use their own 24 pt / 2 pt glyph (`wiom-ios-cta`); Spinner sm (20 pt) is for other inline waits.
 - **Status loader** (wait → success / error ring) is not on iOS; outcomes use the outcome surface.
+- **Dots padding (D42):** `space/12` × `space/12`.
+- **Linear Determinate easing (D45):** `motion/surface` · `ease/standard`.
+- **Reduce Motion still for Linear Indeterminate (D45):** a centred 40 % segment, so it is not read as progress.
+- **Brand message alignment (D51):** a two-line message is centred. Android follow-up: centre it too.
 
 ## Open questions
 
-1. **Dots padding:** 12 horizontal × 10 vertical; there is no 10 token (gap per D24).
-2. **Linear Determinate easing:** iOS uses `motion/surface` · `ease/standard` (Android tweens linearly). Confirm, or allow `ease/linear`.
-3. **Loop periods** (spinner 1.0 s, Linear 1.5 s, Dots 1.0 s / 150 ms stagger, shimmer 1.2 s) are not motion tokens. Should `motion.md` define loop tokens?
-4. **Reduce Motion still for Linear Indeterminate:** a centred 40 % segment, so it can't be read as "40 % done". Confirm.
-5. **Brand message alignment:** design intent is centred; check both apps centre a two-line message.
-6. **Two indeterminate bars on Android** (loader Linear and the progress package's indeterminate bar). iOS ships only the loader's. Retire the other?
+1. **Loop periods** (spinner 1.0 s, Linear 1.5 s, Dots 1.0 s / 150 ms stagger, shimmer 1.2 s) are not motion tokens. Should `motion.md` define loop tokens?
+2. **Two indeterminate bars on Android** (loader Linear and the progress package's indeterminate bar). iOS ships only the loader's. Retire the other?
 
 ## Accessibility strings
 

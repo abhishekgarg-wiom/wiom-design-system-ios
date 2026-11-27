@@ -112,7 +112,7 @@ The whole row (box + label) toggles the checkbox. Never pre-checked. Copy is alw
 | Rule | Detail |
 |---|---|
 | Copy names the destination | "Recharge now", not "Continue". |
-| Keep it short | Aim for one line at default text size. Guide for a label that must sit side by side: about 14 graphemes Hindi or 18 English (D25: count with `String.count`). |
+| Keep it short | Aim for one line at default text size. Guide for a label that must sit side by side: about 14 graphemes Hindi or 18 English (D44 target; D25: count with `String.count`). |
 | **Wrap, never truncate** | At large Dynamic Type the label wraps (centred, usually to two lines) and the button grows taller. Never `lineLimit(1)`, never truncate, never `minimumScaleFactor`. |
 | Sentence case | English labels are sentence case ("Change plan"). |
 | Source | Real copy comes from the string catalog (Hindi first, English written separately). Examples here are illustrative. |
@@ -216,11 +216,12 @@ Scroll content above the bar must be able to scroll its last item clear of the b
 
 - **Loading:** 24 pt / 2 pt progress glyph; label and icons stay laid out at opacity 0, so the button keeps its width.
 - **Acknowledge row to CTA gap:** 16 pt.
+- **Two-line labels (D45):** labels wrap and never truncate; copy aims for one line at the default size.
+- **Dialog pairings (D51):** Primary + Secondary and Destructive + Secondary (§6.2) are canonical. Android follow-up: align the dialog previews.
 
 ## Open questions
 
-1. **Dialog pairings.** This skill pairs Primary + Secondary and Destructive + Secondary (§6.2); Android dialog previews pair them with Tertiary. Which is canonical?
-2. **Two-line labels.** Labels wrap freely and never truncate; copy aims for one line at the default size. Confirm two lines are acceptable at large text sizes.
+None.
 
 ## Accessibility strings
 

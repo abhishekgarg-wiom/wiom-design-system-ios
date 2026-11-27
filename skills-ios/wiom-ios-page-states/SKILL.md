@@ -44,11 +44,14 @@ A centred column in the content area, inside the `space/16` gutter.
 5. **Empty is not an error.** Neutral tone, and a next step when there is one.
 6. Copy is illustrative and comes from the catalog (D25); text wraps and never truncates.
 
+## Settled rules
+
+- **Auto-retry (D45):** none; the user taps Retry.
+
 ## Open questions
 
 1. **Illustrations.** Empty and error use an icon badge until design supplies illustrations.
-2. **Auto-retry.** Default: none; the user taps Retry. Confirm.
-3. **Figma.** No page-state component in Figma; this recipe comes from the loader, icon-badge and CTA skills.
+2. **Figma.** No page-state component in Figma; this recipe comes from the loader, icon-badge and CTA skills.
 
 ## Accessibility strings
 

@@ -54,7 +54,7 @@ Screen-level rules: what a screen contains and how it behaves. The component ski
 | Label states | As `wiom-ios-input-fields` defines (it follows Android) |
 | Errors | A line of error text under the field, announced to VoiceOver; never colour alone |
 | Leading icon | Optional slot as defined by `wiom-ios-input-fields` |
-| Phone | Number pad; `+91` as a fixed prefix; the button enables at 10 digits; wrong numbers are explained, not blocked silently |
+| Phone | Number pad; no prefix (Indian numbers only, D47); the button enables at 10 valid digits (starting 6 to 9); wrong numbers are explained, not blocked silently |
 | Name | Default keyboard, no autocorrect. If it's the only required field, the button enables after the first character |
 | WiFi name (SSID) | Letters, digits and the allowed special characters |
 | Device ID | Letters and digits |

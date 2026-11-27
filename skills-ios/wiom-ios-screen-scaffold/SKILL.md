@@ -35,9 +35,13 @@ Root screens have no back control and no bottom tab bar (D27). Pushed screens us
 4. **No system presentation** (`.sheet`, `.alert`, `.confirmationDialog`); use the overlay host (D9, D10).
 5. Light mode only (D23).
 
+## Settled rules
+
+- **Scroll-under shadow (D45):** each bar shows its own scroll-under shadow per its skill; on long pages both can show together.
+
 ## Open questions
 
-1. **Scroll-under shadow** on the top bar and CTA bar follows each bar's skill; confirm both show it together on long pages.
+None open.
 
 ## Accessibility strings
 

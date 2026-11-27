@@ -164,9 +164,9 @@ covering or under its buttons.
   Check both Hindi and English at the default text size: aim for about
   **40 grapheme clusters** of Hindi so one line holds on iPhone SE
   (counted with `String.count`; "क्षि" is one). Treat this number as a
-  guide, not a hard limit (see Open questions).
+  guide, not a hard limit (D44 target).
 - **Action label: one word where possible** ("Undo", "Retry", "View",
-  illustrative), max **12 grapheme clusters**. It never truncates the
+  illustrative), max **12 grapheme clusters** (D44 target). It never truncates the
   message's room to zero; shorten the label instead.
 - All copy above is illustrative. Real strings come from the string
   catalog.
@@ -220,12 +220,13 @@ covering or under its buttons.
 - **Motion:** in and out over `motion/surface` with `ease/standard`, slide plus fade.
 - **Hit area:** action and ✕ have at least a 44 pt (default 48 pt) hit area (D14); no visual change.
 - **Message length (D33):** fits 2 lines at the default size (about 80 Hindi grapheme clusters); grows at large sizes, capped at 40 % of the screen.
+- **Toast during a modal (D45):** queued until the modal closes.
+- **Action length (D44):** 12 grapheme clusters is the target for system-drafted copy.
+- **VoiceOver ✕ (D45):** actionable toasts show ✕ while VoiceOver runs.
 
 ## Open questions
 
-1. **Toast while a modal is open.** iOS queues toasts until the modal closes (§5). Confirm, or name the cases (for example "Copied" from inside a sheet) where the toast should show above the modal.
-2. **Action label length.** "Action ≤ 12 grapheme clusters" is an iOS default. Confirm or replace.
-3. **VoiceOver ✕ on Actionable toasts.** Showing ✕ on Actionable toasts only while VoiceOver runs adds a visible glyph for those users. Confirm, or rely on the escape gesture alone.
+None open.
 
 ## Accessibility strings
 

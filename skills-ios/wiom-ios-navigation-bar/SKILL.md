@@ -164,15 +164,18 @@ placeholders, not concatenated in code.
   navigation bar switches top-level destinations.
 - `wiom-ios-bottomsheet`, `wiom-ios-dialog`: surfaces that cover the bar.
 
+## Settled rules
+
+- **Label wrapping (D45):** wraps to 2 lines at larger text sizes, up to the accessibility3 cap.
+- **Pressed (D46):** no pressed visual for now (D13).
+- **Badge (D45):** dot only.
+- **Tab re-tap (D45):** re-tapping the selected tab scrolls to top.
+
 ## Open questions
 
 1. **Closed by D27:** the customer app has no bottom navigation bar. The questions below concern this unused reference only.
 2. **Glyph fill.** Default is Rounded fill off; Selected uses the filled pair. Verify the exact state-pair assets before this reference is ever activated. Do not source substitute glyphs from another family.
-3. **Label wrapping.** iOS wraps to 2 lines at larger text sizes and follows the accessibility3 cap. Confirm, and consider the same for Android with two-line Hindi.
-4. **Pressed visual.** No pressed token; iOS shows none (D13). Design team: define one or confirm none.
-5. **Badge type.** Dot only (the source allows a count badge "when the count is meaningful").
-6. **Bottom padding on Face ID iPhones.** `space/12` above the home-indicator inset makes the bar about 114 pt tall including the 34 pt inset, against 83 pt for a system tab bar. Confirm, or use the D19 value (`space/16`).
-7. **Tab re-tap.** Scroll-to-top on re-tapping the selected tab is iOS behaviour. Confirm.
+3. **Bottom padding on Face ID iPhones.** `space/12` above the home-indicator inset makes the bar about 114 pt tall including the 34 pt inset, against 83 pt for a system tab bar. Confirm, or use the D19 value (`space/16`).
 
 ## iOS (SwiftUI, iOS 16+)
 

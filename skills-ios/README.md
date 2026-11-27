@@ -71,3 +71,7 @@ These are referenced but have no skill yet; until they do, ask the design team r
 - **Wiom share sheet** (D11 says it is drawn as on Android; anatomy pending).
 - **Chat bubbles and chat surfaces** (the chat tokens exist in foundations).
 - **Server-driven pages**: a table from server component to DS component (D22 maps the colours).
+
+## Android follow-ups (D51)
+
+iOS rules that Android should adopt in its next update: input label weight (D50); top-bar titles wrap to 2 lines and no home-tab hamburger; Medium / Large action row; pagination counter centred; brand-loader message centred; dialog pairings Primary or Destructive + Secondary; badge count nudge; forward-only Wiom logo; D33 to D38 (toast growth, thumb token, Warning box, rating, brand loader, app animations).

@@ -14,7 +14,7 @@ Contract: `../wiom-ios-foundations/references/decisions.md`. Tokens: `wiom-ios-f
 | Slot | Value | Token |
 |---|---|---|
 | Stars | 5 in a row | n/a |
-| Star size | 32 pt glyph | n/a (D24 gap: no 32 icon token) |
+| Star size | 32 pt glyph | `icon/xl` (D43) |
 | Gap between stars | 8 pt | `space/8` |
 | Tap area | 48 × 48 pt per star (glyph centred) | D14 |
 | Filled star | Material Rounded `star` | `icon/warning` (gold) |
@@ -34,10 +34,13 @@ Contract: `../wiom-ios-foundations/references/decisions.md`. Tokens: `wiom-ios-f
 2. Always 5 stars; never a 10-point or emoji scale.
 3. Empty stars must stay visible (`icon/nonAction`), so the scale is readable.
 
+## Settled rules
+
+- **Star size (D43):** `icon/xl` (32 pt).
+
 ## Open questions
 
-1. Star size 32 pt has no icon token (D24). Add `icon/xl` 32 or keep as a component constant.
-2. Figma has no rating component yet; design to draw it from this spec.
+1. Figma has no rating component yet; design to draw it from this spec.
 
 ## Accessibility strings
 

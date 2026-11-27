@@ -47,11 +47,11 @@ Pressed: no pressed visual (D13); no pressed token exists for cards.
 ## Settled rules
 
 - Values follow the Android foundations "Card (interactive, flat)" recipe.
+- **Pressed (D46):** no pressed fill for now (D13).
 
 ## Open questions
 
-1. **Pressed look.** No pressed token for cards; iOS shows none (D13). Is a pressed fill wanted on both platforms?
-2. **Figma.** There is no Card component in Figma; the recipe comes from the foundations.
+1. **Figma.** There is no Card component in Figma; the recipe comes from the foundations.
 
 ## Accessibility strings
 
