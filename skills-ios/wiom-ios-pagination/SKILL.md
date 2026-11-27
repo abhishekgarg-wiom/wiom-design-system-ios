@@ -149,11 +149,11 @@ string catalog (Hindi first, English written separately, sentence case).
 - **Chevrons:** Material Rounded `chevron_left` / `chevron_right`, `icon/action` when available, `icon/disabled` when not.
 - **Inactive dots and bars:** `bg/muted`.
 - **Counter string:** one catalog string with placeholders.
+- **Counter centring (D51):** the counter row centres in its parent. Android follow-up.
 
 ## Open questions
 
-1. **Counter centring.** iOS centres the counter row in its parent. Confirm on Android.
-2. **Expanded dot motion.** Neither platform animates the 8 → 24 pt change. If design wants a `motion/micro` width transition, add it on both.
+1. **Expanded dot motion.** Neither platform animates the 8 → 24 pt change. If design wants a `motion/micro` width transition, add it on both.
 
 ## Accessibility strings
 

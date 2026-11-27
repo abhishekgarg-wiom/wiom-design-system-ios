@@ -89,11 +89,11 @@ No "limited time", countdowns, flashing buttons, red urgency, or fake scarcity. 
 ## Settled rules
 
 - **Glossary (RB-05):** नेट and घर का नेट are locked by approved rule RB-05.
+- **Forward-only screens (D51):** the Wiom logo replaces back on iOS. Android follow-up: check it does the same.
 
 ## Open questions
 
 1. The live app copy still uses कृपया (15 times) and mixes "Cancel booking" / "Cancel Booking"; fix in the shared catalog.
-2. Should the forward-only screen's Wiom logo replace back on Android too, or is it already there? (Parity check.)
 
 ## iOS (SwiftUI, iOS 16+)
 

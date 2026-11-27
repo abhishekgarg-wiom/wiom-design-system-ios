@@ -200,10 +200,11 @@ In a non-dismissable sheet: the **handle is hidden** (top space stays), swipe-do
 - **Drag zone:** handle + header (+ action bar); a scrolled list does not drag the sheet.
 - **Header type:** `type/heading/md`.
 - **Copy (D41):** title about 40, body about 120 Hindi grapheme clusters at the default text size. At larger sizes the sheet grows and scrolls; text is never cut off.
+- **Header vs rows (D51):** header 16 pt side padding, sheet action rows 24 pt, as shipped.
 
 ## Open questions
 
-1. **Header vs row alignment.** The header has 16 pt side padding; sheet rows have 24 pt. Design team to confirm the mismatch is intended.
+None.
 
 ## Accessibility strings
 

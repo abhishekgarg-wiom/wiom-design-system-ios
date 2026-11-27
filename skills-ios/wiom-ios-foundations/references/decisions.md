@@ -75,6 +75,8 @@ So, when a question comes up:
 | D47 | Phone number | **DECIDED, owner 27 Nov 2026:** only Indian numbers sign up or log in. Plain 10-digit field, number pad, no `+91` prefix and no phone icon; valid = 10 digits starting 6 to 9. | No international numbers are allowed. |
 | D48 | English copy rules | **DECIDED, owner 27 Nov 2026:** every user-facing English string follows `wiom-ios-ux/references/english-copy-rules.md` (mirrored from the Android app's binding rules). | One copy standard for both apps. |
 | D49 | Copy AI | **DECIDED, owner 27 Nov 2026:** AI never changes existing approved copy (D39). When the system needs new copy, the copy AI drafts within D44 targets and D48 rules; Abhishek Garg approves. | Keeps copy owned and consistent. |
+| D50 | Input label weight | **DECIDED, owner 27 Nov 2026:** empty and not focused `type/title/sm` (Bold 16/24); focused, filled or read-only `type/body/lg` (Regular 16/24). Colour ramp unchanged. | Matches the Figma frames; Android library to follow. |
+| D51 | Android parity calls | **DECIDED, owner 27 Nov 2026:** where iOS made a small layout call (title wrapping, counter centring, action row, message centring, dialog pairings, count nudge, forward-only logo, no hamburger), the iOS rule stands. Android follow-ups are listed in `skills-ios/README.md`. | Android aligns later. |
 
 ---
 

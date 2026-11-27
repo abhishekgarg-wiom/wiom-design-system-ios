@@ -32,7 +32,7 @@ All three share one column: **Title → field → helper row**, `space/8` betwee
 ### Input
 
 ```
-Title                                         type/label/lg
+Title                                         type/title/sm → body/lg (D50)
    space/8
 ┌── wrap: radius/medium · padding space/16 H, space/12 V ─────────┐
 │ [lead 20]  prefix  value / placeholder  suffix  [trail 20]      │
@@ -48,7 +48,7 @@ Helper text (wraps)                                  0 / 100      type/body/md
 | Wrap padding | `space/16` horizontal, `space/12` vertical |
 | Slot gap | `space/12` |
 | Row gap (title, wrap, helper) | `space/8` |
-| Title | `type/label/lg` |
+| Title | `type/title/sm` (empty) / `type/body/lg` (focused or filled), D50 |
 | Value, placeholder, prefix, suffix | `type/body/lg` |
 | Value line minimum | one `type/body/lg` line (24 pt at default size) |
 | Helper and counter | `type/body/md`, helper ↔ counter gap `space/12` |
@@ -65,7 +65,7 @@ Same as Input without icon, prefix and suffix slots. Value aligns to the **top**
 ### OTP
 
 ```
-Title                                         type/label/lg
+Title                                         type/title/sm → body/lg (D50)
    space/8
 ┌──┐ space/8 ┌──┐ ┌──┐ ┌──┐                    4 boxes (default), or 6
 │ 4│         │ 8│ │  │ │  │                    digits type/label/lg, centred
@@ -120,7 +120,7 @@ Other tokens: prefix and suffix `text/subtle` (`text/disabled` when disabled); c
 
 **Border priority:** disabled > error > success > warning > focused > rest. A focused field in error keeps the critical border.
 
-**Label ramp (as Android ships it).** The title is always `type/label/lg`; only its colour changes: `text/default` while the field is empty and not being edited, `text/subtle` once it is focused, filled or read-only, `text/disabled` when disabled. The border darkens at the same moment (rest → `stroke/brand/focus`). Weight does not change (see Open questions).
+**Label ramp (D50).** Weight and colour change with state. Empty and not focused: `type/title/sm` (Bold 16/24) in `text/default`. Focused, filled or read-only: `type/body/lg` (Regular 16/24) in `text/subtle`. Disabled: same weight rule, `text/disabled`. The border darkens at the same moment (rest → `stroke/brand/focus`).
 
 **Status icons win the trailing slot.** In Error, Success and Warning the status icon replaces the caller's trailing icon (including clear and show-password) and is not tappable.
 
@@ -243,13 +243,13 @@ Never N separate fields. One `TextField` owns the whole code; the boxes are draw
 - **Warning border:** `stroke/warning`.
 - **Warning status icon (D31, D35):** dark `icon/action` in an Icon Badge Sm (24 pt `bg/warning/subtle` circle, 16 pt glyph), inside the neutral field. Not tappable.
 - **Phone number (D47):** only Indian numbers sign up or log in. No `+91` prefix and no phone icon: a plain 10-digit field, number pad, validated as 10 digits starting 6 to 9.
+- **Label weight (D50):** empty and not focused: `type/title/sm` (Bold 16/24). Focused, filled or read-only: `type/body/lg` (Regular 16/24). Colour ramp unchanged. Android follow-up.
 
 ## Open questions
 
-1. **Label weight.** The title stays `type/label/lg` and changes colour only. An earlier design note described Bold when empty and Regular when focused or filled. Design team to confirm, then Figma and Android change together.
-2. **Textarea states.** Design draws six states; Android's Textarea also accepts Warning and read-only. Are those allowed in customer screens?
-3. **Number-pad "Next".** Number pads have no Return key. If a form needs "Next" between two numeric fields, does design want a keyboard accessory bar?
-4. **Warning border contrast** is an accepted exception (decisions Q5): build with the current tokens.
+1. **Textarea states.** Design draws six states; Android's Textarea also accepts Warning and read-only. Are those allowed in customer screens?
+2. **Number-pad "Next".** Number pads have no Return key. If a form needs "Next" between two numeric fields, does design want a keyboard accessory bar?
+3. **Warning border contrast** is an accepted exception (decisions Q5): build with the current tokens.
 
 ## Accessibility strings
 
@@ -269,7 +269,7 @@ Hindi text comes from the catalog; new strings need approval (D39).
 ## iOS (SwiftUI, iOS 16+)
 
 - **Built from:** Input = `TextField` (or `SecureField` for password) inside an `HStack` wrap drawn with `RoundedRectangle(cornerRadius:style: .circular)` fill + `strokeBorder`; editing state from `@FocusState`. Textarea = `TextField(axis: .vertical)` + `.lineLimit(3...)`. OTP = one hidden `TextField` (`.oneTimeCode`, `.numberPad`) under N drawn boxes. Picker trigger = `Button` with a custom `ButtonStyle` drawing the Read-only wrap. Read-only value = `Text` + `.textSelection(.enabled)`. Disabled = `.disabled(true)`.
-- **Tokens:** `bg/default`, `bg/subtle`, `bg/disabled`; `stroke/subtle`, `stroke/brand/focus`, `stroke/critical/focus`, `stroke/positive/focus`, `stroke/warning`; `stroke/small`, `stroke/medium` (widths); `text/default`, `text/subtle`, `text/disabled`, `text/critical`, `text/positive`, `text/onWarning`; `icon/action`, `icon/nonAction`, `icon/critical`, `icon/positive`, `icon/disabled`; `icon/sm`; `radius/medium`; `space/8`, `space/12`, `space/16`; `type/label/lg`, `type/body/lg`, `type/body/md`. Swift: `Wiom.Colors.strokeBrandFocus`, `Wiom.BorderWidth.medium`, `Wiom.Typography.labelLg`, etc. (§2 naming).
+- **Tokens:** `bg/default`, `bg/subtle`, `bg/disabled`; `stroke/subtle`, `stroke/brand/focus`, `stroke/critical/focus`, `stroke/positive/focus`, `stroke/warning`; `stroke/small`, `stroke/medium` (widths); `text/default`, `text/subtle`, `text/disabled`, `text/critical`, `text/positive`, `text/onWarning`; `icon/action`, `icon/nonAction`, `icon/critical`, `icon/positive`, `icon/disabled`; `icon/sm`; `radius/medium`; `space/8`, `space/12`, `space/16`; `type/title/sm`, `type/body/lg` (label, D50), `type/label/lg`, `type/body/lg`, `type/body/md`. Swift: `Wiom.Colors.strokeBrandFocus`, `Wiom.BorderWidth.medium`, `Wiom.Typography.labelLg`, etc. (§2 naming).
 - **Size:** wrap and OTP box 48 pt **minimum** at default text size (`space/12` + one line + `space/12`); Textarea min three lines; widths fill the host minus its gutter. Border is drawn inside (`strokeBorder`), so 1 → 2 pt does not shift layout.
 - **Dynamic Type:** all three type tokens scale with their anchors in `wiom-ios-foundations` `typography.md` §3, line height included. Title and helper wrap (no truncation); counter and timer stay one line. Prefix and suffix never truncate; a long single-line value scrolls inside the field. The wrap and OTP boxes grow taller. At accessibility sizes the helper row may stack the counter under the helper. Six OTP boxes must still fit on iPhone SE at accessibility3 (cap, D17); check it. Icon sizes follow `icons.md`.
 - **VoiceOver:**

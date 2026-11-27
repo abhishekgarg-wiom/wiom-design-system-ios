@@ -217,10 +217,11 @@ Scroll content above the bar must be able to scroll its last item clear of the b
 - **Loading:** 24 pt / 2 pt progress glyph; label and icons stay laid out at opacity 0, so the button keeps its width.
 - **Acknowledge row to CTA gap:** 16 pt.
 - **Two-line labels (D45):** labels wrap and never truncate; copy aims for one line at the default size.
+- **Dialog pairings (D51):** Primary + Secondary and Destructive + Secondary (§6.2) are canonical. Android follow-up: align the dialog previews.
 
 ## Open questions
 
-1. **Dialog pairings.** This skill pairs Primary + Secondary and Destructive + Secondary (§6.2); Android dialog previews pair them with Tertiary. Which is canonical?
+None.
 
 ## Accessibility strings
 

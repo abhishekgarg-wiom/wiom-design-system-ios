@@ -252,10 +252,11 @@ Step 4: Tone
 - **Digits (D45):** counts always use Western digits, in Hindi and English.
 - **Label length (D44):** 10 Hindi / 14 English grapheme clusters is the target for system-drafted copy; approved copy may exceed it.
 - **Count minimum (D45):** the 20 pt minimum scales with Caption 2.
+- **Count nudge (D51):** the overlay Count sits 4 pt up and 4 pt out from top-trailing. Android follow-up: confirm the bell matches.
 
 ## Open questions
 
-1. **Count nudge.** The overlay Count sits 4 pt up and 4 pt out from top-trailing. Confirm against the shipped Android bell.
+None.
 
 ## Accessibility strings
 

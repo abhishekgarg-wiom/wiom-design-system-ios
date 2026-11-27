@@ -251,13 +251,14 @@ separately, sentence case, D25). Examples here are illustrative only.
 - **Back button** VoiceOver label is the shared catalog key `common.back`.
 - **Pressed (D46):** no pressed visual for now (D13).
 - **Large two-line title (D45):** the bar grows instead of clipping.
-- **Small / Medium titles (D45):** 2 lines at larger text sizes on iOS. Android alignment stays a parity check (see Open questions).
+- **Small / Medium titles (D45):** 2 lines at larger text sizes on iOS. Android follow-up per D51.
+- **Hamburger (D51):** root screens have no leading item on iOS. Android follow-up: drop the home-tab hamburger.
+- **Medium / Large action row (D51):** a 48 pt row with full 48 pt cells, no extra vertical padding. Android follow-up.
+- **Title line limits (D51):** Small / Medium titles wrap to 2 lines at larger text sizes. Android follow-up: move from 1 line + ellipsis to 2 lines.
 
 ## Open questions
 
-1. **Hamburger on the Android home tab.** The customer iOS app has no hamburger; root screens have no leading item. Confirm Android drops it too, or say where its menu content lives on iOS.
-2. **Medium / Large action row.** iOS draws a 48 pt row with full 48 pt cells and no extra vertical padding. Confirm against the rendered Android build.
-3. **Android title line limits.** Android is 1 line with ellipsis for Small / Medium; confirm Android moves to 2 lines so two-line Hindi doesn't clip.
+None.
 
 ## Accessibility strings
 

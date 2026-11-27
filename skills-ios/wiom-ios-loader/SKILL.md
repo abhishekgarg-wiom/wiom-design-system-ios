@@ -212,12 +212,12 @@ All copy below is illustrative; real strings come from the catalog (Hindi first,
 - **Dots padding (D42):** `space/12` × `space/12`.
 - **Linear Determinate easing (D45):** `motion/surface` · `ease/standard`.
 - **Reduce Motion still for Linear Indeterminate (D45):** a centred 40 % segment, so it is not read as progress.
+- **Brand message alignment (D51):** a two-line message is centred. Android follow-up: centre it too.
 
 ## Open questions
 
 1. **Loop periods** (spinner 1.0 s, Linear 1.5 s, Dots 1.0 s / 150 ms stagger, shimmer 1.2 s) are not motion tokens. Should `motion.md` define loop tokens?
-2. **Brand message alignment:** design intent is centred; check both apps centre a two-line message.
-3. **Two indeterminate bars on Android** (loader Linear and the progress package's indeterminate bar). iOS ships only the loader's. Retire the other?
+2. **Two indeterminate bars on Android** (loader Linear and the progress package's indeterminate bar). iOS ships only the loader's. Retire the other?
 
 ## Accessibility strings
 
