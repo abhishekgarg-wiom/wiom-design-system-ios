@@ -37,7 +37,7 @@ for s in SK:
 for r in REF:
   t=(S/f"wiom-ios-{r['parent']}/references/{r['slug']}.md").read_text()
   if t!=r['text']: r['text']=t; r['html']=md(t,'ref-'+r['slug']); changed.append(r['slug'])
-dec=(S/'IOS_DECISIONS.md').read_text()
+dec=(S/'wiom-ios-foundations/references/decisions.md').read_text()
 if dec!=DEC: put('DECISIONS',dec); put('CONTRACTDOC',md(dec,'contract')); changed.append('decisions')
 put('SKILLS',SK); put('FULLDOCS',FD); put('REFERENCES',REF)
 HP.write_text(h); print('updated:',changed)

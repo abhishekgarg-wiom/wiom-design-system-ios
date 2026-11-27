@@ -23,7 +23,7 @@ A loader normally says **that** work is happening. For state-coloured completion
 
 Every loader is **indicator-only**: it draws the wait and nothing else. Message text, surface chrome (dialog, toast, card, chat bubble row) and any Cancel action belong to the parent. The one exception is Brand, which has its own message slot.
 
-All values are tokens from `wiom-ios-foundations` (`references/tokens.md`, `typography.md`, `motion.md`). Swift names follow `IOS_DECISIONS.md` §2.
+All values are tokens from `wiom-ios-foundations` (`references/tokens.md`, `typography.md`, `motion.md`). Swift names follow `wiom-ios-foundations/references/decisions.md` §2.
 
 ## 1. Loader or progress indicator?
 
@@ -203,20 +203,32 @@ All copy below is illustrative; real strings come from the catalog (Hindi first,
 | App cold start | Brand Light (no message, or "Getting things ready…") |
 | Receipt PDF downloading | Linear Determinate at the top of the sheet |
 
+## Settled rules
+
+- **Brand loader (D37):** the shipped `loader_infinity.json`, 200 × 200 pt; Spinner lg only if it fails to load. Design will correct the file's loop (2.0 s vs 1.3 s), pink (#D92B90 vs #D9008D) and grey track later.
+- **Skeleton:** shimmer 1.2 s with a `bg/default` 55 % band; Card has no border; ListItem trailing block 40 pt; Line widths 100 / 75 / 50 %.
+- **In-button spinner:** CTAs use their own 24 pt / 2 pt glyph (`wiom-ios-cta`); Spinner sm (20 pt) is for other inline waits.
+- **Status loader** (wait → success / error ring) is not on iOS; outcomes use the outcome surface.
+
 ## Open questions
 
-1. **DECIDED (D37): brand-loader animation.** Use the shipped `loader_infinity.json` (both apps). Design to correct loop (2.0 s vs 1.3 s), pink (#D92B90 vs #D9008D) and the grey track in a later file; the Android library should bundle the same file.
-2. **Dots vertical padding:** source and Android use 10 vertically (`WiomLoader.kt:473`) and 12 horizontally. The rejected builder copy changed vertical padding to 12. iOS keeps 12 × 10; there is no 10 token (gap per D24). Figma's bubble is 104 × 32; Android's hugs at 56 × 28.
-3. **Skeleton shimmer:** Android 1.2 s with a `bg/default` 55 % band (`WiomLoader.kt:532`, `:551`); skill says 1.5 s, "`bg/muted` 10 % lighter". iOS follows Android.
-4. **Skeleton Card border:** skill has 1 pt `stroke/subtle`; Android draws none (`WiomLoader.kt:200-205`). iOS follows Android.
-5. **Skeleton ListItem trailing block:** skill 60 pt, Android 40 pt (`WiomLoader.kt:274-277`). Line widths: skill fixed 280 / 200 / 160, Android fractions 100 / 75 / 50 % (`WiomLoader.kt:227-229`, `:271-272`). iOS follows Android. Android's Line is a single bar; the skill's three-line "Line" type is a stack of three.
-6. **Linear Determinate easing:** Android tweens 300 ms with linear easing (`WiomLoader.kt:399`); foundations keep `ease/linear` for loops, so iOS uses `motion/surface` · `ease/standard`. Confirm, or allow `ease/linear` here.
-7. **Loop periods** (spinner 1.0 s, Linear 1.5 s, Dots 1.0 s / 150 ms stagger, shimmer 1.2 s) are not motion tokens. Should `motion.md` define loop tokens?
-8. **Reduce Motion still for Linear Indeterminate:** a centred 40 % segment was chosen so it can't be read as "40 % done". Confirm.
-9. **In-button spinner:** `wiom-ios-cta` uses 24 pt / 2 pt (as `WiomButton.kt` ships); this skill's sm is 20 pt. Same open point as `wiom-ios-cta` Open question 1.
-10. **Brand message alignment:** Android doesn't centre-align the message text (`WiomLoader.kt:365-369`), so a two-line message is leading-aligned inside a centred column. The skill says centred. iOS follows Android; recommend both apps centre it.
-11. **Two indeterminate bars on Android:** the loader's Linear (40 %, 1.5 s, `bg/brand/subtle` track) and `WiomLinearProgressIndeterminate` in the progress package (25 %, 1.4 s, `bg/muted` track; `WiomProgressIndicator.kt:115-159`). iOS ships only the loader's. Retire the other?
-12. **Status loader** (wait → success / error ring): in old drafts, not shipped on Android. Not on iOS; outcomes use the outcome surface.
+1. **Dots padding:** 12 horizontal × 10 vertical; there is no 10 token (gap per D24).
+2. **Linear Determinate easing:** iOS uses `motion/surface` · `ease/standard` (Android tweens linearly). Confirm, or allow `ease/linear`.
+3. **Loop periods** (spinner 1.0 s, Linear 1.5 s, Dots 1.0 s / 150 ms stagger, shimmer 1.2 s) are not motion tokens. Should `motion.md` define loop tokens?
+4. **Reduce Motion still for Linear Indeterminate:** a centred 40 % segment, so it can't be read as "40 % done". Confirm.
+5. **Brand message alignment:** design intent is centred; check both apps centre a two-line message.
+6. **Two indeterminate bars on Android** (loader Linear and the progress package's indeterminate bar). iOS ships only the loader's. Retire the other?
+
+## Accessibility strings
+
+Catalog keys this component needs (never literals in code):
+
+| Key | English meaning | Used for |
+|---|---|---|
+| `common.loading` | "Loading" | Default spinner and skeleton label when the screen gives none |
+| `loader.ready` | "Ready" | Announcement when a branded wait ends and the screen stays |
+
+Hindi text comes from the catalog; new strings need approval (D39).
 
 ## iOS (SwiftUI, iOS 16+)
 
@@ -231,73 +243,8 @@ All copy below is illustrative; real strings come from the catalog (Hindi first,
 - **Haptics:** none (D21).
 - **Not on iOS:** system `ProgressView` / `UIActivityIndicatorView` styling, Material progress indicators, ripple, touch-consuming tricks from Android, hardware back cancelling a wait, coloured status bar, SF Symbols in any loader (D4).
 
-```swift
-enum WiomSpinnerSize { case sm, md, lg
-    var diameter: CGFloat { switch self { case .sm: 20; case .md: 32; case .lg: 48 } }
-    var stroke: CGFloat   { switch self { case .sm: 2;  case .md: 3;  case .lg: 4 } }
-}
+**Built from:** the spinner is a `TimelineView(.animation)` drawing a `Circle` arc (trim 0 to 0.75, round caps) that turns once per 1.0 s, linear, starting at 12 o'clock, over an optional track ring. Sizes sm 20 / 2, md 32 / 3, lg 48 / 4 pt (diameter / stroke). It ignores Reduce Motion on purpose (D20). A free-standing spinner is one VoiceOver element with a catalog label and the `.updatesFrequently` trait.
 
-struct WiomSpinner: View {
-    var size: WiomSpinnerSize = .md
-    var tone: WiomSpinnerTone = .brand            // .brand / .neutral / .onColor (§3)
+**Built from:** the skeleton shimmer is a view modifier that overlays the 1.2 s band only when enabled and Reduce Motion is off (Static mode otherwise). A placeholder region is one VoiceOver element with a catalog label ("Loading …").
 
-    var body: some View {
-        // Spinner ignores Reduce Motion on purpose (D20).
-        TimelineView(.animation) { context in
-            let t = context.date.timeIntervalSinceReferenceDate
-            let turn = t.truncatingRemainder(dividingBy: 1.0)   // 1.0 s per turn, linear
-            ZStack {
-                if let track = tone.track {
-                    Circle().inset(by: size.stroke / 2).stroke(track, lineWidth: size.stroke)
-                }
-                Circle().inset(by: size.stroke / 2)
-                    .trim(from: 0, to: 0.75)
-                    .stroke(tone.arc, style: StrokeStyle(lineWidth: size.stroke, lineCap: .round))
-                    .rotationEffect(.degrees(-90 + turn * 360))  // starts at 12 o'clock
-            }
-        }
-        .frame(width: size.diameter, height: size.diameter)
-    }
-}
-
-// Free-standing spinner: labelled and live.
-WiomSpinner(size: .md)
-    .accessibilityElement()
-    .accessibilityLabel(Text("a11y.loading.plans"))   // catalog key; illustrative
-    .accessibilityAddTraits(.updatesFrequently)
-```
-
-```swift
-// Loops other than the spinner stop under Reduce Motion.
-struct WiomSkeletonShimmer: ViewModifier {
-    @Environment(\.accessibilityReduceMotion) private var reduceMotion
-    var enabled: Bool                               // false = Static mode
-    func body(content: Content) -> some View {
-        if enabled && !reduceMotion { content.overlay(ShimmerBand()) } // 1.2 s sweep
-        else { content }
-    }
-}
-
-// One VoiceOver element for the whole placeholder region.
-VStack(spacing: 0) { ForEach(0..<4, id: \.self) { _ in WiomSkeletonListItem() } }
-    .accessibilityElement(children: .ignore)
-    .accessibilityLabel(Text("a11y.loading.transactions"))
-```
-
-```swift
-// Explicit branded wait: blocks touches and VoiceOver behind it and takes focus.
-// Payment foreground loading uses wiom-ios-dialog instead.
-ZStack {
-    screen.accessibilityHidden(isLoadingBrand)
-    if isLoadingBrand {
-        WiomBrandLoader(style: .overlay, message: Text("brand.preparing"))
-            .accessibilityElement(children: .ignore)
-            .accessibilityLabel(Text("brand.preparing"))
-            .accessibilityAddTraits([.isModal, .updatesFrequently])
-            .onAppear { UIAccessibility.post(notification: .screenChanged, argument: nil) }
-    }
-}
-// If the screen stays put after success:
-UIAccessibility.post(notification: .announcement,
-                     argument: String(localized: "a11y.brand.ready"))
-```
+**Built from:** Brand Overlay sits in a `ZStack` over the screen. While it shows, the screen is hidden from VoiceOver, the loader is one element (`.isModal`, `.updatesFrequently`, catalog label) and posts `.screenChanged` when it appears. If the screen stays after success, post one announcement (catalog string). Payment foreground loading uses `wiom-ios-dialog` instead.

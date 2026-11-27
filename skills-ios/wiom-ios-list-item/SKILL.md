@@ -11,7 +11,7 @@ description: >
 
 One row component for every stacked list in the customer app. It owns the row: width, padding, tap, pressed and selected fills, disabled tokens, and the single VoiceOver element. The things inside it (icon badge, checkbox, radio, switch) only draw their indicator.
 
-Binding contract: `IOS_DECISIONS.md`. Tokens: `wiom-ios-foundations` (`tokens.md`, `typography.md`, `icons.md`, `layout.md`, `accessibility.md`, `motion.md`). Embedded parts: `wiom-ios-icon-badge`, `wiom-ios-selection-controls`.
+Binding contract: `wiom-ios-foundations/references/decisions.md`. Tokens: `wiom-ios-foundations` (`tokens.md`, `typography.md`, `icons.md`, `layout.md`, `accessibility.md`, `motion.md`). Embedded parts: `wiom-ios-icon-badge`, `wiom-ios-selection-controls`.
 
 **1 component · 5 types · 2 states · fills the width · 48 pt minimum height.**
 
@@ -68,7 +68,7 @@ Rules:
 
 ## 3. Tokens
 
-DS V2 names only (Swift names by the rule in `IOS_DECISIONS.md` §2, e.g. `bg/subtle` → `Wiom.Colors.bgSubtle`).
+DS V2 names only (Swift names by the rule in `wiom-ios-foundations/references/decisions.md` §2, e.g. `bg/subtle` → `Wiom.Colors.bgSubtle`).
 
 ### Layout and type
 
@@ -147,15 +147,29 @@ A switch row applies its change at once. If the change needs a "Save", use a Che
 - An error on a checkbox row (consent not given) is shown as the secondary line, so it is read as part of the label.
 - A group of radio or checkbox rows may sit in a container with `.accessibilityElement(children: .contain)` and a group label when the screen has a heading for it.
 
+## Settled rules
+
+- **Secondary and meta text:** `type/body/sm` (12 pt) (owner lock, PODS-1).
+- **Disabled icon-with-bg row:** the badge keeps the Neutral look (`bg/subtle` + `icon/nonAction`).
+- **Text wraps:** no line limits on primary, secondary or meta.
+- **Row press timing:** SwiftUI delays the pressed state slightly inside a scroll view so scrolling doesn't flash rows. Accepted platform behaviour.
+
 ## Open questions
 
-0. **DECIDED: secondary/meta text.** Owner commit `23f67f9` locks `type/body/sm` (12 pt). Android still ships `type/body/md` (14). iOS follows the owner’s locked source rule; **Android app must change**. This is a known implementation mismatch, not an unanswered design choice.
+1. **Trailing meta at accessibility text sizes** moves under the text column (iOS-only layout adaptation). Confirm with the design team.
+2. **Dialog selection body `space/8` between rows** comes from Figma; the host adds it, not the row. Confirm with `wiom-ios-dialog`.
 
-1. **Disabled icon-with-bg row.** Android (`WiomListItem.kt:257-271`) draws a `bg/disabled` circle *behind* a Neutral-tone `WiomIconBadge` of the same size, so the visible result is the Neutral badge (`bg/subtle` fill, `icon/nonAction` glyph), not the skill's `bg/disabled` fill + `icon/disabled` glyph. iOS follows Android for parity. Design team: confirm the intended look; if it is `bg/disabled` + `icon/disabled`, Android and iOS both change.
-2. **Text wrapping.** The older skill code set one-line limits on primary, secondary and meta; Android (`WiomListItem.kt:133-150`) sets none, so text wraps. iOS follows Android (wraps). Confirm wrapping is the intended rule for meta too.
-3. **Trailing meta at accessibility text sizes** moving under the text column is an iOS-only layout adaptation (Android has no equivalent breakpoint). Confirm with the design team.
-4. **Dialog selection body `space/8` between rows** comes from the skill (Figma dialog selection); Android's list item has no such spacing itself, the host adds it. Confirm with `wiom-ios-dialog`.
-5. **Row press timing.** SwiftUI delays the pressed state of a `Button` inside a `ScrollView` slightly so a scroll doesn't flash rows; Android shows it on touch-down. Accepted as platform behaviour unless the design team objects.
+## Accessibility strings
+
+Catalog keys this component needs (never literals in code):
+
+| Key | English meaning | Used for |
+|---|---|---|
+| `checkbox.checked` | "checked" | Checkbox row value |
+| `checkbox.unchecked` | "not checked" | Checkbox row value |
+| `checkbox.mixed` | "mixed" | Checkbox row value |
+
+Hindi text comes from the catalog; new strings need approval (D39).
 
 ## iOS (SwiftUI, iOS 16+)
 
@@ -172,115 +186,18 @@ A switch row applies its change at once. If the change needs a "Save", use a Che
 
 ### Row button style (pressed → `bg/subtle`, selected → `bg/selected`)
 
-```swift
-struct WiomRowButtonStyle: ButtonStyle {
-    var isSelected = false
-    func makeBody(configuration: Configuration) -> some View {
-        Body(configuration: configuration, isSelected: isSelected)
-    }
-    private struct Body: View {
-        let configuration: ButtonStyle.Configuration
-        let isSelected: Bool
-        @Environment(\.isEnabled) private var isEnabled
-        var body: some View {
-            configuration.label
-                .frame(maxWidth: .infinity, minHeight: 48, alignment: .leading)
-                .background {
-                    ZStack {
-                        // Press feedback is instant and never inherits a selection animation.
-                        Rectangle()
-                            .fill(Wiom.Colors.bgSubtle)
-                            .opacity(isEnabled && !isSelected && configuration.isPressed ? 1 : 0)
-                            .transaction { $0.animation = nil }
-                        // The same RGB value at both endpoints avoids a dark mid-frame.
-                        Rectangle()
-                            .fill(isEnabled && isSelected
-                                ? Wiom.Colors.bgSelected
-                                : Wiom.Colors.bgSelected.opacity(0))
-                            .animation(Wiom.Motion.microStandard, value: isSelected)
-                    }
-                    .allowsHitTesting(false)
-                }
-                .contentShape(Rectangle())
-        }
-    }
-}
-```
+**Built from:** `Button` with a custom `ButtonStyle`: the label fills the width, minimum 48 pt, full-row content shape. The background has two layers: pressed `bg/subtle` (instant, never animated, only when enabled and not selected) and selected `bg/selected`, fading between the colour and the same colour at opacity 0 on `Wiom.Motion.microStandard` (D28).
 
 ### Row content (shared by every type)
 
-```swift
-struct WiomRowContent<Leading: View, Trailing: View>: View {
-    let primary: String
-    var secondary: String? = nil
-    var meta: String? = nil
-    @ViewBuilder var leading: Leading
-    @ViewBuilder var trailing: Trailing
-    @Environment(\.isEnabled) private var isEnabled
-    @Environment(\.dynamicTypeSize) private var size
-
-    var body: some View {
-        HStack(spacing: Wiom.Spacing.s12) {
-            leading.accessibilityHidden(true)
-            VStack(alignment: .leading, spacing: Wiom.Spacing.s4) {
-                Text(primary).wiomTextStyle(.bodyLg)
-                    .foregroundColor(isEnabled ? Wiom.Colors.textDefault : Wiom.Colors.textDisabled)
-                if let secondary { Text(secondary).wiomSecondary(isEnabled) }
-                if let meta, size.isAccessibilitySize { Text(meta).wiomSecondary(isEnabled) }
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            HStack(spacing: Wiom.Spacing.s8) {
-                if let meta, !size.isAccessibilitySize { Text(meta).wiomSecondary(isEnabled) }
-                trailing.accessibilityHidden(true)
-            }
-        }
-        .padding(Wiom.Spacing.s16)
-    }
-}
-// wiomSecondary: .wiomTextStyle(.bodySm) + text/subtle (text/disabled when disabled).
-
-extension Image {   // the icons.md §3 chain, wrapped once
-    func wiomGlyph(_ size: CGFloat, _ tint: Color) -> some View {
-        renderingMode(.template).resizable()
-            .frame(width: size, height: size).foregroundColor(tint)
-    }
-}
-```
+**Built from:** an `HStack` (`space/12`) of leading (hidden from VoiceOver), a text column (`space/4`: primary `type/body/lg` in `text/default`; secondary and meta `type/body/sm` in `text/subtle`; `text/disabled` when disabled) and trailing (meta and trailing glyph, `space/8`). At accessibility text sizes the meta moves under the text column. Row padding `space/16`. Glyphs use the template chain in `wiom-ios-foundations` `icons.md`.
 
 ### Assembling the types
 
-```swift
-// Navigation row
-Button(action: openLanguage) {
-    WiomRowContent(primary: title, meta: currentValue) {
-        Wiom.Icon.language.wiomGlyph(Wiom.IconSize.md, Wiom.Colors.iconNonAction)
-    } trailing: {
-        Wiom.Icon.chevronRight.wiomGlyph(Wiom.IconSize.sm, Wiom.Colors.iconBrand)  // icon/disabled when disabled
-    }
-}
-.buttonStyle(WiomRowButtonStyle())
-
-// Radio row: row owns the tap, radio is indicator-only
-Button { selection = option.id } label: {
-    WiomRowContent(primary: option.title, secondary: option.detail) {
-        WiomRadio(isSelected: selection == option.id)
-    } trailing: { EmptyView() }
-}
-.buttonStyle(WiomRowButtonStyle())
-.accessibilityAddTraits(selection == option.id ? .isSelected : [])
-
-// Checkbox row
-Button { selection.toggleForRow() } label: {   // unchecked / mixed → checked; checked → unchecked
-    WiomRowContent(primary: title) { WiomCheckbox(selection: selection) } trailing: { EmptyView() }
-}
-.buttonStyle(WiomRowButtonStyle())
-.accessibilityValue(selection.accessibilityValue)  // "checked" / "not checked" / "mixed", from the string catalog
-
-// Information row (not tappable)
-WiomRowContent(primary: title, meta: value) { leadingIcon } trailing: { EmptyView() }
-    .frame(maxWidth: .infinity, minHeight: 48, alignment: .leading)
-    .accessibilityElement(children: .combine)
-```
+- **Navigation row:** `Button` + row content + `chevron_right` (`icon/brand`; `icon/disabled` when disabled).
+- **Radio row:** the row owns the tap; the radio is indicator only; the row gets the `.isSelected` trait.
+- **Checkbox row:** the row toggles (unchecked or mixed → checked; checked → unchecked); value checked / not checked / mixed from the catalog.
+- **Information row:** not a button; one combined VoiceOver element, minimum 48 pt.
 
 The switch row is a `Toggle` with a row-drawing `ToggleStyle`; its code and the VoiceOver toggle-trait recipe live in `wiom-ios-selection-controls` (Switch, "Switch row").
 

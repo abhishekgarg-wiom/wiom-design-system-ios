@@ -21,11 +21,11 @@ by what fits the space.
 | **Scroll indicator** | Position in a continuous horizontal rail | Plans or offers rail | Discrete pages |
 
 Visuals match the Android implementation (`wiom-ds-android`,
-`WiomPagination`) per the parity principle in `IOS_DECISIONS.md`. Where
+`WiomPagination`) per the parity principle in `wiom-ios-foundations/references/decisions.md`. Where
 the design skill and Android disagree, this file follows Android and lists
 the mismatch under Open questions.
 
-Tokens are DS V2 names (Swift names by `IOS_DECISIONS.md` §2); values live
+Tokens are DS V2 names (Swift names by `wiom-ios-foundations/references/decisions.md` §2); values live
 in `wiom-ios-foundations` (`tokens.md`, `typography.md`, `icons.md`,
 `layout.md`). All copy below is illustrative; real copy comes from the
 string catalog (Hindi first, English written separately, sentence case).
@@ -143,33 +143,29 @@ string catalog (Hindi first, English written separately, sentence case).
 | Tap-paged list · Counter | Below the list |
 | Horizontal rail · Scroll indicator | Below the rail |
 
+## Settled rules
+
+- **Unavailable chevron:** visible and truly disabled (VoiceOver says "dimmed").
+- **Chevrons:** Material Rounded `chevron_left` / `chevron_right`, `icon/action` when available, `icon/disabled` when not.
+- **Inactive dots and bars:** `bg/muted`.
+- **Counter string:** one catalog string with placeholders.
+
 ## Open questions
 
-1. **Disabled chevron.** The skill says the unavailable chevron "consumes
-   taps as a no-op"; Android disables the click and drops its spoken label.
-   Android's README says chevrons hide at bounds, but the code keeps them
-   visible and disabled. iOS uses a visible, truly disabled button
-   (VoiceOver "dimmed"). Confirm the README is stale.
-2. **Counter string.** Android builds the label as `"$current / $total"` in
-   code, not from a string resource, and the skill's example "2 of 10 बिल"
-   mixes languages. iOS uses one catalog string with placeholders. Android
-   to move to a string resource with the same key.
-3. **Chevron glyph style.** The skill asks for an "outline (line)" chevron;
-   Android uses Material Rounded `chevron_left` / `chevron_right`. iOS
-   follows Android (Material Rounded assets).
-4. **Inactive token.** Android's README lists `stroke/subtle` for inactive
-   dots and bars; the code and the skill use `bg/muted`. iOS uses `bg/muted`.
-5. **Chevron tint.** Android's README says `icon/nonAction`; the code and
-   the skill use `icon/action` (available) and `icon/disabled`
-   (unavailable). iOS follows the code.
-6. **Counter centring.** The skill centres the counter row; Android's row
-   has no centring of its own (the parent places it). iOS centres the row in
-   its parent; confirm on Android.
-7. **Accessibility parity.** Android dots and bars expose no "page n of N"
-   value or adjustable action. iOS adds both (behaviour, not look); Android
-   should add the Android accessibility equivalent.
-8. **Expanded dot motion.** Neither platform animates the 8 → 24 pt change.
-   If design wants a `motion/micro` width transition, add it on both.
+1. **Counter centring.** iOS centres the counter row in its parent. Confirm on Android.
+2. **Expanded dot motion.** Neither platform animates the 8 → 24 pt change. If design wants a `motion/micro` width transition, add it on both.
+
+## Accessibility strings
+
+Catalog keys this component needs (never literals in code):
+
+| Key | English meaning | Used for |
+|---|---|---|
+| `pagination.previous` | "Previous page" | Counter back chevron |
+| `pagination.next` | "Next page" | Counter forward chevron |
+| `pagination.position` | "Page %1$d of %2$d" | Dots, bars and counter value |
+
+Hindi text comes from the catalog; new strings need approval (D39).
 
 ## iOS (SwiftUI, iOS 16+)
 

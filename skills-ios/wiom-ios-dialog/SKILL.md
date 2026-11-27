@@ -11,7 +11,7 @@ A centered, blocking card over a scrim. The user stops, reads one thought, and a
 
 **Always the Wiom dialog, never `.alert` or `.confirmationDialog`** (D9). The only system alerts allowed are ones the OS owns: permission prompts and other system sheets.
 
-Contract: `IOS_DECISIONS.md` (D3, D9, D14 to D21, D25). Tokens: `wiom-ios-foundations` (`tokens.md`, `typography.md`, `icons.md`, `layout.md`, `accessibility.md`, `motion.md`).
+Contract: `wiom-ios-foundations/references/decisions.md` (D3, D9, D14 to D21, D25). Tokens: `wiom-ios-foundations` (`tokens.md`, `typography.md`, `icons.md`, `layout.md`, `accessibility.md`, `motion.md`).
 
 ## 1. Types
 
@@ -129,35 +129,37 @@ Rules:
 | Onboarding finished | Illustration, icon `celebration` | "You're all set" / "Your home internet setup is complete." | Primary "Go to home" |
 | Processing payment | Loading | "Processing payment" / "This takes a moment." | None |
 
+## Settled rules
+
+- **Alert icon:** 48 pt neutral circle, `bg/subtle` + `icon/action` (owner lock, PODS-1). Generic Neutral icon badges keep `icon/nonAction`; the dialog owns this override.
+- **Loading:** no button, never dismissable (escape does nothing).
+- **Illustration panel:** full-width 144 pt panel, `bg/brand/subtle` only.
+- **Type:** title `type/heading/md`, body `type/body/md`.
+
 ## Open questions
 
-| # | Question | Default here |
+1. **Escape on money Alerts.** VoiceOver escape closes Alert and Illustration. Should a money-related Alert ever be escape-proof? Default: escape closes; money commits belong on a non-dismissable sheet.
+2. **Copy limits** (40 / 120 grapheme clusters) are guidance, not from Figma (§4 rule 8).
+
+## Accessibility strings
+
+Catalog keys this component needs (never literals in code):
+
+| Key | English meaning | Used for |
 |---|---|---|
-| 1 | **DECIDED by owner commit `23f67f9`:** Alert uses a 48 pt neutral circle with `bg/subtle` and `icon/action`. Android still draws a brand rounded square (`WiomDialog.kt:143-159`). | iOS follows the locked dialog rule. **Android app must change.** Generic Neutral icon badges retain `icon/nonAction`; the dialog owns this override. |
-| 2 | Loading: the source skill has an optional Tertiary "Cancel" and back-press dismissal when cancellable; Android ships no button and is never dismissable (`WiomDialog.kt:366-381`). | Follow Android: no button, escape does nothing. |
-| 3 | Illustration panel: the source skill allows other subtle tones (`bg/positive/subtle`, `bg/info/subtle`); Android ships `bg/brand/subtle` only (`WiomDialog.kt:318-333`). The Android doc comment still describes a 120 circle (`WiomDialog.kt:290-292`); the code draws the 144 panel. | Brand only, 144 panel. |
-| 4 | Title style: `WiomTypography.kt:18` says dialog headers default to `heading/lg`; every dialog type ships `heading/md` (`WiomDialog.kt:164, 208, 261, 340, 404`). | `type/heading/md`; `typography.md` defers to this skill. |
-| 5 | Body style: the Android README says `body/lg`; the code uses `body/md` (`WiomDialog.kt:169`). | `type/body/md`. |
-| 6 | VoiceOver escape on Alert and Illustration closes (mirrors Android's back press, `WiomDialog.kt:82`). Should a money-related Alert ever be escape-proof? | Escape closes; money commits belong on a non-dismissable sheet anyway. |
-| 7 | Copy limits (40 / 120 grapheme clusters) are guidance, not from Figma. | As §4 rule 8. |
+| `common.loading` | "Loading" | Loading dialog, when the title is not enough |
+
+Hindi text comes from the catalog; new strings need approval (D39).
 
 ## iOS (SwiftUI, iOS 16+)
 
 - **Built from:** a custom `WiomDialog` view presented by the same **root-level overlay host** as the bottom sheet (`wiom-ios-bottomsheet`, iOS section), in the dialog layer above the sheet layer. Never `.alert`, `.confirmationDialog`, or `.sheet` (D9). Shape: `RoundedRectangle(cornerRadius: Wiom.Radius.xlarge, style: .circular)`. Main block: `ScrollView` only when it overflows (`ViewThatFits(in: .vertical)`, iOS 16). Buttons from `wiom-ios-cta`, field from `wiom-ios-input-fields`, rows from `wiom-ios-list-item`, spinner from `wiom-ios-loader`.
-  ```swift
-  GeometryReader { proxy in
-      WiomDialogCard(model)
-          .frame(maxWidth: min(312, proxy.size.width - 2 * Wiom.Spacing.s24))
-          .frame(maxWidth: .infinity, maxHeight: .infinity)      // centered in the safe area
-  }
-  ```
+  The card is `min(312, container width − 2 × space/24)` wide and centred in the safe area.
 - **Tokens:** `bg/default`, `overlay/scrim`, `shadow/xl`, `radius/xlarge`, `radius/large`, `radius/medium`, `radius/full`, `bg/subtle`, `bg/brand/subtle`, `icon/action`, `icon/brand`, `text/default`, `text/subtle`, `type/heading/md`, `type/body/md`, `icon/md`, `icon/lg`, `space/8`, `space/16`, `space/24`, `space/48`.
 - **Size:** width `min(312, container − 48)`. Height fits content up to the safe area minus `space/24` each end. Text-holding parts have minimum heights only; fixed shapes are the 48 icon circle, the 144 illustration panel and the 40 spinner frame (D16).
 - **Dynamic Type:** title and body scale (`typography.md` §3) and wrap with no line limit. When the dialog would exceed its max height (accessibility sizes, two-line Hindi), the main block scrolls and the button group stays pinned and visible; side-by-side buttons stack per `wiom-ios-cta` §6. Check Hindi and English at xxxLarge and accessibility3 on iPhone SE (D17).
 - **VoiceOver:** the card gets `.accessibilityAddTraits(.isModal)`; the host hides everything beneath with `.accessibilityHidden(true)`. On appear, focus moves to the **title** first (`@AccessibilityFocusState`), which carries `.isHeader`; then body, content, buttons in order. Header icon and illustration are decorative (`.accessibilityHidden(true)`) unless the asset carries meaning, then it gets a label. Escape per §3:
-  ```swift
-  .accessibilityAction(.escape) { if model.type != .loading { model.onDismiss() } }
-  ```
+  Escape dismisses every type except Loading.
   **Loading** announces on appear (`UIAccessibility.post(notification: .screenChanged, argument: title)`) and posts an announcement when the work ends; the spinner is labelled from its title, not "spinner". When the dialog closes, focus returns to the control that opened it.
 - **Hit area:** buttons and radio rows ≥ 44 × 44, default 48 (D14). The scrim has no hit action.
 - **Motion:** per `wiom-ios-motion` §4: card and scrim fade in and out together on `motion/micro` `ease/standard`, one `withAnimation` transaction. No scale or slide. **Reduce Motion:** the same fade (already the reduced form, D20). The Loading spinner keeps rotating under Reduce Motion.

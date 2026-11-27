@@ -11,7 +11,7 @@ description: >
 
 Three small indicators that share sizing, stroke and fill rules. They are **indicator-only**: no label, helper text, padding or row chrome. The text next to them, and the tap, belong to the parent: a list row (`wiom-ios-list-item`, the common case), the Acknowledge CTA (`wiom-ios-cta`), or an inline control built as in §6.
 
-Binding contract: `IOS_DECISIONS.md` (D12 switch, D13 pressed, D14 hit area, D16 fixed glyph sizes). Tokens: `wiom-ios-foundations` (`tokens.md`, `icons.md`, `accessibility.md`, `motion.md`).
+Binding contract: `wiom-ios-foundations/references/decisions.md` (D12 switch, D13 pressed, D14 hit area, D16 fixed glyph sizes). Tokens: `wiom-ios-foundations` (`tokens.md`, `icons.md`, `accessibility.md`, `motion.md`).
 
 | Control | Visible size | Selection | States |
 |---|---|---|---|
@@ -83,7 +83,7 @@ Hover, keyboard focus ring, switch Error, checkbox/radio Pressed (D13).
 
 ## 3. Tokens
 
-DS V2 names only (Swift by the rule in `IOS_DECISIONS.md` §2).
+DS V2 names only (Swift by the rule in `wiom-ios-foundations/references/decisions.md` §2).
 
 | Slot | Token |
 |---|---|
@@ -142,15 +142,29 @@ A custom `ToggleStyle` built from a `Button` can lose native toggle semantics. O
 
 A control with no visible text is not allowed: there would be nothing to announce. If a screen seems to need one, the text exists somewhere nearby and should be inside the same element.
 
+## Settled rules
+
+- **Thumb (D34):** `icon/inverse`.
+- **Switch motion (D28):** thumb and track colour on `motion/micro` + `ease/standard`.
+- **Indicator size:** checkbox and radio are 24 × 24 pt.
+
 ## Open questions
 
-1. **DECIDED (D34): thumb token.** `icon/inverse`. Android library to switch from raw `Color.White` to the same token.
-2. **DECIDED (D28): switch animation.** Switch thumb movement uses `motion/micro` + `ease/standard` on both platforms, not the previously recorded Android default spring. Android skills were updated in PR #18 (`b480a46`). Applying the rule to the `wiom-ds-android` library code remains a dev-team implementation task.
-3. **Indicator size.** The Android README says checkbox and radio are 20 × 20 (`selectioncontrol/README.md:16-17`, rule 2 at line 69); the Android code and the skill ship 24 × 24 (`WiomSelectionControl.kt:87`, `:192`). iOS follows the code (24). The README should be fixed.
-4. **Checkbox/radio pressed.** Standalone Android checkbox and radio use the default indication (ripple) via `toggleable` / `selectable` (`WiomSelectionControl.kt:78-82`, `:183-187`); there is no pressed token. iOS shows no pressed visual (D13). Design team: is a pressed look wanted?
-5. **Error announcement.** The skill defines Error visuals only. iOS puts the error text next to the control (in the label). Should the error also be posted as a VoiceOver announcement when it appears (as for input fields)?
-6. **Switch semantics.** Verify the native accessibility representation on iOS 16 through current versions; ensure the value is spoken once.
-7. **Switch thumb implementation.** Use `Wiom.Colors.iconInverse` (D34).
+1. **Checkbox and radio pressed.** There is no pressed token; iOS shows no pressed visual (D13). Is a pressed look wanted?
+2. **Error announcement.** iOS puts the error text next to the control. Should it also be announced when it appears (as for input fields)?
+3. **Switch semantics.** Verify the native accessibility representation from iOS 16 to current versions; the value must be spoken once.
+
+## Accessibility strings
+
+Catalog keys this component needs (never literals in code):
+
+| Key | English meaning | Used for |
+|---|---|---|
+| `checkbox.checked` | "checked" | Checkbox value |
+| `checkbox.unchecked` | "not checked" | Checkbox value |
+| `checkbox.mixed` | "mixed" | Checkbox value |
+
+Hindi text comes from the catalog; new strings need approval (D39).
 
 ## iOS (SwiftUI, iOS 16+)
 
@@ -167,32 +181,7 @@ A control with no visible text is not allowed: there would be nothing to announc
 
 ### Checkbox indicator
 
-```swift
-enum WiomCheckboxSelection { case unchecked, mixed, checked }
-
-struct WiomCheckbox: View {
-    var selection: WiomCheckboxSelection
-    var isError = false
-    @Environment(\.isEnabled) private var isEnabled
-
-    var body: some View {
-        let box = RoundedRectangle(cornerRadius: Wiom.Radius.tiny, style: .circular)
-        ZStack {
-            if selection == .unchecked {
-                box.strokeBorder(stroke, lineWidth: Wiom.BorderWidth.medium)
-            } else {
-                box.fill(fill)
-                (selection == .checked ? Wiom.Icon.check : Wiom.Icon.remove)
-                    .wiomGlyph(Wiom.IconSize.md, isEnabled ? Wiom.Colors.iconInverse : Wiom.Colors.iconDisabled)
-            }
-        }
-        .frame(width: 24, height: 24)
-        .accessibilityHidden(true)
-    }
-    private var stroke: Color { !isEnabled ? Wiom.Colors.strokeSubtle : isError ? Wiom.Colors.strokeCriticalFocus : Wiom.Colors.strokeStrong }
-    private var fill: Color   { !isEnabled ? Wiom.Colors.bgDisabled  : isError ? Wiom.Colors.bgCritical : Wiom.Colors.bgBrand }
-}
-```
+**Built from:** a 24 × 24 pt `radius/tiny` circular rectangle, hidden from VoiceOver. Unchecked: `stroke/medium` border in `stroke/strong` (`stroke/critical/focus` in error, `stroke/subtle` when disabled). Checked or mixed: fill `bg/brand` (`bg/critical` in error, `bg/disabled` when disabled) with the `check` / `remove` glyph at 24 pt in `icon/inverse` (`icon/disabled` when disabled).
 
 The radio is the same shape with `Circle()` and a centred 10 × 10 `Circle()` dot tinted `icon/inverse` (`icon/disabled` when disabled).
 
@@ -202,65 +191,13 @@ The radio is the same shape with `Circle()` and a centred 10 × 10 `Circle()` do
 
 ### Switch `ToggleStyle` (row and inline)
 
-```swift
-struct WiomSwitchStyle: ToggleStyle {
-    enum Layout { case row, inline }
-    var layout: Layout = .row
-
-    func makeBody(configuration: Configuration) -> some View {
-        Button { configuration.isOn.toggle() } label: { configuration.label }
-            .buttonStyle(SwitchButtonStyle(isOn: configuration.isOn, layout: layout))
-            .wiomToggleAccessibility(configuration)
-    }
-}
-
-private struct SwitchButtonStyle: ButtonStyle {
-    let isOn: Bool
-    let layout: WiomSwitchStyle.Layout
-    func makeBody(configuration: Configuration) -> some View {
-        let row = layout == .row
-        return HStack(spacing: Wiom.Spacing.s12) {
-            configuration.label.frame(maxWidth: row ? .infinity : nil, alignment: .leading)
-            WiomSwitchIndicator(isOn: isOn, isPressed: !row && configuration.isPressed)
-        }
-        .padding(row ? Wiom.Spacing.s16 : 0)
-        .frame(maxWidth: row ? .infinity : nil)
-        .frame(minHeight: 48)
-        .background(row && configuration.isPressed ? Wiom.Colors.bgSubtle : .clear) // row: D13; disabled check as in WiomRowButtonStyle
-        .contentShape(Rectangle())
-    }
-}
-
-extension View {
-    @ViewBuilder
-    func wiomToggleAccessibility(_ c: ToggleStyleConfiguration) -> some View {
-        self.accessibilityRepresentation {
-            Toggle(isOn: c.$isOn) { c.label }.toggleStyle(.switch)
-        }
-    }
-}
-```
+**Built from:** a custom `ToggleStyle` that renders a `Button` toggling `isOn`. Row layout fills the width with `space/16` padding and a pressed `bg/subtle` (D13); inline layout hugs and shows no pressed fill. Minimum 48 pt; `space/12` between text and indicator. Accessibility comes from `.accessibilityRepresentation` with a system switch `Toggle`, so VoiceOver says "switch button, on/off" (D12).
 
 Switch row: `Toggle(isOn: $isOn) { rowText }.toggleStyle(WiomSwitchStyle())`, where `rowText` is the list item's leading icon + primary + secondary (`wiom-ios-list-item`, `WiomRowContent` without its own padding). The row then is one element: "Push notifications, plan renewals and offers, switch button, on" (illustrative).
 
 ### Inline checkbox (own text, no row)
 
-```swift
-struct WiomNoPressStyle: ButtonStyle {           // no pressed visual (D13)
-    func makeBody(configuration: Configuration) -> some View { configuration.label }
-}
-
-Button { agreed.toggle() } label: {
-    HStack(spacing: Wiom.Spacing.s12) {
-        WiomCheckbox(selection: agreed ? .checked : .unchecked, isError: showError)
-        Text(consentText).wiomTextStyle(.bodyMd).foregroundColor(Wiom.Colors.textDefault)
-    }
-    .frame(minHeight: 48)
-    .contentShape(Rectangle())
-}
-.buttonStyle(WiomNoPressStyle())
-.accessibilityValue(agreed ? Text("checkbox.checked") : Text("checkbox.unchecked"))
-```
+**Built from:** a `Button` with a no-op `ButtonStyle` (no pressed visual, D13) around an `HStack` (`space/12`) of the checkbox and the consent text (`type/body/md`, `text/default`), minimum 48 pt, full content shape; value checked / not checked from the catalog.
 
 ### Common mistakes
 

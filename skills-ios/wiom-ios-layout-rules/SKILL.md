@@ -5,7 +5,7 @@ description: "Structural rules for SwiftUI layout code in the Wiom iOS customer 
 
 # Wiom layout rules for SwiftUI
 
-Replaces `wiom-compose-layout-rules` for iOS. Tokens: `wiom-ios-foundations`. Component anatomy: the `wiom-ios-*` component skills. Decisions: [`../IOS_DECISIONS.md`](../IOS_DECISIONS.md).
+Replaces `wiom-compose-layout-rules` for iOS. Tokens: `wiom-ios-foundations`. Component anatomy: the `wiom-ios-*` component skills. Decisions: [`../wiom-ios-foundations/references/decisions.md`](../wiom-ios-foundations/references/decisions.md).
 
 ## 1. Width
 
@@ -82,7 +82,7 @@ Shared host responsibilities and native acceptance cases: [native validation](..
 
 ## Open questions
 
-No separate visual values are defined here. Component mismatches remain in the component Open questions lists; shared unresolved decisions are in `../IOS_DECISIONS.md` §3 and §5.
+No separate visual values are defined here. Component questions are in each component's Open questions; shared ones are in `../wiom-ios-foundations/references/decisions.md` §3.
 
 ## iOS (SwiftUI, iOS 16+)
 

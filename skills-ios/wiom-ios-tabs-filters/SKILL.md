@@ -28,11 +28,11 @@ A chip is always a **tappable filter toggle**. A passive status, count or
 dot ("Paid", "3", unread dot) is `wiom-ios-badge`, never a chip.
 
 Visuals match the Android implementation (`wiom-ds-android`,
-`WiomTabsFilters`) per the parity principle in `IOS_DECISIONS.md`.
+`WiomTabsFilters`) per the parity principle in `wiom-ios-foundations/references/decisions.md`.
 Where the design skill and Android disagree, this file follows Android and
 lists the mismatch under Open questions.
 
-Tokens are DS V2 names (Swift names by the rule in `IOS_DECISIONS.md` §2);
+Tokens are DS V2 names (Swift names by the rule in `wiom-ios-foundations/references/decisions.md` §2);
 values live in `wiom-ios-foundations` (`tokens.md`, `typography.md`,
 `layout.md`). All copy below is illustrative; real copy comes from the
 string catalog (Hindi first, English written separately, sentence case).
@@ -264,42 +264,31 @@ screen owns the selected index / set and applies these.
   stay pinned together under the top bar; content scrolls beneath.
 - **7+ filters:** use the fit-N plus More mechanism in §2.3. Keep the selected filter inline. The More sheet lists all filters; never mix More with horizontal scroll.
 
+## Settled rules
+
+- **Pill count (D30):** 2 to 4 pills.
+- **Pill item height:** 36 pt (`space/8` around a 20 pt line), track 44 pt.
+- **Underline filter width:** equal width in fixed mode, hug content when scrolling.
+- **Chip unselected border:** `stroke/subtle`.
+
 ## Open questions
 
-1. **DECIDED (D30): pill count.** 2 to 4 on both platforms. Historical implementor note: **Android v0.3.0 caps at 2..4 and should tighten to 1..3**. That older instruction is superseded by D30; do not tighten the implementation to 1..3. The shared source documentation needs the new owner ruling.
+1. **Disabled pills and filters, badges, More filter.** iOS keeps badges and disabled variants unexposed for parity, and implements the More overflow rule at 7+ (§2.3). Confirm.
+2. **Underline indicator position.** Drawn at the bottom of the label's padded content box (12 pt above the bar border). Looks unintended; needs a design ruling.
+3. **Chip close glyph as its own target.** On iOS it can't reach 44 pt inside a 36 pt chip, so the whole chip toggles. Confirm no separate remove action is needed.
+4. **Chip row wrapping.** iOS wraps chips (skill rule). Confirm wrapping is the rule on both platforms.
+5. **Pressed states.** No pressed token for pill, filter or chip; iOS shows none (D13). Is a pressed fill (for example `bg/subtle`) wanted on both?
+6. **Pill label wrapping at large text.** iOS wraps pill labels and switches the filter bar to scrolling. Confirm.
 
-2. **Pill item height: skill 32 pt vs Android 36 pt.** The source base minimum is
-   32 (track 40); Android pads `space/8` vertically around a 20 pt
-   line, giving 36 (track 44). iOS follows Android.
-3. **Pill and filter disabled state, badges, icon-only More filter.** The
-   skill defines a disabled pill (`bg/disabled`), a disabled filter
-   (`text/disabled`), count badges in pills and filters, and a trailing
-   `filter_list` "more" item. Android ships none of these. iOS keeps badges and disabled variants
-   unexposed for parity, but implements the accepted More overflow rule
-   at 7+ (§2.3); Android needs to add that behaviour.
-4. **Fixed-mode filter width: skill "always hug" vs Android "equal width".**
-   iOS follows Android (equal width in Fixed mode, hug when scrolling).
-5. **Underline indicator position.** The skill puts the indicator at the
-   item's bottom edge, full item width. Android draws it at the bottom of
-   the label's padded content box (12 pt above the bar border; label width
-   when scrolling, item width minus 32 pt when fixed). iOS follows Android;
-   this looks unintended and needs a design ruling.
-6. **Chip unselected border: skill `stroke/default` vs Android
-   `stroke/subtle`.** iOS follows Android.
-7. **Chip close glyph as its own target.** Android makes the 16 pt close
-   glyph separately tappable ("Remove …"). On iOS it can't reach 44 pt
-   inside a 36 pt chip, so the whole chip toggles. Confirm no separate
-   remove action is needed.
-8. **Chip row wrapping.** The skill says chips wrap; Android's `WiomChipRow`
-   is a single non-wrapping row and leaves wrapping to a `FlowRow` parent.
-   iOS wraps (skill rule), which matches Android only when the screen uses
-   `FlowRow`. Confirm wrapping is the rule on both.
-9. **Pressed states.** No pressed token exists for pill, filter or chip and
-   Android relies on ripple. iOS shows no pressed visual (D13). Design team
-   to say whether a pressed fill (e.g. `bg/subtle`) is wanted on both.
-10. **Pill label wrapping at large text.** Android truncates pill and filter
-    labels to one line; iOS wraps pill labels (Dynamic Type safety) and
-    switches the filter bar to scrolling. Confirm.
+## Accessibility strings
+
+Catalog keys this component needs (never literals in code):
+
+| Key | English meaning | Used for |
+|---|---|---|
+| `tabs.position` | "%1$d of %2$d" | Pill tab and underline filter position |
+
+Hindi text comes from the catalog; new strings need approval (D39).
 
 ## iOS (SwiftUI, iOS 16+)
 

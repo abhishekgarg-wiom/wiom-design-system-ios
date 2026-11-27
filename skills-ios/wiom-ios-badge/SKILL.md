@@ -22,7 +22,7 @@ Badges are **passive**: never tappable, never a button. If it needs a
 tap, it is a chip (`wiom-ios-tabs-filters`), not a badge. A glyph inside
 a coloured circle is `wiom-ios-icon-badge`, not this component.
 
-This skill follows `IOS_DECISIONS.md` (parity principle: badges look
+This skill follows `wiom-ios-foundations/references/decisions.md` (parity principle: badges look
 as Android ships them, except the owner-selected count display rule in §5). Tokens are cited by DS V2 name; values
 live in `wiom-ios-foundations`.
 
@@ -244,39 +244,30 @@ Step 4: Tone
 - `wiom-ios-icon-badge`: glyph in a coloured circle; a different
   component.
 
+## Settled rules
+
+- **No Brand Filled.** Brand is Tinted only; 23 variants in total. Small is always Tinted (Small Filled renders Small Tinted).
+- **Label overflow:** one line, tail truncation (ellipsis). Rewrite copy that truncates.
+- **Count display:** 1 to 9 as digits, 10 to 99 as "9+", 100+ as "99+", in every placement.
+
 ## Open questions
 
-1. **Brand Filled: Android vs skill.** The source skill lists Brand as a
-   Filled tone (`bg/brand` + `text/onBrand`, a shipped Figma variant);
-   Android has no Brand Filled and falls back to Brand Tinted
-   (`WiomBadge.kt:214-215`; KDoc at `WiomBadge.kt:128` and `:150`). iOS
-   follows Android, so iOS has 23 variants, not 24. Design team to
-   confirm whether Android should add Brand Filled.
-2. **Label overflow: Android vs skill.** The skill says one line with
-   `overflow = Visible` ("rewrite shorter"); Android ships `maxLines = 1`
-   with the default clip (`WiomBadge.kt:191-196`). iOS uses one line
-   with tail truncation (an ellipsis is safer at large text sizes).
-   Confirm, and ask Android to match.
-3. **Count nudge.** The skill nudges the overlay Count 4 pt outward
-   (x +4, y −4); the Android library only documents top-end alignment
-   (`WiomBadge.kt:70-71`) and leaves the nudge to callers. iOS follows
-   the skill's 4 pt; confirm against the shipped Android bell.
-4. **Count display: source vs Android.** Source rule 6 renders 1–9 as
-   digits, 10–99 as "9+", and 100+ as "99+" in every placement. Android
-   exposes `cap` (default 99), which can render raw 10–99. The owner
-   explicitly selected the source rule for iOS. This visual exception
-   remains open for Android alignment.
-5. **Small Filled.** The skill crashes on Small Filled; Android silently
-   gives Small Tinted (`WiomBadge.kt:169`). iOS follows Android.
-6. **Western digits in Hindi.** Default: counts always use Western
-   digits, in both languages. Design team to confirm Devanagari digits
-   are never wanted.
-7. **Label grapheme limit.** The source sets none. iOS uses 10 Hindi /
-   14 English grapheme clusters (the chip limits) until the design team
-   sets badge limits.
-8. **Count minimum under Dynamic Type.** Scaling the 20 pt minimum with
-   Caption 2 is an iOS choice (Android's 20 dp is not scaled, though sp
-   text is). Confirm.
+1. **Count nudge.** The overlay Count sits 4 pt up and 4 pt out from top-trailing. Confirm against the shipped Android bell.
+2. **Western digits in Hindi.** Counts always use Western digits in both languages. Confirm Devanagari digits are never wanted.
+3. **Label length.** No source limit; iOS uses 10 Hindi / 14 English grapheme clusters (the chip limits) until design sets one.
+4. **Count minimum under Dynamic Type.** The 20 pt minimum scales with Caption 2 on iOS. Confirm.
+
+## Accessibility strings
+
+Catalog keys this component needs (never literals in code):
+
+| Key | English meaning | Used for |
+|---|---|---|
+| `badge.count.new` | "%d new" | Host value with a Count |
+| `badge.count.over9` | "more than 9 new" | Host value at 9+ |
+| `badge.count.over99` | "more than 99 new" | Host value at 99+ |
+
+Hindi text comes from the catalog; new strings need approval (D39).
 
 ## iOS (SwiftUI, iOS 16+)
 
@@ -295,7 +286,7 @@ Step 4: Tone
   `text/onWarning`, `text/onInfo`, `text/subtle`, `text/brand`,
   `text/positive`, `text/critical`, `text/info`, `type/meta/xs`,
   `type/label/md`, `type/label/sm`, `radius/full`, `radius/tiny`,
-  `space/4`, `space/8`, `space/12`. Swift names per `IOS_DECISIONS.md`
+  `space/4`, `space/8`, `space/12`. Swift names per `wiom-ios-foundations/references/decisions.md`
   §2 (`Wiom.Colors.bgCriticalSubtle`, `Wiom.Typography.labelMd`, …).
 - **Size:** Dot fixed 8 pt. Count minimum 20 × 20 pt. Label minimum
   28 pt (Default) / 24 pt (Small). Never `.frame(height:)` on Count or
@@ -333,77 +324,10 @@ Step 4: Tone
   accessibility label), the system `.badge()` modifier on `TabView` or
   `List` (it draws iOS styling, not Wiom's).
 
-### Snippets
+### Built from
 
-```swift
-struct WiomBadgeCount: View {
-    let count: Int
-    let tone: WiomBadgeTone              // .brand · .critical · .neutral
-    private var displayCount: String {
-        count >= 100 ? "99+" : count >= 10 ? "9+" : String(count)
-    }
+**Built from:** Count is `Text` with Western digits (1 to 9, then 9+, then 99+) in `type/meta/xs`, `space/4` horizontal padding and a minimum of 20 × 20 pt that scales with Caption 2, on a `Capsule` fill; hidden from VoiceOver. Label is `Text` in `type/label/md` (`type/label/sm` for Small), one line with tail truncation, `space/12` (Small: `space/8`) horizontal and `space/4` vertical padding, on a `radius/tiny` circular rectangle. It has layout priority so neighbouring text gives way first. Small is always Tinted.
 
-    @ScaledMetric(relativeTo: .caption2) private var minSide: CGFloat = 20
+**Host example (bell):** the Count sits in a top-trailing overlay on the 24 pt glyph, nudged 4 pt up and 4 pt out, and takes no taps. The host `Button` owns the 48 pt hit area and carries the label and value ("Notifications, 3 new") from the string catalog.
 
-    var body: some View {
-        if count > 0 {
-            Text(displayCount)   // Western digits
-                .wiomTextStyle(.metaXs)
-                .foregroundColor(tone.countText)
-                .lineLimit(1)
-                .padding(.horizontal, Wiom.Spacing.s4)
-                .frame(minWidth: minSide, minHeight: minSide)
-                .background(Capsule().fill(tone.fill))
-                .accessibilityHidden(true)
-        }
-    }
-}
-
-struct WiomBadgeLabel: View {
-    let text: LocalizedStringKey
-    let tone: WiomBadgeLabelTone
-    var size: WiomBadgeLabelSize = .default
-    var style: WiomBadgeLabelStyle = .tinted
-
-    var body: some View {
-        let palette = tone.palette(style: size == .small ? .tinted : style)
-        Text(text)
-            .wiomTextStyle(size == .small ? .labelSm : .labelMd)
-            .foregroundColor(palette.text)
-            .lineLimit(1)
-            .truncationMode(.tail)
-            .padding(.horizontal, size == .small ? Wiom.Spacing.s8 : Wiom.Spacing.s12)
-            .padding(.vertical, Wiom.Spacing.s4)
-            .background(
-                RoundedRectangle(cornerRadius: Wiom.Radius.tiny, style: .circular)
-                    .fill(palette.fill)
-            )
-            .layoutPriority(1)           // neighbour text gives way first
-    }
-}
-```
-
-Host carries the meaning (bell in the top bar):
-
-```swift
-Button(action: openNotifications) {
-    Image("ic_rounded_notifications")
-        .renderingMode(.template)
-        .foregroundColor(Wiom.Colors.iconAction)
-        .frame(width: Wiom.IconSize.md, height: Wiom.IconSize.md)
-        .overlay(alignment: .topTrailing) {
-            WiomBadgeCount(count: unread, tone: .critical)
-                .alignmentGuide(.top) { $0[.top] + 4 }          // 4 pt up
-                .alignmentGuide(.trailing) { $0[.trailing] - 4 } // 4 pt out
-                .allowsHitTesting(false)
-        }
-}
-.frame(minWidth: 48, minHeight: 48)
-.contentShape(Rectangle())
-.accessibilityLabel(Text("notifications.title"))           // "Notifications"
-.accessibilityValue(unread > 0 ? Text(unreadSpoken(unread)) : Text(""))
-```
-
-`unreadSpoken` returns the catalog string ("3 new", or "more than 9 new" or "more than 99 new"; illustrative). The alignment guides move the Count 4 pt up and
-4 pt outward from plain top-trailing alignment, the skill's nudge;
-check against Android side by side.
+The spoken value is a catalog string ("3 new", "more than 9 new", "more than 99 new"; illustrative). Check the 4 pt nudge against Android side by side.

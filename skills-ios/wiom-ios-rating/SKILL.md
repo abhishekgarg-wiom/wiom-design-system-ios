@@ -7,7 +7,7 @@ description: "Wiom star rating for the iOS customer app in SwiftUI: 5 Material R
 
 Five stars the user taps to rate (for example after installation). **The only place gold `icon/warning` is allowed** (D31, D36).
 
-Contract: `../IOS_DECISIONS.md`. Tokens: `wiom-ios-foundations` (`references/tokens.md`, `icons.md`, `warning-combinations.md`).
+Contract: `../wiom-ios-foundations/references/decisions.md`. Tokens: `wiom-ios-foundations` (`references/tokens.md`, `icons.md`, `warning-combinations.md`).
 
 ## 1. Anatomy
 
@@ -38,6 +38,17 @@ Contract: `../IOS_DECISIONS.md`. Tokens: `wiom-ios-foundations` (`references/tok
 
 1. Star size 32 pt has no icon token (D24). Add `icon/xl` 32 or keep as a component constant.
 2. Figma has no rating component yet; design to draw it from this spec.
+
+## Accessibility strings
+
+Catalog keys this component needs (never literals in code):
+
+| Key | English meaning | Used for |
+|---|---|---|
+| `rating.value` | "%1$d of 5" | Rating value |
+| `rating.readonly` | "Rated %1$d of 5" | Read-only rating label |
+
+Hindi text comes from the catalog; new strings need approval (D39).
 
 ## iOS (SwiftUI, iOS 16+)
 

@@ -23,7 +23,7 @@ A progress indicator says **how far along** something is, toward a target the cu
 
 **Reversed semantics: more is better.** Wiom is an unlimited-data ISP; there is no usage meter where "full" is bad. Every progress visual shows movement toward something good.
 
-All values are tokens from `wiom-ios-foundations` (`references/tokens.md`, `typography.md`, `motion.md`). Swift names follow `IOS_DECISIONS.md` §2.
+All values are tokens from `wiom-ios-foundations` (`references/tokens.md`, `typography.md`, `motion.md`). Swift names follow `wiom-ios-foundations/references/decisions.md` §2.
 
 ## 1. Progress indicator or loader?
 
@@ -115,7 +115,7 @@ The pill dot is the pill's text colour. Title, value and pill copy come from the
 | Stage label | `type/body/sm`, centred; past `text/default`, current `text/brand`, future `text/subtle` |
 | Stage glyphs | Material Rounded icons from the asset catalog (D4) |
 
-**Gap note (stated once):** the source skill says `space/24` in its anatomy and "20 dp" in its token table. Android ships **20** for both gaps (`WiomProgressIndicator.kt:454`), so iOS uses 20 pt for parity. There is no `space/20` token: this is a token gap reported to the design team (D24); in code it carries a `// TODO(IOS-123): …` with the ticket.
+**Gap note (stated once):** the source skill says `space/24` in its anatomy and "20 dp" in its token table. Android ships **20** for both gaps, so iOS uses 20 pt for parity. There is no `space/20` token: this is a token gap reported to the design team (D24); in code it carries a `// TODO(IOS-123): …` with the ticket.
 
 **Stage count:** 2, 3, 4 or 5 stages; pick the real count, never pad. More than 5 means per-step screens (see §7). `current` is 1-based and within the stage count.
 
@@ -166,7 +166,7 @@ Don't stack two progress visuals on one card. When the process completes, hide t
 
 ## 8. Motion and Reduce Motion
 
-Android draws each new value **at once**: no tween on the fill or arc, no colour cross-fade, no count-up (`WiomProgressIndicator.kt:85-100`, `:196-222`). iOS matches this: value, tone, stage and pill changes are instant.
+Android draws each new value **at once**: no tween on the fill or arc, no colour cross-fade, no count-up. iOS matches this: value, tone, stage and pill changes are instant.
 
 The source skill also describes a draw-on (fill and arc growing to the new value), a count-up of a centre percentage and colour cross-fades. These are not shipped on Android and are an Open question. If they are adopted, they use `motion/emphasis` · `ease/standard` for draw-on and count-up and `motion/surface` · `ease/standard` for colour changes, and under **Reduce Motion they jump straight to the final value and colour** (D20). Code should already route value changes through one place that checks `accessibilityReduceMotion`, so adding the tween later can't skip the Reduce Motion path.
 
@@ -191,19 +191,34 @@ Progress never loops. A determinate indicator must not look busy when nothing is
 - A tap gesture on the bar itself.
 - Truncating a stage label to "Instal…".
 
+## Settled rules
+
+- **Milestones gap:** 20 pt.
+- **Tone:** the caller passes it (default brand); value-driven screens use the one ladder helper (§2).
+- **Circular:** sm 24 / 3 pt and lg 48 / 4 pt, no centre label.
+- **Pill and stage labels:** `type/label/sm` (pill) and `type/body/sm` (stage labels); never `type/meta/xs` for Hindi (D18).
+- **Stage labels** sit in equal-width columns.
+- **Linear default size:** sm (4 pt); Completion always uses md.
+- **Stage glyphs:** Material Rounded assets only (D4).
+- **Indeterminate waits** use `wiom-ios-loader`.
+
 ## Open questions
 
-1. **Milestones gap:** Android 20 dp (`WiomProgressIndicator.kt:454`); the skill says both `space/24` and "20 dp". iOS uses 20 pt for parity. No `space/20` exists: add the token, or change both apps to `space/16` or `space/24`?
-2. **Ladder automation:** the skill says Linear and Circular pick the tone from the value; Android does not (caller passes `tone`, default Brand; `WiomProgressIndicator.kt:39-48`, `:77`, `:188`). iOS follows Android, with one shared ladder helper. Confirm that's intended.
-3. **Circular:** skill = one 48 pt ring with a centre `type/label/sm` percentage; Android = sm 24 / 3 and lg 48 / 4, no centre label (`WiomProgressIndicator.kt:167-223`). iOS follows Android. Is a centre label wanted on lg?
-4. **Draw-on, count-up and colour cross-fades:** in the skill (600 ms fill / arc, 300 ms colour), not shipped on Android (`WiomProgressIndicator.kt:85-100`, `:196-222`). iOS is instant. Adopt on both, with `motion/emphasis` / `motion/surface` and the Reduce Motion jump?
-5. **Pill and stage-label type:** Android uses `type/meta/xs` (10 pt) for the Completion pill (`WiomProgressIndicator.kt:391`) and the Milestones stage labels (`:511`). D18 forbids `type/meta/xs` for Devanagari, and both carry Hindi. iOS uses the skill's `type/label/sm` (pill) and `type/body/sm` (stage labels). Android should change to match.
-6. **Stage-label position:** Android centres each label in an equal-width column (`WiomProgressIndicator.kt:505-507`), so the first and last labels don't sit under their circles; the skill says centred under each circle. iOS follows Android.
-7. **Untokened values:** pill vertical padding 2 pt (`WiomProgressIndicator.kt:380`; `space/2` isn't an iOS token) and the 6 pt pill dot (`:386`). Gaps per D24.
-8. **Linear default size:** Android defaults to sm 4 (`WiomProgressIndicator.kt:78`); the skill's examples default to md 8. iOS follows Android; Completion always uses md.
-9. **Stage-label limit and fallback:** ≤ 8 grapheme clusters is taken from the longest source example. Confirm, and confirm hiding the label row (subtitle carries the stage) when labels need more than 2 lines at large text sizes.
-10. **Stage glyph source:** Android takes only an `ImageVector` (`WiomProgressIndicator.kt:413`); the skill allows a brand drawable fallback. iOS uses Material Rounded assets only (D4); a non-Material glyph needs a design-team asset.
-11. **Indeterminate bars and rings in Android's progress package** (`WiomLinearProgressIndeterminate`, `WiomCircularProgressIndeterminate`; `WiomProgressIndicator.kt:115-271`) are not part of this iOS skill; indeterminate waits use `wiom-ios-loader`.
+1. **No `space/20` token** for the 20 pt Milestones gap: add the token, or keep it as a component constant?
+2. **Draw-on, count-up and colour cross-fades:** iOS changes values at once, as Android ships. Adopt animation on both, with `motion/emphasis` / `motion/surface` and the Reduce Motion jump?
+3. **Untokened values:** pill vertical padding 2 pt (`space/2` isn't a token) and the 6 pt pill dot. Gaps per D24.
+4. **Stage-label limit and fallback:** ≤ 8 grapheme clusters is taken from the longest source example. Confirm, and confirm hiding the label row (the subtitle carries the stage) when labels need more than 2 lines at large text sizes.
+
+## Accessibility strings
+
+Catalog keys this component needs (never literals in code):
+
+| Key | English meaning | Used for |
+|---|---|---|
+| `progress.percent` | "%d percent" | Linear, Completion and Circular value |
+| `progress.step` | "Step %1$d of %2$d, %3$@" | Milestones value |
+
+Hindi text comes from the catalog; new strings need approval (D39).
 
 ## iOS (SwiftUI, iOS 16+)
 
@@ -218,56 +233,6 @@ Progress never loops. A determinate indicator must not look busy when nothing is
 - **Haptics:** none, including on completion (D21).
 - **Not on iOS:** default `ProgressView` / `UIProgressView` styling, Material progress indicators, ripple on hosting cards, SF Symbols for stage glyphs (D4), `minimumScaleFactor` on stage labels.
 
-```swift
-enum WiomProgressTone { case info, brand, positive
-    // The one ladder (§2). Screens with a value-driven tone call this.
-    init(ladderFor value: Double) {
-        self = value < 0.35 ? .info : (value > 0.80 ? .positive : .brand)
-    }
-    var fill: Color {
-        switch self { case .info: Wiom.Colors.bgInfo; case .brand: Wiom.Colors.bgBrand
-                      case .positive: Wiom.Colors.bgPositive }
-    }
-}
+**Built from:** Linear is a `bg/muted` `Capsule` track (sm 4 / md 8 pt high, full width) with a leading fill `Capsule` at width × value (value clamped to 0 to 1; no fill at 0). The caller passes the tone (default brand). Screens that want a value-driven colour use the one ladder helper: below 0.35 info, above 0.80 positive, otherwise brand (§2). One VoiceOver element: label from the host (catalog), value as a whole percent.
 
-struct WiomLinearProgress: View {
-    let value: Double                       // 0...1, clamped
-    var tone: WiomProgressTone = .brand     // as Android: caller picks
-    var size: WiomLinearProgressSize = .sm  // 4 pt; .md = 8 pt
-    var body: some View {
-        let v = min(max(value, 0), 1)
-        Capsule().fill(Wiom.Colors.bgMuted)
-            .frame(maxWidth: .infinity)
-            .frame(height: size.height)
-            .overlay(alignment: .leading) {
-                if v > 0 {
-                    GeometryReader { g in
-                        Capsule().fill(tone.fill).frame(width: g.size.width * v)
-                    }
-                }
-            }
-            .accessibilityElement(children: .ignore)
-            .accessibilityValue(Text(v, format: .percent.precision(.fractionLength(0))))
-    }
-}
-
-// Call site: label from the host, tone from the ladder.
-WiomLinearProgress(value: p, tone: .init(ladderFor: p))
-    .accessibilityLabel(Text("profile.completion.title"))   // catalog key; illustrative
-```
-
-```swift
-// Milestones: one element, "step n of N, stage".
-WiomMilestones(title: title, subtitle: subtitle, stages: stages, current: current)
-    .accessibilityElement(children: .ignore)
-    .accessibilityLabel(title)
-    .accessibilityValue(Text("a11y.progress.step \(current) \(stages.count) \(stages[current - 1].label)"))
-
-// Value changes go through one place, so a future tween can't bypass Reduce Motion.
-@Environment(\.accessibilityReduceMotion) private var reduceMotion
-func show(_ newValue: Double) {
-    shown = newValue        // today: instant, as Android
-    // If draw-on is adopted (Open question 4): animate only when !reduceMotion,
-    // with motion/emphasis + ease/standard; under Reduce Motion keep the jump.
-}
-```
+**Milestones:** one VoiceOver element: label = title, value = "step n of N, stage" (catalog string). All value changes go through one function, so a future draw-on (Open questions) can respect Reduce Motion; today the value jumps, as on Android.

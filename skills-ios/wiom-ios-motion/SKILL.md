@@ -5,7 +5,7 @@ description: "Wiom motion rules for the iOS customer app in SwiftUI: which motio
 
 # Wiom motion (iOS customer app)
 
-**Applies to:** the native iOS customer app (SwiftUI, iPhone only, iOS 16+). Binding contract: [`IOS_DECISIONS.md`](../IOS_DECISIONS.md) (D6 page transitions, D10 custom sheet, D20 Reduce Motion, D21 haptics). When this file and `IOS_DECISIONS.md` disagree, `IOS_DECISIONS.md` wins.
+**Applies to:** the native iOS customer app (SwiftUI, iPhone only, iOS 16+). Binding contract: [`wiom-ios-foundations/references/decisions.md`](../wiom-ios-foundations/references/decisions.md) (D6 page transitions, D10 custom sheet, D20 Reduce Motion, D21 haptics). When this file and `wiom-ios-foundations/references/decisions.md` disagree, `wiom-ios-foundations/references/decisions.md` wins.
 
 **Rulings:** locked 26 Aug 2026 by the design lead; this iOS doctrine derives from them.
 
@@ -118,16 +118,7 @@ Read it with `@Environment(\.accessibilityReduceMotion) private var reduceMotion
 | Toast | Per wiom-ios-toast | Per wiom-ios-toast |
 | `NavigationStack` push/pop, swipe-back, `fullScreenCover` | System | System: iOS applies its own reduced form. Do nothing |
 
-```swift
-@Environment(\.accessibilityReduceMotion) private var reduceMotion
-
-var revealTransition: AnyTransition {
-    reduceMotion ? .opacity : .move(edge: .bottom).combined(with: .opacity)
-}
-var revealAnimation: Animation {
-    reduceMotion ? Wiom.Motion.microStandard : Wiom.Motion.settle   // helpers per §7
-}
-```
+Read `accessibilityReduceMotion` at the call site. Reveal transition: `.opacity` when reduced, otherwise move from the bottom plus opacity. Reveal animation: `Wiom.Motion.microStandard` when reduced, otherwise `Wiom.Motion.settle`.
 
 ## 7. SwiftUI mapping
 
@@ -137,20 +128,9 @@ Use the composed `Wiom.Motion` helpers defined in foundations. Implement each he
 
 Patterns:
 
-```swift
-// Present a surface: state change and transition share one transaction
-withAnimation(Wiom.Motion.surfaceStandard) { isSheetShown = true }
-
-// Reveal-on-condition with its exit pair
-if canContinue {
-    WiomButton(...)
-        .transition(.move(edge: .bottom).combined(with: .opacity))
-}
-// driven by: withAnimation(Wiom.Motion.settle) { canContinue = gatePassed }
-
-// Value / colour change bound to its state
-.animation(Wiom.Motion.microStandard, value: isSelected)
-```
+- **Present a surface:** the state change and its transition share one transaction (`withAnimation(Wiom.Motion.surfaceStandard)`).
+- **Reveal-on-condition:** the revealed view moves in from the bottom with opacity, driven by `withAnimation(Wiom.Motion.settle)` on the gate.
+- **Value or colour change:** `.animation(Wiom.Motion.microStandard, value: state)`, bound to that state only.
 
 ## 8. Haptics
 
@@ -174,9 +154,10 @@ if canContinue {
 | # | Question | Until answered |
 |---|---|---|
 | Q4 | Will motion tokens become Figma variables? | Tokens live in `wiom-ios-foundations/references/motion.md` as cubic-Bézier values; this skill cites names only. |
-| M1 | Does the iOS DS module ship the composed `Animation` wrappers (`Wiom.Motion.surfaceStandard`, `Wiom.Motion.settle`, …) or only durations and curves? | Treat §7 as the required set; wrapper names follow `IOS_DECISIONS.md` §2. |
+| M1 | Does the iOS DS module ship the composed `Animation` wrappers (`Wiom.Motion.surfaceStandard`, `Wiom.Motion.settle`, …) or only durations and curves? | Treat §7 as the required set; wrapper names follow `wiom-ios-foundations/references/decisions.md` §2. |
 | M2 | Does any customer-app moment need the celebration motif? | Unused (§5.5); raise a customer-app motion gap. |
-| M3 | Easing for the confirmation check segment and the dialog fade is not stated in the locked rulings. | Check uses `ease/enter` (arrival), dialog uses `ease/standard`, pending design confirmation. |
+
+Settled (D40): the confirmation check segment uses `ease/enter`; the dialog fade uses `ease/standard`.
 
 ## iOS (SwiftUI, iOS 16+)
 

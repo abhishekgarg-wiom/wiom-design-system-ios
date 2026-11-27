@@ -7,13 +7,15 @@ description: "Wiom DS V2 foundation tokens and rules for the iOS customer app in
 
 **Design system:** Wiom DS V2 · **App:** native iOS customer app, iPhone only, portrait, light mode · **Font:** Noto Sans only, for Hindi and English · **Copy:** Hindi first, from the string catalog.
 
-**The parity rule.** iOS and Android users see the same app. Visual values follow the named Android baseline unless the owner has explicitly locked a correction in the decisions contract. iOS differs only in behaviour (gestures, safe areas, keyboard, accessibility). The full decision list is [`../IOS_DECISIONS.md`](../IOS_DECISIONS.md); when this skill and that file disagree, that file wins.
+**The parity rule.** iOS and Android users see the same app. Visual values follow the named Android baseline unless the owner has explicitly locked a correction in the decisions contract. iOS differs only in behaviour (gestures, safe areas, keyboard, accessibility). The full decision list is [`references/decisions.md`](references/decisions.md); when this skill and that file disagree, that file wins.
 
 ## 1. Where to look
 
 | You need | Read |
 |---|---|
 | A colour, spacing, radius, border width, shadow or icon size, with its Swift name and hex | [`references/tokens.md`](references/tokens.md) |
+| The same tokens as JSON for code generation (generated from tokens.md) | [`references/tokens.json`](references/tokens.json) |
+| The decisions every iOS skill follows (D1 to D41), Swift naming, open questions | [`references/decisions.md`](references/decisions.md) |
 | A text style, Dynamic Type behaviour, line height in SwiftUI, Hindi rules | [`references/typography.md`](references/typography.md) |
 | Choosing colour roles, state combinations, primitive boundaries and existing use cases | [`references/colour-usage.md`](references/colour-usage.md) |
 | Any Warning icon or rating-star colour pairing (D31) | [`references/warning-combinations.md`](references/warning-combinations.md) |
@@ -68,7 +70,7 @@ description: "Wiom DS V2 foundation tokens and rules for the iOS customer app in
 9. **Dividers inside cards are inset** to the card's padding.
 10. **Disabled = three tokens together:** `bg/disabled` fill, `text/disabled`, `icon/disabled`; outline components also switch to `stroke/subtle`. Non-neutral colours without a disabled token use 40 % opacity of the base colour. Disabled controls are `.disabled(true)`.
 11. **Surfaces own the gutter** (layout §2): top bar and sheet are edge to edge; screen content and sticky CTA bar 16; dialog 24 inside, max width 312.
-12. **No hover, no ripple, no keyboard focus ring** on iPhone. Pressed states use the tokens the Android library uses (IOS_DECISIONS D13).
+12. **No hover, no ripple, no keyboard focus ring** on iPhone. Pressed states use the tokens the Android library uses (decisions.md D13).
 13. **Light mode only**; colours still live in the asset catalog so dark mode can come later.
 
 ## 5. Anti-pattern checklist
@@ -90,12 +92,12 @@ description: "Wiom DS V2 foundation tokens and rules for the iOS customer app in
 
 ## Open questions
 
-Tracked in [`../IOS_DECISIONS.md`](../IOS_DECISIONS.md) §3: Figma alignment for `text/subtle` and tracking (Q1–Q2), `bg/surface` (Q3), motion in Figma (Q4), accepted contrast exceptions (Q5, list in tokens §9), Dynamic Type anchors and cap (Q11), blue/orange mapping for server-driven screens (Q12), `codeSyntax.iOS` (Q13).
+Tracked in [`references/decisions.md`](references/decisions.md) §3: Figma alignment for `text/subtle` and tracking (Q1–Q2), `bg/surface` (Q3), motion in Figma (Q4), accepted contrast exceptions (Q5, list in tokens §9), blue/orange mapping for server-driven screens (Q12), `codeSyntax.iOS` (Q13).
 
 ## iOS (SwiftUI, iOS 16+)
 
 - **Built from:** asset-catalog colour sets (one appearance) exposed as `Wiom.Colors`; a `.wiomTextStyle(_:)` view modifier over `Font.custom(_:size:relativeTo:)` with scaled line spacing and tracking; `Wiom.Spacing`, `Wiom.Radius`, `Wiom.BorderWidth`, `Wiom.IconSize` as `CGFloat` constants; `.wiomShadow(_:)`; `Wiom.Motion` / `Wiom.Easing` animations; `Wiom.Icon` images from `ic_rounded_*` template assets.
-- **Tokens:** DS V2 names, Swift names by the rule in IOS_DECISIONS §2. Old iOS names (`WiomColor.priText`, `WiomRadius.large` = 24, `neutral900` = #161021…) are retired; map by meaning and hex, never by name.
+- **Tokens:** DS V2 names, Swift names by the rule in decisions.md §2. Old iOS names (`WiomColor.priText`, `WiomRadius.large` = 24, `neutral900` = #161021…) are retired; map by meaning and hex, never by name.
 - **Size:** 1 dp = 1 pt. No screen-width constants. Minimum heights for anything with text.
 - **Dynamic Type:** every style anchored to an iOS text style (typography §3); usable through xxxLarge, no clipping through accessibility3 (the cap).
 - **VoiceOver:** baseline in accessibility.md; every component skill applies it.

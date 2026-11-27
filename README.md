@@ -11,9 +11,9 @@ The repository is public. GitHub Pages serves the complete HTML from `docs/`; no
 
 ## Read the system
 
-- [Main design-system HTML](docs/wiom-ios-design-system.html): full foundation values, 20 guides, iPhone-style examples, interactive state changes, search and a guided walkthrough.
+- [Main design-system HTML](docs/wiom-ios-design-system.html): full foundation values, 24 guides, iPhone-style examples, interactive state changes, search and a guided walkthrough.
 - [Contrast review HTML](docs/wiom-ios-contrast-review.html): approved Warning pairings and clearly labelled remaining proposals.
-- [iOS skills index](skills-ios/README.md), [decisions contract](skills-ios/IOS_DECISIONS.md), and [finalisation summary](FINALISATION.md).
+- [iOS skills index](skills-ios/README.md), [decisions contract](skills-ios/wiom-ios-foundations/references/decisions.md), and [changelog](CHANGELOG.md).
 
 Download or clone this repository, then open the HTML file locally in a browser. The documents embed their fonts, icons and content; no server or dependency installation is needed. GitHub may display the HTML source rather than render the page. The two HTML files are kept together so their navigation link works offline.
 
@@ -33,21 +33,15 @@ D31 applies to toast, input, icon badge and every Warning indicator. Toast/input
 
 ## Package status
 
-All 20 skills are documented and validated; 19 are active and bottom navigation remains an unused reference (D27). This repository is design guidance and an HTML reference, not a compiled SwiftUI SDK. Existing native-app code has not been changed here.
+24 skills: 23 active, plus bottom navigation kept as an unused reference (D27). This repository is design guidance and an HTML reference, not a compiled SwiftUI SDK; the Swift API lives in the app repo.
 
-Open implementation/review items remain explicit: input-border and pressed-brand-text contrast, Dynamic Type policy and native device validation. No unapproved contrast proposal is an agent default.
+Explicit open items: input-border and pressed-brand-text contrast (accepted exceptions, build with current tokens) and native device validation. No unapproved contrast proposal is an agent default.
 
-## Provenance and parity
-
-Derived from Wiom’s shared design-system repository, with owner decisions recorded through 23 Nov 2026. The inspected shared checkout was 3e6780c; D28 selection transitions were aligned in Android skills PR #18 at b480a46. Explicit owner decisions override older source/implementation mismatches. Android source/library alignment is separate work: this repository does not change Android skills, the builder, Figma or customer-app-ios.
-
-D29 records the 16 pt toast bottom gap (sides 8 pt), same as the Android skill. D30 records 2–4 pills. D31 records the final Warning colour rule above. These differences need coordinated downstream alignment, not silent edits by an iOS agent.
-
-Public reference publication was requested by the design-system owner. See [NOTICE](NOTICE.md) for ownership and reuse terms. No global skill installation was performed.
+Explicit owner decisions override older source or implementation mismatches. See [NOTICE](NOTICE.md) for ownership and reuse terms. History and provenance are in [CHANGELOG.md](CHANGELOG.md).
 
 ## Updating the preview
 
-After editing any skill, reference or `IOS_DECISIONS.md`, refresh the HTML preview:
+After editing any skill, reference or `wiom-ios-foundations/references/decisions.md`, refresh the HTML preview:
 
 ```
 python3 -m venv .venv && .venv/bin/pip install -r scripts/requirements.txt
@@ -55,3 +49,5 @@ python3 -m venv .venv && .venv/bin/pip install -r scripts/requirements.txt
 ```
 
 It re-renders only what changed. A new skill also needs a chapter entry in the page's `SKILLS` list.
+
+After editing `tokens.md`, regenerate the token JSON: `python3 scripts/build_tokens_json.py`.

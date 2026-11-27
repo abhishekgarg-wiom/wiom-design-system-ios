@@ -5,10 +5,10 @@ description: "Wiom UX and copy rules for the SwiftUI iOS customer app: Hindi-fir
 
 # Wiom UX for the iOS customer app
 
-**The iPhone app is the Android app.** Same flows, same screens, same components, same copy (one shared string catalog). This skill holds the UX and copy rules both apps follow; the `wiom-ios-*` component skills say how each part looks; [`../IOS_DECISIONS.md`](../IOS_DECISIONS.md) says where iOS behaviour differs (gestures, keyboard, accessibility). Adapted on 19 Nov 2026 from the builder repo’s `wiom-design-ux` reference material, with the iOS review’s fixes applied.
+**The iPhone app is the Android app.** Same flows, same screens, same components, same copy (one shared string catalog). This skill holds the UX and copy rules both apps follow; the `wiom-ios-*` component skills say how each part looks; [`../wiom-ios-foundations/references/decisions.md`](../wiom-ios-foundations/references/decisions.md) says where iOS behaviour differs (gestures, keyboard, accessibility).
 
 
-**UX provenance:** the six original UX reference files were adapted from the `wiom-design-ux` material supplied from `wiom-builder-documents`, not from `abhishekgarg-wiom/wiom-design-system`. The source DS repository governs component/foundation design; **copy owner (D39): Abhishek Garg** approves new or changed copy. The AI never changes existing app copy; it may only suggest. Builder material is read-only reference for this task.
+**Copy rule (D39):** never rewrite existing string-catalog copy. Agents may propose a change; Abhishek Garg approves new or changed copy. The guidance in this skill applies to **new** copy only. Copy in these files is illustrative (D25).
 
 ## Reference files
 

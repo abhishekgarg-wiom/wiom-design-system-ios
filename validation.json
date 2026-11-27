@@ -1,7 +1,7 @@
 {
   "date": "2026-11-27",
-  "skillCount": 20,
-  "activeSkills": 19,
+  "skillCount": 24,
+  "activeSkills": 23,
   "retainedUnusedReferences": 1,
   "staticSkillValidation": "passed",
   "publishedContrastPairsChecked": 27,
@@ -9,7 +9,7 @@
     "darkOnSubtle": 10.85,
     "darkOnSolid": 6.6
   },
-  "htmlChapterCoverage": 20,
+  "htmlChapterCoverage": 24,
   "browserErrors": 0,
   "httpRequestsInChapterPass": 0,
   "nativeRuntimeValidation": "not performed",

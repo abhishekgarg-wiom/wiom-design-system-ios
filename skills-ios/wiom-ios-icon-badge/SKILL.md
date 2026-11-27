@@ -7,7 +7,7 @@ description: "Wiom icon badge for the iOS customer app in SwiftUI: one glyph in 
 
 A single Material Rounded glyph centred in a filled circle. **3 sizes × 6 tones = 18 combinations.** Always circular, always filled, no border, no shadow. **Decorative only:** it is never a tap target and never a VoiceOver element; the parent row, card or dialog carries the meaning and the tap.
 
-Contract: `../IOS_DECISIONS.md`. Tokens: `wiom-ios-foundations` (`references/tokens.md`, `icons.md`, `layout.md`, `accessibility.md`).
+Contract: `../wiom-ios-foundations/references/decisions.md`. Tokens: `wiom-ios-foundations` (`references/tokens.md`, `icons.md`, `layout.md`, `accessibility.md`).
 
 ### Is this the right component?
 
@@ -94,15 +94,16 @@ If a design wants the badge itself to be tappable, it is the wrong component: ma
 | Pick `sm` or `md` | Resize to 32 pt "because it looks better" |
 | Warning tint with dark `icon/action` glyph | Gold `icon/warning` glyph used as a Warning indicator |
 
+## Settled rules
+
+- **Warning tone (D31):** dark `icon/action` on `bg/warning/subtle` (10.85:1), or on `bg/warning` (6.60:1) where a solid surface is specified. Gold `icon/warning` is for rating stars only.
+
 ## Open questions
 
 | # | Question | Default in this skill |
 |---|---|---|
 | 1 | A `neutral` badge (`bg/subtle`) inside a pressed list row (pressed fill `bg/subtle`, D13) disappears into the row while pressed. Android behaves the same. Intended? | Keep parity; no change. |
-| 3 | **DECIDED (D31):** dark Warning glyph on subtle or solid Warning background; gold glyph is ratings-only. | 10.85:1 on subtle; 6.60:1 on solid. The old gold-on-tint exception is superseded. |
-| 2 | Figma ships only the Neutral tone; the other five are built from tokens (Android does the same, `WiomIconBadge.kt:158-167`). Will Figma add tone variants? | Tones as in §2. |
-
-The original baseline matched badge sizes/padding. D31 now overrides the old Warning tone pair; shared source and Android library alignment are separate follow-up work, not edits authorised here.
+| 2 | Figma ships only the Neutral tone; the other five are built from tokens (Android does the same). Will Figma add tone variants? | Tones as in §2. |
 
 ## iOS (SwiftUI, iOS 16+)
 
@@ -117,33 +118,4 @@ The original baseline matched badge sizes/padding. D31 now overrides the old War
 - **Haptics:** none (D21).
 - **Not on iOS:** SF Symbols, `.symbolRenderingMode`, a `contentDescription`-style label on the badge, border (`strokeBorder`) or shadow, pressed visual on the badge itself.
 
-```swift
-enum WiomIconBadgeSize { case sm, md, lg }        // container 24 / 48 / 96, glyph icon/xs / md / lg
-enum WiomIconBadgeTone { case neutral, brand, positive, warning, critical, info }
-
-struct WiomIconBadge: View {
-    let icon: Image                                // e.g. Wiom.Icon.settings (template)
-    var size: WiomIconBadgeSize = .md
-    var tone: WiomIconBadgeTone = .neutral
-
-    var body: some View {
-        icon.renderingMode(.template).resizable().scaledToFit()
-            .frame(width: size.glyph, height: size.glyph)
-            .foregroundColor(tone.glyph)           // §2 tone recipe; Warning uses icon/action under D31
-            .frame(width: size.container, height: size.container)
-            .background(Circle().fill(tone.fill))
-            .accessibilityHidden(true)
-    }
-}
-
-// The row is the element and the target; the badge is decoration.
-Button(action: openProfile) {
-    HStack(spacing: Wiom.Spacing.s12) {
-        WiomIconBadge(icon: Wiom.Icon.person, size: .md)
-        Text("Profile")                             // illustrative copy
-        Spacer()
-    }
-    .frame(minHeight: 48)
-    .contentShape(Rectangle())
-}
-```
+**Built from:** a template `Image` sized to the glyph (16 / 24 / 48 pt), tinted with the tone's glyph colour, centred in a `Circle` fill of the container size (24 / 48 / 96 pt), hidden from VoiceOver. The host row `Button` (minimum 48 pt, full-row content shape) is the element and the target.

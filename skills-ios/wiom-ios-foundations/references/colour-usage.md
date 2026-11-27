@@ -1,6 +1,6 @@
 # Colour usage: roles, pairings and source boundaries
 
-This reference explains existing iOS rules. It defines no new colour, token, product behaviour or owner ruling. Exact values and primitive mappings live in [tokens.md](tokens.md); component-specific state tables and `../../IOS_DECISIONS.md` take precedence. The canonical HTML is a view of these skill files, not a second source of truth.
+This reference explains existing iOS rules. It defines no new colour, token, product behaviour or owner ruling. Exact values and primitive mappings live in [tokens.md](tokens.md); component-specific state tables and `decisions.md` take precedence. The canonical HTML is a view of these skill files, not a second source of truth.
 
 ## 1. Primitive versus semantic colour
 

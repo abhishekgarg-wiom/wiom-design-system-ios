@@ -10,7 +10,7 @@ Screen-level rules: what a screen contains and how it behaves. The component ski
 
 - **The iPhone app looks exactly like the Android app.** Same screens, same layout, same components, same icons (Material Rounded), same copy. A screen is designed once and built twice.
 - Copy is **shared**: both apps read the same string catalog keys. iOS never rewrites a string for "iOS style".
-- iOS changes only behaviour the platform owns: swipe-back, keyboard, safe areas, VoiceOver, Dynamic Type, Reduce Motion, system share and permission prompts ([IOS_DECISIONS.md](../../IOS_DECISIONS.md) §0).
+- iOS changes only behaviour the platform owns: swipe-back, keyboard, safe areas, VoiceOver, Dynamic Type, Reduce Motion, system share and permission prompts ([decisions.md](../../wiom-ios-foundations/references/decisions.md) §0).
 - If an Android screen and this file disagree, raise it with the design team; don't make the iOS screen different.
 
 ## 2. Buttons (CTAs)

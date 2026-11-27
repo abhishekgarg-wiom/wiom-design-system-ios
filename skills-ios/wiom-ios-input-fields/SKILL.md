@@ -11,7 +11,7 @@ description: >
 # Wiom input fields (iOS)
 
 Three text-entry components for the customer app. They look exactly like the
-Android components (`IOS_DECISIONS.md` §0); keyboard, focus, AutoFill,
+Android components (`wiom-ios-foundations/references/decisions.md` §0); keyboard, focus, AutoFill,
 VoiceOver and Dynamic Type behave the iOS way.
 
 | Component | States drawn in design | Notes |
@@ -23,7 +23,7 @@ VoiceOver and Dynamic Type behave the iOS way.
 - **Search bar is an Input**: leading `search` icon, trailing `cancel` icon only while there is a query.
 - **Picker trigger is an Input** in Read-only with a trailing `keyboard_arrow_down` chevron. Tapping it opens a **`wiom-ios-bottomsheet` picker** (rows from `wiom-ios-list-item`). There is no separate dropdown component.
 
-Tokens are cited by DS V2 name; values live in `wiom-ios-foundations` (`tokens.md`, `typography.md`). Swift names follow `IOS_DECISIONS.md` §2.
+Tokens are cited by DS V2 name; values live in `wiom-ios-foundations` (`tokens.md`, `typography.md`). Swift names follow `wiom-ios-foundations/references/decisions.md` §2.
 
 ## 1. Anatomy
 
@@ -189,35 +189,13 @@ Every editable field is bound to a `@FocusState` owned by the screen. "Next" mov
 - When an error appears under a focused field, scroll again so the error is visible.
 - `.scrollDismissesKeyboard(.interactively)` (iOS 16) on the form; tapping outside a field does not need to dismiss.
 
-```swift
-// Read @Environment(\.accessibilityReduceMotion) var reduceMotion in the host.
-ScrollViewReader { proxy in
-    ScrollView {
-        VStack(spacing: Wiom.Spacing.s16) {
-            WiomInput(title: titlePhone, text: $phone, prefix: "+91", helper: phoneHelper,
-                      status: phoneStatus, focus: $focus, equals: .phone)
-                .id(Field.phone)               // id covers title + wrap + helper
-            // ...
-        }
-        .padding(.horizontal, Wiom.Spacing.s16)
-    }
-    .scrollDismissesKeyboard(.interactively)
-    .onChange(of: focus) { field in            // iOS 16 one-argument form
-        guard let field else { return }
-        if reduceMotion { proxy.scrollTo(field, anchor: .bottom) }
-        else { withAnimation(Wiom.Motion.microStandard) { proxy.scrollTo(field, anchor: .bottom) } }
-    }
-    .safeAreaInset(edge: .bottom) { stickyCTABar }
-}
-```
+**Built from:** a `ScrollViewReader` around the form's `ScrollView`. Each field column (title, wrap and helper) has its own id; when focus changes, scroll that id to the bottom anchor (animated with `Wiom.Motion.microStandard`, instant under Reduce Motion). The form uses `.scrollDismissesKeyboard(.interactively)`; the sticky CTA bar attaches with `.safeAreaInset(edge: .bottom)`.
 
 ## 8. Configurations
 
 Swift shapes are illustrative; the module API may differ, the behaviour must not.
 
-```swift
-enum WiomInputStatus { case none, error, success, warning }
-```
+Status values: none, error, success, warning.
 
 **Phone.** Input · prefix `+91` · `.numberPad` · `.telephoneNumber` · helper (illustrative) "We'll send a code to this number". Error helper: "Enter a 10-digit mobile number".
 
@@ -237,45 +215,7 @@ enum WiomInputStatus { case none, error, success, warning }
 
 Never N separate fields. One `TextField` owns the whole code; the boxes are drawing only.
 
-```swift
-struct WiomOtp: View {
-    let title: String
-    @Binding var code: String
-    var length = 4                                  // 4 or 6
-    var status: WiomInputStatus = .none
-    var helper: String? = nil
-    var timer: String? = nil
-    @FocusState private var editing: Bool
-    @Environment(\.isEnabled) private var isEnabled
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: Wiom.Spacing.s8) {
-            Text(title)                             // type/label/lg, label ramp colour
-            ZStack {
-                HStack(spacing: Wiom.Spacing.s8) {
-                    ForEach(0..<length, id: \.self) { i in box(i) }
-                }
-                .accessibilityHidden(true)
-                TextField("", text: $code)
-                    .keyboardType(.numberPad)
-                    .textContentType(.oneTimeCode)
-                    .focused($editing)
-                    .foregroundColor(.clear).tint(.clear)   // no visible text or caret
-                    .accessibilityLabel(title)
-                    .accessibilityValue(otpValue)           // "2 of 6 digits entered"
-            }
-            .contentShape(Rectangle())
-            .onTapGesture { editing = true }
-            .onChange(of: code) { new in            // paste, AutoFill, typing, delete
-                let digits = new.compactMap(\.wholeNumberValue).map(String.init).joined()
-                let clamped = String(digits.prefix(length))
-                if clamped != new { code = clamped }
-            }
-            // helper row: helper (wraps) + timer, see §1
-        }
-    }
-}
-```
+**Built from:** one `TextField` (number pad, `.textContentType(.oneTimeCode)`) with clear text and caret, layered over the drawn boxes (an `HStack` with `space/8`, hidden from VoiceOver). A tap anywhere focuses it. On every change (typing, paste, AutoFill, delete) keep digits only, clamped to the length (4 or 6). VoiceOver reads the title as the label and "n of N digits entered" as the value (catalog strings).
 
 - **SMS AutoFill** shows the code above the number pad; one tap fills every box. **Paste** fills every box. Normalise pasted digits and spaces before applying the length limit. Verify AutoFill replaces the complete code; prefix-clamping alone does not guarantee duplicate-insertion handling.
 - **Delete** removes the last digit and the active box moves back one. Tapping any box focuses the one field. If the flow requires append/delete-at-end only, implement caret control in a `UITextField` wrapper; the illustrative SwiftUI field below does not enforce selection position. Never split into multiple fields.
@@ -295,17 +235,36 @@ struct WiomOtp: View {
 - A trailing icon with a 20 pt hit area.
 - A fixed `.frame(height:)` on the wrap, the OTP boxes or the helper row.
 
+## Settled rules
+
+- **Read-only title:** `text/subtle`.
+- **Leading icon tint:** `icon/nonAction`.
+- **OTP status borders:** on Error or Success every resting box takes the status border; the active box shows only while editing.
+- **Warning border:** `stroke/warning`.
+- **Warning status icon (D31, D35):** dark `icon/action` in an Icon Badge Sm (24 pt `bg/warning/subtle` circle, 16 pt glyph), inside the neutral field. Not tappable.
+
 ## Open questions
 
-1. **Label weight.** Android (`WiomInput.kt:224-228, 261`) and the source skill keep the title at `type/label/lg` and change colour only. An earlier design note described the label as Bold when empty and Regular when focused or filled. This skill follows what Android ships; design team to confirm, then Figma and Android change together.
-2. **`+91` prefix vs phone icon.** This skill draws `+91` as a non-editable prefix (source skill). The Android README says not to prepend `+91` and to use a leading phone icon instead (`component/input/README.md:111-125`). Which one does the customer app ship on both platforms?
-3. **Read-only title colour.** Source skill says `text/default`; Android ships `text/subtle` (`WiomInput.kt:226`). This skill follows Android.
-4. **Leading icon tint.** Source skill code uses `icon/action`; Android ships `icon/nonAction` (`WiomInput.kt:254`). This skill follows Android.
-5. **OTP status borders.** Android draws every resting box in the status colour on Error/Success and shows the active box only while editing (`WiomOtp.kt:95-113, 141-142`); the source skill's code draws only active/inactive and an active box whenever enabled. This skill follows Android.
-6. **Warning border.** Android code uses `stroke/warning` (`WiomInput.kt:219`); the Android README table says `stroke.brandFocus` (`README.md:81`). This skill follows the code; README to be fixed.
-7. **Textarea states.** Design draws six states; Android's `WiomTextarea` also accepts Warning and read-only (`WiomInput.kt:144-146`). Are those allowed in customer screens?
-8. **DECIDED (D31): Warning status colour.** Dark `icon/action` on `bg/warning/subtle`, inside the neutral field. Gold `icon/warning` is ratings-only. The Warning status glyph remains non-tappable. Container: Icon Badge Sm, 24 pt circle, 16 pt glyph (D35). The separate Warning border contrast remains open; do not change helper text, field fill or border tokens under this icon ruling.
-9. **Number-pad "Next".** Number pads have no Return key. This skill relies on the CTA riding the keyboard; if a form needs a "Next" between two numeric fields, does design want a keyboard accessory bar (system-styled)?
+1. **Label weight.** The title stays `type/label/lg` and changes colour only. An earlier design note described Bold when empty and Regular when focused or filled. Design team to confirm, then Figma and Android change together.
+2. **`+91` prefix vs phone icon.** This skill draws `+91` as a non-editable prefix. The Android README suggests a leading phone icon instead. Which does the customer app ship on both platforms?
+3. **Textarea states.** Design draws six states; Android's Textarea also accepts Warning and read-only. Are those allowed in customer screens?
+4. **Number-pad "Next".** Number pads have no Return key. If a form needs "Next" between two numeric fields, does design want a keyboard accessory bar?
+5. **Warning border contrast** is an accepted exception (decisions Q5): build with the current tokens.
+
+## Accessibility strings
+
+Catalog keys this component needs (never literals in code):
+
+| Key | English meaning | Used for |
+|---|---|---|
+| `input.clear` | "Clear text" | Trailing clear button |
+| `input.password.show` | "Show password" | Password visibility button (hidden) |
+| `input.password.hide` | "Hide password" | Password visibility button (shown) |
+| `input.picker.hint` | "Opens a list" | Picker trigger hint |
+| `input.otp.progress` | "%1$d of %2$d digits entered" | OTP value |
+| `input.error.value` | "Error: %@" | Field value while in error |
+
+Hindi text comes from the catalog; new strings need approval (D39).
 
 ## iOS (SwiftUI, iOS 16+)
 
@@ -321,15 +280,7 @@ struct WiomOtp: View {
   - Disabled reads "dimmed" (system). Read-only value reads as static text with Copy in the rotor/long-press menu.
 - **Hit area:** the whole wrap focuses the field. Trailing controls reserve an actual ≥ 44 × 44 pt layout slot, default 48 × 48, around the `icon/sm` glyph. The field grows or the text slot shrinks to fit that slot. Never negative padding or overlapping hit areas to preserve a 20 pt layout slot. Each trailing `Button` has a catalog label (illustrative: "Clear text", "Show password").
 
-  ```swift
-  Button(action: clear) {
-      Wiom.Icon.cancel.resizable()
-          .frame(width: Wiom.IconSize.sm, height: Wiom.IconSize.sm)
-          .frame(minWidth: 48, minHeight: 48)
-          .contentShape(Rectangle())
-  }
-  .accessibilityLabel(clearLabel)
-  ```
+  Built from: each trailing control is a `Button` whose 16 pt `icon/sm` glyph sits in a 48 × 48 pt frame with a full content shape, labelled from the catalog (`input.clear`, `input.password.show`).
 - **Motion:** none. Border, label colour and status changes are instant, as on Android. Scrolling to the focused field follows the keyboard animation. Reduce Motion: nothing to reduce; `withAnimation` on the scroll may be dropped when `accessibilityReduceMotion` is on.
 - **Safe areas and keyboard:** forms scroll; the focused field and its helper/error stay above the keyboard plus the sticky CTA bar (§7); CTA bar rides the keyboard with `space/12` below the button (D19); `.scrollDismissesKeyboard(.interactively)`. Per-field keyboard, content type and Return key in §6.
 - **Haptics:** none (D21), including on OTP error or success.

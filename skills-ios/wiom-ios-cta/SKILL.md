@@ -9,7 +9,7 @@ One button component with **6 types**: Primary, Secondary, Tertiary, Destructive
 
 This skill also **owns the button-group rule** (§6) and the **sticky button bar** (§7). `wiom-ios-dialog` and `wiom-ios-bottomsheet` point here for how their buttons are laid out.
 
-Contract: `../IOS_DECISIONS.md`. Tokens: `wiom-ios-foundations` (`references/tokens.md`, `typography.md`, `icons.md`, `layout.md`, `accessibility.md`, `motion.md`).
+Contract: `../wiom-ios-foundations/references/decisions.md`. Tokens: `wiom-ios-foundations` (`references/tokens.md`, `typography.md`, `icons.md`, `layout.md`, `accessibility.md`, `motion.md`).
 
 ## 1. Anatomy
 
@@ -212,15 +212,25 @@ Scroll content above the bar must be able to scroll its last item clear of the b
 8. Tokens only, by DS V2 name. Flat: no shadow on CTA or sticky bar.
 9. Icons are Material Rounded template images from the asset catalog (D4), tinted with the type's `icon/*` token.
 
+## Settled rules
+
+- **Loading:** 24 pt / 2 pt progress glyph; label and icons stay laid out at opacity 0, so the button keeps its width.
+- **Acknowledge row to CTA gap:** 16 pt.
+
 ## Open questions
 
-| # | Question | Default in this skill |
+1. **Dialog pairings.** This skill pairs Primary + Secondary and Destructive + Secondary (§6.2); Android dialog previews pair them with Tertiary. Which is canonical?
+2. **Two-line labels.** Labels wrap freely and never truncate; copy aims for one line at the default size. Confirm two lines are acceptable at large text sizes.
+
+## Accessibility strings
+
+Catalog keys this component needs (never literals in code):
+
+| Key | English meaning | Used for |
 |---|---|---|
-| 1 | The CTA loading spinner is 24 pt with a 2 pt stroke on Android (`WiomButton.kt:167-174`), but the loader's own in-button size is Spinner Sm, 20 pt (`WiomLoader.kt:58-59`). Which is right? | 24 pt, as Android ships. |
-| 2 | Source skill says the spinner *replaces* label and icon; Android keeps them laid out at zero opacity (`WiomButton.kt:139-155`), so the button keeps its width. | Follow Android (no size change). |
-| 3 | Acknowledge row-to-CTA gap: skill says 16 pt; Android's preview uses 8 pt (`WiomButton.kt:517`) and the row adds 4 pt vertical padding (`WiomButton.kt:208`). | 16 pt (Android's component doesn't own this gap; only its preview differs). |
-| 4 | Dialog pairings: skill says Primary + Secondary and Destructive + Secondary; Android dialog previews pair Primary + Tertiary and Destructive + Tertiary (`WiomDialog.kt:509-510, 525-526`). Which is canonical? | Skill table (§6.2). |
-| 5 | Is a two-line CTA label acceptable to design at large text sizes, and should copy guidance cap at two lines? | Wrap freely, never truncate; copy aims for one line at default size. |
+| `common.loading` | "Loading" | VoiceOver value while a button is loading |
+
+Hindi text comes from the catalog; new strings need approval (D39).
 
 ## iOS (SwiftUI, iOS 16+)
 
@@ -235,43 +245,11 @@ Scroll content above the bar must be able to scroll its last item clear of the b
 - **Haptics:** none on taps or anywhere else (D21).
 - **Not on iOS:** ripple, hover, focus ring (`stroke/brand/focus` and `stroke/critical/focus` as rings), `.alert` / `.confirmationDialog` buttons (D9), SF Symbols (D4), press-scale or opacity "bounce", `minimumScaleFactor` on labels.
 
-```swift
-enum WiomButtonType { case primary, secondary, tertiary, destructive, preBooking }
-enum WiomButtonState { case `default`, disabled, loading }
-
-struct WiomButtonStyle: ButtonStyle {
-    let type: WiomButtonType
-    let state: WiomButtonState
-    var fills = true                                    // false only for inline Tertiary
-
-    func makeBody(configuration: Configuration) -> some View {
-        let pressed = configuration.isPressed && state == .default
-        let v = WiomButtonVisuals(type: type, state: state, pressed: pressed) // §3 tables
-        let shape = RoundedRectangle(cornerRadius: Wiom.Radius.large, style: .circular)
-        configuration.label
-            .wiomTextStyle(.labelLg)                // tracking + line height per typography.md
-            .foregroundColor(v.label)
-            .multilineTextAlignment(.center)
-            .opacity(state == .loading ? 0 : 1)           // keeps size while loading
-            .padding(.horizontal, Wiom.Spacing.s16)
-            .padding(.vertical, Wiom.Spacing.s12)
-            .frame(maxWidth: fills ? .infinity : nil)
-            .frame(minWidth: 48, minHeight: 48)
-            .background(shape.fill(v.fill))
-            .overlay { if let b = v.border { shape.strokeBorder(b, lineWidth: Wiom.BorderWidth.medium) } }
-            .overlay { if state == .loading { WiomCTAProgressGlyph(tint: v.icon).accessibilityHidden(true) } } // DS helper: 24 pt glyph, 2 pt stroke; not the 32 pt Spinner md
-            .contentShape(shape)
-    }
-}
-
-// Call site: the action is ignored while loading, so a double tap can't fire twice.
-Button { guard state == .default else { return }; onRecharge() } label: { Text("Recharge now") }
-    .buttonStyle(WiomButtonStyle(type: .primary, state: state))
-    .disabled(state == .disabled)
-    .accessibilityValue(state == .loading ? Text("a11y.loading") : Text(""))
-```
+**Built from:** `Button` with a custom `ButtonStyle` reading `isPressed` (pressed fill only in the Default state). Label `type/label/lg`, centred, wraps; `space/16` × `space/12` padding; fills the width (inline Tertiary hugs); minimum 48 × 48 pt; `radius/large` circular shape; Secondary border `stroke/medium`. Loading: label and icons stay laid out at opacity 0 so the width doesn't change, with a 24 pt / 2 pt progress glyph on top; the action is ignored while loading, so a double tap can't fire twice; VoiceOver value says loading (catalog key). Disabled uses `.disabled(true)`. Labels come from the string catalog.
 
 Button pair (exactly two subviews, dismiss then preferred): side by side only if each label fits half the width, else stacked with the preferred (last) action on top. Three-action groups always use a separate vertical stack per §6.
+
+Illustrative, not an API.
 
 ```swift
 struct WiomButtonPairLayout: Layout {               // subviews: [dismiss, preferred]
