@@ -171,7 +171,7 @@ In a non-dismissable sheet: the **handle is hidden** (top space stays), swipe-do
 8. Never a sheet over a sheet. Dismiss, then present.
 9. Destructive confirmations and celebrations are dialogs, not sheets (`## Choosing a surface`).
 10. Tokens by DS V2 name only. Icons are Material Rounded (D4); never SF Symbols.
-11. Copy is illustrative; real copy comes from the string catalog (D25). Guide: heading and title up to 40 grapheme clusters, subtitle and subtext up to 120. Text wraps; it never truncates.
+11. Copy is illustrative; real copy comes from the string catalog (D25). Guide (D41): heading and title about 40 Hindi grapheme clusters, subtitle and subtext about 120, at the default text size. Text wraps and the sheet grows; it never truncates.
 
 ## 5. Examples (illustrative copy)
 

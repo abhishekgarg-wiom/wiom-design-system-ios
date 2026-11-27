@@ -243,7 +243,7 @@ Hit areas are a layout rule, not an icon size: `layout.md` §4.
 | `stroke/strong` on `bg/default` | 9.49 | Pass |
 | `stroke/brand/focus` on `bg/default` | 4.62 | Pass |
 
-**Known failures, recorded as accepted exceptions pending a design-team ruling (decisions Q5).** Don't "fix" them locally: colours stay identical to Android.
+**Known failures, accepted exceptions (decisions Q5): build with the current tokens; review with Android later.** Don't "fix" them locally: colours stay identical to Android.
 
 | Pair | Ratio | Where it appears | iOS mitigation |
 |---|---|---|---|
