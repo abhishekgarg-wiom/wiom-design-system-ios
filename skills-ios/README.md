@@ -2,7 +2,7 @@
 
 Claude Code skills for the **native iOS customer app** (SwiftUI, iPhone only, iOS 16+), built on **Wiom DS V2**. They are the iOS counterpart of the Android skills in `../skills/` and are written so an iOS user and an Android user see **the same app**: same tokens, type, icons (Material Rounded) and component anatomy. iOS differs only where platform behaviour must win (gestures, safe areas, keyboard, VoiceOver, Dynamic Type, Reduce Motion).
 
-Start with [`IOS_DECISIONS.md`](IOS_DECISIONS.md): the parity rule, the 32 decisions every skill follows, the Swift naming rule, and the questions still open for the design team.
+Start with [`wiom-ios-foundations/references/decisions.md`](wiom-ios-foundations/references/decisions.md): the parity rule, the 32 decisions every skill follows, the Swift naming rule, and the questions still open for the design team.
 
 ## Skills
 
@@ -38,7 +38,7 @@ for skill in skills-ios/wiom-ios-*; do
     [ "$(basename "$skill")" = "wiom-ios-navigation-bar" ] && continue
     cp -R "$skill" ~/.claude/skills/
 done
-cp skills-ios/IOS_DECISIONS.md ~/.claude/skills/   # skills link to ../IOS_DECISIONS.md
+cp skills-ios/wiom-ios-foundations/references/decisions.md ~/.claude/skills/   # skills link to wiom-ios-foundations/references/decisions.md
 ```
 
 The navigation-bar folder remains in this package for explicit reference and is excluded from normal installation (D27). This task does not install skills globally.

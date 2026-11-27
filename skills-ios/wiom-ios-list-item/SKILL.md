@@ -11,7 +11,7 @@ description: >
 
 One row component for every stacked list in the customer app. It owns the row: width, padding, tap, pressed and selected fills, disabled tokens, and the single VoiceOver element. The things inside it (icon badge, checkbox, radio, switch) only draw their indicator.
 
-Binding contract: `IOS_DECISIONS.md`. Tokens: `wiom-ios-foundations` (`tokens.md`, `typography.md`, `icons.md`, `layout.md`, `accessibility.md`, `motion.md`). Embedded parts: `wiom-ios-icon-badge`, `wiom-ios-selection-controls`.
+Binding contract: `wiom-ios-foundations/references/decisions.md`. Tokens: `wiom-ios-foundations` (`tokens.md`, `typography.md`, `icons.md`, `layout.md`, `accessibility.md`, `motion.md`). Embedded parts: `wiom-ios-icon-badge`, `wiom-ios-selection-controls`.
 
 **1 component · 5 types · 2 states · fills the width · 48 pt minimum height.**
 
@@ -68,7 +68,7 @@ Rules:
 
 ## 3. Tokens
 
-DS V2 names only (Swift names by the rule in `IOS_DECISIONS.md` §2, e.g. `bg/subtle` → `Wiom.Colors.bgSubtle`).
+DS V2 names only (Swift names by the rule in `wiom-ios-foundations/references/decisions.md` §2, e.g. `bg/subtle` → `Wiom.Colors.bgSubtle`).
 
 ### Layout and type
 

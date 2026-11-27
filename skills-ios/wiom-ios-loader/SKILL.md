@@ -23,7 +23,7 @@ A loader normally says **that** work is happening. For state-coloured completion
 
 Every loader is **indicator-only**: it draws the wait and nothing else. Message text, surface chrome (dialog, toast, card, chat bubble row) and any Cancel action belong to the parent. The one exception is Brand, which has its own message slot.
 
-All values are tokens from `wiom-ios-foundations` (`references/tokens.md`, `typography.md`, `motion.md`). Swift names follow `IOS_DECISIONS.md` §2.
+All values are tokens from `wiom-ios-foundations` (`references/tokens.md`, `typography.md`, `motion.md`). Swift names follow `wiom-ios-foundations/references/decisions.md` §2.
 
 ## 1. Loader or progress indicator?
 

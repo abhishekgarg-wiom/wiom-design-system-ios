@@ -11,7 +11,7 @@ A centered, blocking card over a scrim. The user stops, reads one thought, and a
 
 **Always the Wiom dialog, never `.alert` or `.confirmationDialog`** (D9). The only system alerts allowed are ones the OS owns: permission prompts and other system sheets.
 
-Contract: `IOS_DECISIONS.md` (D3, D9, D14 to D21, D25). Tokens: `wiom-ios-foundations` (`tokens.md`, `typography.md`, `icons.md`, `layout.md`, `accessibility.md`, `motion.md`).
+Contract: `wiom-ios-foundations/references/decisions.md` (D3, D9, D14 to D21, D25). Tokens: `wiom-ios-foundations` (`tokens.md`, `typography.md`, `icons.md`, `layout.md`, `accessibility.md`, `motion.md`).
 
 ## 1. Types
 

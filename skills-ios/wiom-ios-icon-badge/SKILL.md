@@ -7,7 +7,7 @@ description: "Wiom icon badge for the iOS customer app in SwiftUI: one glyph in 
 
 A single Material Rounded glyph centred in a filled circle. **3 sizes × 6 tones = 18 combinations.** Always circular, always filled, no border, no shadow. **Decorative only:** it is never a tap target and never a VoiceOver element; the parent row, card or dialog carries the meaning and the tap.
 
-Contract: `../IOS_DECISIONS.md`. Tokens: `wiom-ios-foundations` (`references/tokens.md`, `icons.md`, `layout.md`, `accessibility.md`).
+Contract: `../wiom-ios-foundations/references/decisions.md`. Tokens: `wiom-ios-foundations` (`references/tokens.md`, `icons.md`, `layout.md`, `accessibility.md`).
 
 ### Is this the right component?
 

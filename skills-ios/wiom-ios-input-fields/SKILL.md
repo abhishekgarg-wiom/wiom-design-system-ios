@@ -11,7 +11,7 @@ description: >
 # Wiom input fields (iOS)
 
 Three text-entry components for the customer app. They look exactly like the
-Android components (`IOS_DECISIONS.md` §0); keyboard, focus, AutoFill,
+Android components (`wiom-ios-foundations/references/decisions.md` §0); keyboard, focus, AutoFill,
 VoiceOver and Dynamic Type behave the iOS way.
 
 | Component | States drawn in design | Notes |
@@ -23,7 +23,7 @@ VoiceOver and Dynamic Type behave the iOS way.
 - **Search bar is an Input**: leading `search` icon, trailing `cancel` icon only while there is a query.
 - **Picker trigger is an Input** in Read-only with a trailing `keyboard_arrow_down` chevron. Tapping it opens a **`wiom-ios-bottomsheet` picker** (rows from `wiom-ios-list-item`). There is no separate dropdown component.
 
-Tokens are cited by DS V2 name; values live in `wiom-ios-foundations` (`tokens.md`, `typography.md`). Swift names follow `IOS_DECISIONS.md` §2.
+Tokens are cited by DS V2 name; values live in `wiom-ios-foundations` (`tokens.md`, `typography.md`). Swift names follow `wiom-ios-foundations/references/decisions.md` §2.
 
 ## 1. Anatomy
 

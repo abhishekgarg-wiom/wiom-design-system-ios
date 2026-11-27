@@ -1,6 +1,6 @@
 # Native iOS validation and implementation readiness
 
-Use when implementing the app shell, reviewing a component or signing off a screen. This makes the existing iOS contract testable; it adds no visual tokens or new product behaviour. Component skills and IOS_DECISIONS remain authoritative. HTML examples and Swift snippets are not native test evidence.
+Use when implementing the app shell, reviewing a component or signing off a screen. This makes the existing iOS contract testable; it adds no visual tokens or new product behaviour. Component skills and decisions remain authoritative. HTML examples and Swift snippets are not native test evidence.
 
 **Contents:** 1 shared host responsibilities · 2 keyboard and text reflow · 3 interaction tests · 4 readiness evidence.
 

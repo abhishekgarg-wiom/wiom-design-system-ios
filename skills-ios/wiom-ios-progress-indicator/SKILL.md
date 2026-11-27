@@ -23,7 +23,7 @@ A progress indicator says **how far along** something is, toward a target the cu
 
 **Reversed semantics: more is better.** Wiom is an unlimited-data ISP; there is no usage meter where "full" is bad. Every progress visual shows movement toward something good.
 
-All values are tokens from `wiom-ios-foundations` (`references/tokens.md`, `typography.md`, `motion.md`). Swift names follow `IOS_DECISIONS.md` §2.
+All values are tokens from `wiom-ios-foundations` (`references/tokens.md`, `typography.md`, `motion.md`). Swift names follow `wiom-ios-foundations/references/decisions.md` §2.
 
 ## 1. Progress indicator or loader?
 

@@ -1,6 +1,6 @@
 # Motion tokens (iOS)
 
-The values below are the **single definition** of Wiom motion tokens on iOS. They are the Android values (`wiom-motion` §2) written as cubic Bézier curves and spring numbers, so the same token moves the same way on both platforms. Figma has no motion variables yet (IOS_DECISIONS Q4); when it does, Figma becomes the source and this table follows it.
+The values below are the **single definition** of Wiom motion tokens on iOS. They are the Android values (`wiom-motion` §2) written as cubic Bézier curves and spring numbers, so the same token moves the same way on both platforms. Figma has no motion variables yet (decisions Q4); when it does, Figma becomes the source and this table follows it.
 
 When to use which token, and the idioms built from them: `wiom-ios-motion`.
 

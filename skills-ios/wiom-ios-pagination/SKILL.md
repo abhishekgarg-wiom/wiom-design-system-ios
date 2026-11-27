@@ -21,11 +21,11 @@ by what fits the space.
 | **Scroll indicator** | Position in a continuous horizontal rail | Plans or offers rail | Discrete pages |
 
 Visuals match the Android implementation (`wiom-ds-android`,
-`WiomPagination`) per the parity principle in `IOS_DECISIONS.md`. Where
+`WiomPagination`) per the parity principle in `wiom-ios-foundations/references/decisions.md`. Where
 the design skill and Android disagree, this file follows Android and lists
 the mismatch under Open questions.
 
-Tokens are DS V2 names (Swift names by `IOS_DECISIONS.md` §2); values live
+Tokens are DS V2 names (Swift names by `wiom-ios-foundations/references/decisions.md` §2); values live
 in `wiom-ios-foundations` (`tokens.md`, `typography.md`, `icons.md`,
 `layout.md`). All copy below is illustrative; real copy comes from the
 string catalog (Hindi first, English written separately, sentence case).

@@ -9,7 +9,7 @@ One button component with **6 types**: Primary, Secondary, Tertiary, Destructive
 
 This skill also **owns the button-group rule** (§6) and the **sticky button bar** (§7). `wiom-ios-dialog` and `wiom-ios-bottomsheet` point here for how their buttons are laid out.
 
-Contract: `../IOS_DECISIONS.md`. Tokens: `wiom-ios-foundations` (`references/tokens.md`, `typography.md`, `icons.md`, `layout.md`, `accessibility.md`, `motion.md`).
+Contract: `../wiom-ios-foundations/references/decisions.md`. Tokens: `wiom-ios-foundations` (`references/tokens.md`, `typography.md`, `icons.md`, `layout.md`, `accessibility.md`, `motion.md`).
 
 ## 1. Anatomy
 

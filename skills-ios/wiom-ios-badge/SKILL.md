@@ -22,7 +22,7 @@ Badges are **passive**: never tappable, never a button. If it needs a
 tap, it is a chip (`wiom-ios-tabs-filters`), not a badge. A glyph inside
 a coloured circle is `wiom-ios-icon-badge`, not this component.
 
-This skill follows `IOS_DECISIONS.md` (parity principle: badges look
+This skill follows `wiom-ios-foundations/references/decisions.md` (parity principle: badges look
 as Android ships them, except the owner-selected count display rule in §5). Tokens are cited by DS V2 name; values
 live in `wiom-ios-foundations`.
 
@@ -295,7 +295,7 @@ Step 4: Tone
   `text/onWarning`, `text/onInfo`, `text/subtle`, `text/brand`,
   `text/positive`, `text/critical`, `text/info`, `type/meta/xs`,
   `type/label/md`, `type/label/sm`, `radius/full`, `radius/tiny`,
-  `space/4`, `space/8`, `space/12`. Swift names per `IOS_DECISIONS.md`
+  `space/4`, `space/8`, `space/12`. Swift names per `wiom-ios-foundations/references/decisions.md`
   §2 (`Wiom.Colors.bgCriticalSubtle`, `Wiom.Typography.labelMd`, …).
 - **Size:** Dot fixed 8 pt. Count minimum 20 × 20 pt. Label minimum
   28 pt (Default) / 24 pt (Small). Never `.frame(height:)` on Count or

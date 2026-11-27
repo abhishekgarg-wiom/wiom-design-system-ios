@@ -5,7 +5,7 @@ description: "Wiom motion rules for the iOS customer app in SwiftUI: which motio
 
 # Wiom motion (iOS customer app)
 
-**Applies to:** the native iOS customer app (SwiftUI, iPhone only, iOS 16+). Binding contract: [`IOS_DECISIONS.md`](../IOS_DECISIONS.md) (D6 page transitions, D10 custom sheet, D20 Reduce Motion, D21 haptics). When this file and `IOS_DECISIONS.md` disagree, `IOS_DECISIONS.md` wins.
+**Applies to:** the native iOS customer app (SwiftUI, iPhone only, iOS 16+). Binding contract: [`wiom-ios-foundations/references/decisions.md`](../wiom-ios-foundations/references/decisions.md) (D6 page transitions, D10 custom sheet, D20 Reduce Motion, D21 haptics). When this file and `wiom-ios-foundations/references/decisions.md` disagree, `wiom-ios-foundations/references/decisions.md` wins.
 
 **Rulings:** locked 26 Aug 2026 by the design lead; this iOS doctrine derives from them.
 
@@ -174,7 +174,7 @@ if canContinue {
 | # | Question | Until answered |
 |---|---|---|
 | Q4 | Will motion tokens become Figma variables? | Tokens live in `wiom-ios-foundations/references/motion.md` as cubic-Bézier values; this skill cites names only. |
-| M1 | Does the iOS DS module ship the composed `Animation` wrappers (`Wiom.Motion.surfaceStandard`, `Wiom.Motion.settle`, …) or only durations and curves? | Treat §7 as the required set; wrapper names follow `IOS_DECISIONS.md` §2. |
+| M1 | Does the iOS DS module ship the composed `Animation` wrappers (`Wiom.Motion.surfaceStandard`, `Wiom.Motion.settle`, …) or only durations and curves? | Treat §7 as the required set; wrapper names follow `wiom-ios-foundations/references/decisions.md` §2. |
 | M2 | Does any customer-app moment need the celebration motif? | Unused (§5.5); raise a customer-app motion gap. |
 | M3 | Easing for the confirmation check segment and the dialog fade is not stated in the locked rulings. | Check uses `ease/enter` (arrival), dialog uses `ease/standard`, pending design confirmation. |
 

@@ -232,7 +232,7 @@ placeholders, not concatenated in code.
   (`Wiom.BorderWidth.small`), `bg/selected`, `icon/brand`, `icon/nonAction`,
   `text/selected`, `text/subtle`, `type/label/sm`, `space/4`, `space/8`,
   `space/12`, `space/16`, `radius/full`, `icon/md`; badge tokens via
-  `wiom-ios-badge`. Swift names per `IOS_DECISIONS.md` §2. Corners circular
+  `wiom-ios-badge`. Swift names per `wiom-ios-foundations/references/decisions.md` §2. Corners circular
   (D3).
 
 - **Size:** width fills the screen; items share it equally (≥ 75 pt each with

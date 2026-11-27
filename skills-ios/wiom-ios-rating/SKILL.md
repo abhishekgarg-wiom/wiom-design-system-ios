@@ -7,7 +7,7 @@ description: "Wiom star rating for the iOS customer app in SwiftUI: 5 Material R
 
 Five stars the user taps to rate (for example after installation). **The only place gold `icon/warning` is allowed** (D31, D36).
 
-Contract: `../IOS_DECISIONS.md`. Tokens: `wiom-ios-foundations` (`references/tokens.md`, `icons.md`, `warning-combinations.md`).
+Contract: `../wiom-ios-foundations/references/decisions.md`. Tokens: `wiom-ios-foundations` (`references/tokens.md`, `icons.md`, `warning-combinations.md`).
 
 ## 1. Anatomy
 

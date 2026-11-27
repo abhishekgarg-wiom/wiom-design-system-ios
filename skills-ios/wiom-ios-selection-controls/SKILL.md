@@ -11,7 +11,7 @@ description: >
 
 Three small indicators that share sizing, stroke and fill rules. They are **indicator-only**: no label, helper text, padding or row chrome. The text next to them, and the tap, belong to the parent: a list row (`wiom-ios-list-item`, the common case), the Acknowledge CTA (`wiom-ios-cta`), or an inline control built as in §6.
 
-Binding contract: `IOS_DECISIONS.md` (D12 switch, D13 pressed, D14 hit area, D16 fixed glyph sizes). Tokens: `wiom-ios-foundations` (`tokens.md`, `icons.md`, `accessibility.md`, `motion.md`).
+Binding contract: `wiom-ios-foundations/references/decisions.md` (D12 switch, D13 pressed, D14 hit area, D16 fixed glyph sizes). Tokens: `wiom-ios-foundations` (`tokens.md`, `icons.md`, `accessibility.md`, `motion.md`).
 
 | Control | Visible size | Selection | States |
 |---|---|---|---|
@@ -83,7 +83,7 @@ Hover, keyboard focus ring, switch Error, checkbox/radio Pressed (D13).
 
 ## 3. Tokens
 
-DS V2 names only (Swift by the rule in `IOS_DECISIONS.md` §2).
+DS V2 names only (Swift by the rule in `wiom-ios-foundations/references/decisions.md` §2).
 
 | Slot | Token |
 |---|---|

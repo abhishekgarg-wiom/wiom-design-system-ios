@@ -20,7 +20,7 @@ layer, not a content layer: it never replaces an inline field error, an
 required in-page explanation or a result screen. Offline with cached data
 is the explicit Persistent / Warning case (§1).
 
-This skill follows `IOS_DECISIONS.md` (parity principle: the toast looks
+This skill follows `wiom-ios-foundations/references/decisions.md` (parity principle: the toast looks
 exactly as the Android app ships it; only behaviour follows iOS). Tokens
 are cited by DS V2 name; values live in `wiom-ios-foundations`.
 
@@ -259,7 +259,7 @@ modal closes (§7 rule 1).
   `text/onWarning`, `text/brand`, `type/body/lg`, `type/label/lg`,
   `radius/small`, `shadow/lg`, `space/4`, `space/8`, `space/12`,
   `space/16`, `icon/md` (size), `motion/surface`, `motion/micro`,
-  `ease/standard`. Swift names per `IOS_DECISIONS.md` §2
+  `ease/standard`. Swift names per `wiom-ios-foundations/references/decisions.md` §2
   (`Wiom.Colors.textOnWarning`, `Wiom.Typography.bodyLg`, …).
 - **Size:** width = container width minus `space/8` each side (never a
   number). Height is a minimum: 48 pt at default size with one line.

@@ -28,11 +28,11 @@ A chip is always a **tappable filter toggle**. A passive status, count or
 dot ("Paid", "3", unread dot) is `wiom-ios-badge`, never a chip.
 
 Visuals match the Android implementation (`wiom-ds-android`,
-`WiomTabsFilters`) per the parity principle in `IOS_DECISIONS.md`.
+`WiomTabsFilters`) per the parity principle in `wiom-ios-foundations/references/decisions.md`.
 Where the design skill and Android disagree, this file follows Android and
 lists the mismatch under Open questions.
 
-Tokens are DS V2 names (Swift names by the rule in `IOS_DECISIONS.md` §2);
+Tokens are DS V2 names (Swift names by the rule in `wiom-ios-foundations/references/decisions.md` §2);
 values live in `wiom-ios-foundations` (`tokens.md`, `typography.md`,
 `layout.md`). All copy below is illustrative; real copy comes from the
 string catalog (Hindi first, English written separately, sentence case).

@@ -11,7 +11,7 @@ The sheet **owns the surface**: full width, top corners, scrim, handle, header a
 
 This skill also **owns the surface-choice table** (`## Choosing a surface`). `wiom-ios-dialog` and `wiom-ios-toast` point here.
 
-Contract: `IOS_DECISIONS.md` (D3, D9, D10, D11, D14 to D21). Tokens: `wiom-ios-foundations` (`tokens.md`, `typography.md`, `icons.md`, `layout.md`, `accessibility.md`, `motion.md`).
+Contract: `wiom-ios-foundations/references/decisions.md` (D3, D9, D10, D11, D14 to D21). Tokens: `wiom-ios-foundations` (`tokens.md`, `typography.md`, `icons.md`, `layout.md`, `accessibility.md`, `motion.md`).
 
 ## Choosing a surface
 

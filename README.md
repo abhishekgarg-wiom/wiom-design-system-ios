@@ -13,7 +13,7 @@ The repository is public. GitHub Pages serves the complete HTML from `docs/`; no
 
 - [Main design-system HTML](docs/wiom-ios-design-system.html): full foundation values, 20 guides, iPhone-style examples, interactive state changes, search and a guided walkthrough.
 - [Contrast review HTML](docs/wiom-ios-contrast-review.html): approved Warning pairings and clearly labelled remaining proposals.
-- [iOS skills index](skills-ios/README.md), [decisions contract](skills-ios/IOS_DECISIONS.md), and [finalisation summary](FINALISATION.md).
+- [iOS skills index](skills-ios/README.md), [decisions contract](skills-ios/wiom-ios-foundations/references/decisions.md), and [finalisation summary](FINALISATION.md).
 
 Download or clone this repository, then open the HTML file locally in a browser. The documents embed their fonts, icons and content; no server or dependency installation is needed. GitHub may display the HTML source rather than render the page. The two HTML files are kept together so their navigation link works offline.
 
@@ -47,7 +47,7 @@ Public reference publication was requested by the design-system owner. See [NOTI
 
 ## Updating the preview
 
-After editing any skill, reference or `IOS_DECISIONS.md`, refresh the HTML preview:
+After editing any skill, reference or `wiom-ios-foundations/references/decisions.md`, refresh the HTML preview:
 
 ```
 python3 -m venv .venv && .venv/bin/pip install -r scripts/requirements.txt

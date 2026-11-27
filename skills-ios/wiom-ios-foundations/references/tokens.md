@@ -2,7 +2,7 @@
 
 **Contents:** 1 Colour primitives · 2 Semantic colours · 3 Spacing · 4 Radius · 5 Border width · 6 Shadow · 7 Icon size · 8 Opacity and scrim · 9 Contrast table · 10 Not on iOS
 
-Values match the Android library (`wiom-ds-android`, `foundation/`) so both apps render the same colours. Where Figma differs, see `IOS_DECISIONS.md` D1. Live read on 22 Nov 2026: Figma `text/subtle` is #665E75; Android and iOS retain #5C5570. **Hex values are confined to foundations and the iOS decisions contract.** Component skills cite token names.
+Values match the Android library (`wiom-ds-android`, `foundation/`) so both apps render the same colours. Where Figma differs, see `decisions.md` D1. Live read on 22 Nov 2026: Figma `text/subtle` is #665E75; Android and iOS retain #5C5570. **Hex values are confined to foundations and the iOS decisions contract.** Component skills cite token names.
 
 Colours ship as asset-catalog colour sets (sRGB, one "Any" appearance; D23), named by the DS V2 path, e.g. `bg/brand/subtle`, and exposed as `Wiom.Colors.bgBrandSubtle`.
 
@@ -243,7 +243,7 @@ Hit areas are a layout rule, not an icon size: `layout.md` §4.
 | `stroke/strong` on `bg/default` | 9.49 | Pass |
 | `stroke/brand/focus` on `bg/default` | 4.62 | Pass |
 
-**Known failures, recorded as accepted exceptions pending a design-team ruling (IOS_DECISIONS Q5).** Don't "fix" them locally: colours stay identical to Android.
+**Known failures, recorded as accepted exceptions pending a design-team ruling (decisions Q5).** Don't "fix" them locally: colours stay identical to Android.
 
 | Pair | Ratio | Where it appears | iOS mitigation |
 |---|---|---|---|
@@ -264,7 +264,7 @@ Hit areas are a layout rule, not an icon size: `layout.md` §4.
 |---|---|
 | `bg/brand/hover`, `bg/brand/accent/hover`, `bg/critical/hover`, `text/brand/hover` | No hover on iPhone |
 | Keyboard focus ring (component radius + 2 pt, outside) | Not an iPhone idiom; `*/focus` strokes are used only as state borders |
-| `bg/surface` (#FFFFFF, Figma only) | Not on Android; not used (IOS_DECISIONS Q3) |
+| `bg/surface` (#FFFFFF, Figma only) | Not on Android; not used (decisions Q3) |
 | Paint style `Brand/Bold` #4A1434 (Figma only) | Probably stale; not used |
 | Old iOS blue info ramp (#1461CC family), orange warning, yellow caution | Mapped to `info` (purple) and `warning` (gold) families (D22) |
 

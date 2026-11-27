@@ -13,7 +13,7 @@ description: >
 
 **1 component · 3 sizes · 8 ship variants · edge to edge.** Every screen in
 the customer app starts with this bar. The system navigation bar is never
-shown (`IOS_DECISIONS.md` D7).
+shown (`wiom-ios-foundations/references/decisions.md` D7).
 
 | Size | Minimum height | States |
 |---|---|---|
@@ -317,7 +317,7 @@ separately, sentence case, D25). Examples here are illustrative only.
   `type/heading/xl`, `type/body/sm`, `type/body/lg`, `type/label/md`,
   `space/4`, `space/8`, `space/12`, `space/16`, `space/32`, `radius/full`,
   `icon/md`, `icon/sm`, `shadow/sm` (`.wiomShadow(.sm)`). Swift names per
-  `IOS_DECISIONS.md` §2 (`Wiom.Colors.bgDefault`, `Wiom.Typography.titleLg`).
+  `wiom-ios-foundations/references/decisions.md` §2 (`Wiom.Colors.bgDefault`, `Wiom.Typography.titleLg`).
   Corners circular (D3).
 
 - **Size:** width fills the screen. Minimum heights: Small 64, action row 48,
