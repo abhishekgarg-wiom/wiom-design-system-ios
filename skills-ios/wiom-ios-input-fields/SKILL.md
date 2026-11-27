@@ -244,12 +244,13 @@ Never N separate fields. One `TextField` owns the whole code; the boxes are draw
 - **Warning status icon (D31, D35):** dark `icon/action` in an Icon Badge Sm (24 pt `bg/warning/subtle` circle, 16 pt glyph), inside the neutral field. Not tappable.
 - **Phone number (D47):** only Indian numbers sign up or log in. No `+91` prefix and no phone icon: a plain 10-digit field, number pad, validated as 10 digits starting 6 to 9.
 - **Label weight (D50):** empty and not focused: `type/title/sm` (Bold 16/24). Focused, filled or read-only: `type/body/lg` (Regular 16/24). Colour ramp unchanged. Android follow-up.
+- **Textarea states (D59):** Warning and Read-only are allowed, with the same look and rules as the single-line input.
+- **Number pad (D60):** no keyboard accessory bar. The user taps the next field; the CTA rides above the keyboard.
+- **Rest border contrast (D57):** accepted. The label and the focus border identify the field.
 
 ## Open questions
 
-1. **Textarea states.** Design draws six states; Android's Textarea also accepts Warning and read-only. Are those allowed in customer screens?
-2. **Number-pad "Next".** Number pads have no Return key. If a form needs "Next" between two numeric fields, does design want a keyboard accessory bar?
-3. **Warning border contrast** is an accepted exception (decisions Q5): build with the current tokens.
+None.
 
 ## Accessibility strings
 

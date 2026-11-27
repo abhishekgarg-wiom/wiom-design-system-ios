@@ -116,7 +116,7 @@ shown by brand-coloured text plus a 2 pt brand indicator line.
 | Item min height | 48 pt; content centred vertically; grows with text |
 | Label | `type/label/md`, centred |
 | Indicator | `stroke/medium` (2 pt) tall · `bg/brand` fill · round caps (`radius/full`) |
-| Indicator position | Bottom edge of the label's content box (inside the item padding), as Android draws it; see Open questions |
+| Indicator position | On the bar's bottom edge, full item width (D55). Android follow-up |
 | Indicator width | Width of the item's content box: item width minus `space/16` each side (fixed mode), label width (scrolling mode) |
 
 The indicator is a **filled shape** in `bg/brand`, not a stroke token.
@@ -275,10 +275,11 @@ screen owns the selected index / set and applies these.
 - **Chip wrapping (D45):** chip rows wrap.
 - **Pressed (D46):** no pressed fill for pill, filter or chip for now (D13).
 - **Large text (D45):** pill labels wrap; the filter bar switches to scrolling.
+- **Underline position (D55):** the 2 pt indicator sits on the bar's bottom edge across the full item width, not inside the label padding.
 
 ## Open questions
 
-1. **Underline indicator position.** Drawn at the bottom of the label's padded content box (12 pt above the bar border). Looks unintended; needs a design ruling.
+None.
 
 ## Accessibility strings
 

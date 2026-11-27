@@ -83,7 +83,7 @@ Term mappings for customer-app copy. Any section marked not in use is a retained
 | Off/Discount | छूट | |
 | Amount | अमाउंट | |
 | Fee | फीस | |
-| Payable | देय | |
+| Payable | भुगतान (कुल भुगतान) | D53: the app uses भुगतान since the copy audit. Ashish’s builder glossary still says देय and needs the same change |
 | Total | कुल | |
 | Rent | किराया | |
 | Advance | एडवांस | |

@@ -47,11 +47,11 @@ A centred column in the content area, inside the `space/16` gutter.
 ## Settled rules
 
 - **Auto-retry (D45):** none; the user taps Try again.
+- **Illustrations (D61):** empty and error show an Icon Badge Lg (96 pt circle, Material Rounded glyph) until design supplies illustrations.
 
 ## Open questions
 
-1. **Illustrations.** Empty and error use an icon badge until design supplies illustrations.
-2. **Figma.** No page-state component in Figma; this recipe comes from the loader, icon-badge and CTA skills.
+1. **Figma.** No page-state component in Figma; this recipe comes from the loader, icon-badge and CTA skills.
 
 ## Accessibility strings
 
