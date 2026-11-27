@@ -258,6 +258,18 @@ separately, sentence case, D25). Examples here are illustrative only.
 4. **Large two-line title.** iOS grows the bar instead of clipping. Confirm.
 5. **Line limits for Small / Medium titles.** iOS allows 2 lines at larger text sizes. Confirm for Android too, so two-line Hindi doesn't clip.
 
+## Accessibility strings
+
+Catalog keys this component needs (never literals in code):
+
+| Key | English meaning | Used for |
+|---|---|---|
+| `common.back` | "Back" | Back button on every pushed screen |
+| `common.close` | "Close" | Close leading on modal (Centered) headers |
+| `input.clear` | "Clear text" | Search pill clear button |
+
+Hindi text comes from the catalog; new strings need approval (D39).
+
 ## iOS (SwiftUI, iOS 16+)
 
 - **Built from:** a custom `WiomTopBar` view (`VStack` of an action-row

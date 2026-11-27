@@ -227,6 +227,17 @@ covering or under its buttons.
 2. **Action label length.** "Action ≤ 12 grapheme clusters" is an iOS default. Confirm or replace.
 3. **VoiceOver ✕ on Actionable toasts.** Showing ✕ on Actionable toasts only while VoiceOver runs adds a visible glyph for those users. Confirm, or rely on the escape gesture alone.
 
+## Accessibility strings
+
+Catalog keys this component needs (never literals in code):
+
+| Key | English meaning | Used for |
+|---|---|---|
+| `common.close` | "Close" | ✕ on Persistent toasts |
+| `toast.action.available` | "%@ available" | Appended to the announcement of an Actionable toast |
+
+Hindi text comes from the catalog; new strings need approval (D39).
+
 ## iOS (SwiftUI, iOS 16+)
 
 - **Built from:** `WiomToast` is an `HStack(alignment: .center,

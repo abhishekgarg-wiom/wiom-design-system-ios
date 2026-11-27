@@ -155,6 +155,18 @@ string catalog (Hindi first, English written separately, sentence case).
 1. **Counter centring.** iOS centres the counter row in its parent. Confirm on Android.
 2. **Expanded dot motion.** Neither platform animates the 8 → 24 pt change. If design wants a `motion/micro` width transition, add it on both.
 
+## Accessibility strings
+
+Catalog keys this component needs (never literals in code):
+
+| Key | English meaning | Used for |
+|---|---|---|
+| `pagination.previous` | "Previous page" | Counter back chevron |
+| `pagination.next` | "Next page" | Counter forward chevron |
+| `pagination.position` | "Page %1$d of %2$d" | Dots, bars and counter value |
+
+Hindi text comes from the catalog; new strings need approval (D39).
+
 ## iOS (SwiftUI, iOS 16+)
 
 - **Built from:**

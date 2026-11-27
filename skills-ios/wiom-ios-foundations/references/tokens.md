@@ -8,6 +8,8 @@ Colours ship as asset-catalog colour sets (sRGB, one "Any" appearance; D23), nam
 
 ---
 
+Machine-readable copy: [`tokens.json`](tokens.json), generated from this file by `scripts/build_tokens_json.py`. This file is the source; never edit the JSON by hand.
+
 ## 1. Colour primitives (internal: never used in feature code)
 
 Exposed only inside the design-system module (`Wiom.Palette`, `internal`).

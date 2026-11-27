@@ -141,6 +141,16 @@ Rules:
 1. **Escape on money Alerts.** VoiceOver escape closes Alert and Illustration. Should a money-related Alert ever be escape-proof? Default: escape closes; money commits belong on a non-dismissable sheet.
 2. **Copy limits** (40 / 120 grapheme clusters) are guidance, not from Figma (§4 rule 8).
 
+## Accessibility strings
+
+Catalog keys this component needs (never literals in code):
+
+| Key | English meaning | Used for |
+|---|---|---|
+| `common.loading` | "Loading" | Loading dialog, when the title is not enough |
+
+Hindi text comes from the catalog; new strings need approval (D39).
+
 ## iOS (SwiftUI, iOS 16+)
 
 - **Built from:** a custom `WiomDialog` view presented by the same **root-level overlay host** as the bottom sheet (`wiom-ios-bottomsheet`, iOS section), in the dialog layer above the sheet layer. Never `.alert`, `.confirmationDialog`, or `.sheet` (D9). Shape: `RoundedRectangle(cornerRadius: Wiom.Radius.xlarge, style: .circular)`. Main block: `ScrollView` only when it overflows (`ViewThatFits(in: .vertical)`, iOS 16). Buttons from `wiom-ios-cta`, field from `wiom-ios-input-fields`, rows from `wiom-ios-list-item`, spinner from `wiom-ios-loader`.

@@ -154,6 +154,18 @@ A control with no visible text is not allowed: there would be nothing to announc
 2. **Error announcement.** iOS puts the error text next to the control. Should it also be announced when it appears (as for input fields)?
 3. **Switch semantics.** Verify the native accessibility representation from iOS 16 to current versions; the value must be spoken once.
 
+## Accessibility strings
+
+Catalog keys this component needs (never literals in code):
+
+| Key | English meaning | Used for |
+|---|---|---|
+| `checkbox.checked` | "checked" | Checkbox value |
+| `checkbox.unchecked` | "not checked" | Checkbox value |
+| `checkbox.mixed` | "mixed" | Checkbox value |
+
+Hindi text comes from the catalog; new strings need approval (D39).
+
 ## iOS (SwiftUI, iOS 16+)
 
 - **Built from:** Checkbox and Radio: indicator views (`Shape` + Material Rounded template image), placed inside a `Button` owned by the parent. Switch: `Toggle` + custom `ToggleStyle` (`WiomSwitchStyle`, row or inline layout) that draws the Wiom track and thumb; never the system `.switch` look. Inline wrappers use a no-op `ButtonStyle` so SwiftUI's default press dimming doesn't appear (D13).

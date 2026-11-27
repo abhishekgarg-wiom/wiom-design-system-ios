@@ -222,6 +222,16 @@ Scroll content above the bar must be able to scroll its last item clear of the b
 1. **Dialog pairings.** This skill pairs Primary + Secondary and Destructive + Secondary (§6.2); Android dialog previews pair them with Tertiary. Which is canonical?
 2. **Two-line labels.** Labels wrap freely and never truncate; copy aims for one line at the default size. Confirm two lines are acceptable at large text sizes.
 
+## Accessibility strings
+
+Catalog keys this component needs (never literals in code):
+
+| Key | English meaning | Used for |
+|---|---|---|
+| `common.loading` | "Loading" | VoiceOver value while a button is loading |
+
+Hindi text comes from the catalog; new strings need approval (D39).
+
 ## iOS (SwiftUI, iOS 16+)
 
 - **Built from:** `Button` + a custom `ButtonStyle` (`WiomButtonStyle`) reading `configuration.isPressed`. Group layout is a small `Layout` (iOS 16). Spinner from `wiom-ios-loader`. Acknowledge checkbox from `wiom-ios-selection-controls`. Never `.borderedProminent`, `.bordered`, `.plain` or system tint.

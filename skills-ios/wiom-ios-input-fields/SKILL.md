@@ -251,6 +251,21 @@ Never N separate fields. One `TextField` owns the whole code; the boxes are draw
 4. **Number-pad "Next".** Number pads have no Return key. If a form needs "Next" between two numeric fields, does design want a keyboard accessory bar?
 5. **Warning border contrast** is an accepted exception (decisions Q5): build with the current tokens.
 
+## Accessibility strings
+
+Catalog keys this component needs (never literals in code):
+
+| Key | English meaning | Used for |
+|---|---|---|
+| `input.clear` | "Clear text" | Trailing clear button |
+| `input.password.show` | "Show password" | Password visibility button (hidden) |
+| `input.password.hide` | "Hide password" | Password visibility button (shown) |
+| `input.picker.hint` | "Opens a list" | Picker trigger hint |
+| `input.otp.progress` | "%1$d of %2$d digits entered" | OTP value |
+| `input.error.value` | "Error: %@" | Field value while in error |
+
+Hindi text comes from the catalog; new strings need approval (D39).
+
 ## iOS (SwiftUI, iOS 16+)
 
 - **Built from:** Input = `TextField` (or `SecureField` for password) inside an `HStack` wrap drawn with `RoundedRectangle(cornerRadius:style: .circular)` fill + `strokeBorder`; editing state from `@FocusState`. Textarea = `TextField(axis: .vertical)` + `.lineLimit(3...)`. OTP = one hidden `TextField` (`.oneTimeCode`, `.numberPad`) under N drawn boxes. Picker trigger = `Button` with a custom `ButtonStyle` drawing the Read-only wrap. Read-only value = `Text` + `.textSelection(.enabled)`. Disabled = `.disabled(true)`.

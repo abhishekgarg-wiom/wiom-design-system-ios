@@ -280,6 +280,16 @@ screen owns the selected index / set and applies these.
 5. **Pressed states.** No pressed token for pill, filter or chip; iOS shows none (D13). Is a pressed fill (for example `bg/subtle`) wanted on both?
 6. **Pill label wrapping at large text.** iOS wraps pill labels and switches the filter bar to scrolling. Confirm.
 
+## Accessibility strings
+
+Catalog keys this component needs (never literals in code):
+
+| Key | English meaning | Used for |
+|---|---|---|
+| `tabs.position` | "%1$d of %2$d" | Pill tab and underline filter position |
+
+Hindi text comes from the catalog; new strings need approval (D39).
+
 ## iOS (SwiftUI, iOS 16+)
 
 - **Built from:**

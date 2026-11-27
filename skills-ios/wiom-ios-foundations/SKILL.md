@@ -14,6 +14,8 @@ description: "Wiom DS V2 foundation tokens and rules for the iOS customer app in
 | You need | Read |
 |---|---|
 | A colour, spacing, radius, border width, shadow or icon size, with its Swift name and hex | [`references/tokens.md`](references/tokens.md) |
+| The same tokens as JSON for code generation (generated from tokens.md) | [`references/tokens.json`](references/tokens.json) |
+| The decisions every iOS skill follows (D1 to D41), Swift naming, open questions | [`references/decisions.md`](references/decisions.md) |
 | A text style, Dynamic Type behaviour, line height in SwiftUI, Hindi rules | [`references/typography.md`](references/typography.md) |
 | Choosing colour roles, state combinations, primitive boundaries and existing use cases | [`references/colour-usage.md`](references/colour-usage.md) |
 | Any Warning icon or rating-star colour pairing (D31) | [`references/warning-combinations.md`](references/warning-combinations.md) |

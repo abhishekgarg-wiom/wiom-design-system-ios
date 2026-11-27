@@ -11,8 +11,8 @@ description: >
 
 # Wiom navigation bar (iOS)
 
-> **Status: not in use (D27).** The customer app has no bottom tab bar.
-> Keep this skill as reference only. Do not load it to build customer screens.
+> **NOT IN USE (D27). Do not build this component for the customer app.**
+> The customer app has no bottom tab bar. This file is kept only as a reference; do not load it for screen work.
 
 **2 parts (Nav item · Navigation bar) · 2 item states (Default · Selected) ·
 4 bar configurations (2 / 3 / 4 / 5 tabs) · edge to edge.**

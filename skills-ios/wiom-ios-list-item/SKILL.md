@@ -159,6 +159,18 @@ A switch row applies its change at once. If the change needs a "Save", use a Che
 1. **Trailing meta at accessibility text sizes** moves under the text column (iOS-only layout adaptation). Confirm with the design team.
 2. **Dialog selection body `space/8` between rows** comes from Figma; the host adds it, not the row. Confirm with `wiom-ios-dialog`.
 
+## Accessibility strings
+
+Catalog keys this component needs (never literals in code):
+
+| Key | English meaning | Used for |
+|---|---|---|
+| `checkbox.checked` | "checked" | Checkbox row value |
+| `checkbox.unchecked` | "not checked" | Checkbox row value |
+| `checkbox.mixed` | "mixed" | Checkbox row value |
+
+Hindi text comes from the catalog; new strings need approval (D39).
+
 ## iOS (SwiftUI, iOS 16+)
 
 - **Built from:** tappable rows are a `Button` with a custom `ButtonStyle` (pressed and selected fills). Switch rows are a `Toggle` whose custom `ToggleStyle` draws the whole row plus the Wiom switch indicator. Information rows are a plain `HStack` combined into one element. Embedded indicators are the indicator-only views from `wiom-ios-selection-controls` and `wiom-ios-icon-badge`.

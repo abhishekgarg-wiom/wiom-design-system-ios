@@ -209,6 +209,17 @@ Progress never loops. A determinate indicator must not look busy when nothing is
 3. **Untokened values:** pill vertical padding 2 pt (`space/2` isn't a token) and the 6 pt pill dot. Gaps per D24.
 4. **Stage-label limit and fallback:** ≤ 8 grapheme clusters is taken from the longest source example. Confirm, and confirm hiding the label row (the subtitle carries the stage) when labels need more than 2 lines at large text sizes.
 
+## Accessibility strings
+
+Catalog keys this component needs (never literals in code):
+
+| Key | English meaning | Used for |
+|---|---|---|
+| `progress.percent` | "%d percent" | Linear, Completion and Circular value |
+| `progress.step` | "Step %1$d of %2$d, %3$@" | Milestones value |
+
+Hindi text comes from the catalog; new strings need approval (D39).
+
 ## iOS (SwiftUI, iOS 16+)
 
 - **Built from:** a `Capsule` track with a `Capsule` fill in `.overlay(alignment: .leading)`, sized from the track width, for Linear; `VStack` / `HStack` for Completion (`ViewThatFits` or `dynamicTypeSize` for the stacked header); an `HStack` of `Circle`s and flexible `Capsule` connectors, plus an equal-column `HStack` of labels (each `.frame(maxWidth: .infinity)`), for Milestones; `Circle().inset(by:).trim(from:to:).stroke(_:style:)` rotated −90° for Circular. Accessibility is set explicitly so VoiceOver gets `ProgressView`-equivalent semantics.

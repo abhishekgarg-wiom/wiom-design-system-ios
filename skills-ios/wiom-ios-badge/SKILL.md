@@ -257,6 +257,18 @@ Step 4: Tone
 3. **Label length.** No source limit; iOS uses 10 Hindi / 14 English grapheme clusters (the chip limits) until design sets one.
 4. **Count minimum under Dynamic Type.** The 20 pt minimum scales with Caption 2 on iOS. Confirm.
 
+## Accessibility strings
+
+Catalog keys this component needs (never literals in code):
+
+| Key | English meaning | Used for |
+|---|---|---|
+| `badge.count.new` | "%d new" | Host value with a Count |
+| `badge.count.over9` | "more than 9 new" | Host value at 9+ |
+| `badge.count.over99` | "more than 99 new" | Host value at 99+ |
+
+Hindi text comes from the catalog; new strings need approval (D39).
+
 ## iOS (SwiftUI, iOS 16+)
 
 - **Built from:** `WiomBadgeDot` = `Circle().fill(...)` in an 8 × 8

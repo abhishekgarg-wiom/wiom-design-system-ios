@@ -219,6 +219,17 @@ All copy below is illustrative; real strings come from the catalog (Hindi first,
 5. **Brand message alignment:** design intent is centred; check both apps centre a two-line message.
 6. **Two indeterminate bars on Android** (loader Linear and the progress package's indeterminate bar). iOS ships only the loader's. Retire the other?
 
+## Accessibility strings
+
+Catalog keys this component needs (never literals in code):
+
+| Key | English meaning | Used for |
+|---|---|---|
+| `common.loading` | "Loading" | Default spinner and skeleton label when the screen gives none |
+| `loader.ready` | "Ready" | Announcement when a branded wait ends and the screen stays |
+
+Hindi text comes from the catalog; new strings need approval (D39).
+
 ## iOS (SwiftUI, iOS 16+)
 
 - **Built from:** `Circle().inset(by:).trim(from:to:).stroke(_:style:)` (spinner), `Capsule` + `Rectangle` (Linear), a small custom `Shape` for the Dots bubble (per-corner radii; `UnevenRoundedRectangle` is iOS 17), `RoundedRectangle(cornerRadius:style: .circular)` / `Circle` blocks with a `LinearGradient` overlay (Skeleton), `ZStack` + `.ignoresSafeArea()` (Brand). Loops are driven by `TimelineView(.animation)` so they never drift or stop on view reuse. Lottie, when it ships, via `lottie-ios` (`LottieView`). Accessibility (label, value, traits) is set explicitly so VoiceOver gets `ProgressView`-equivalent semantics.

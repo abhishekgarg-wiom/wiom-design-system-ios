@@ -205,6 +205,16 @@ In a non-dismissable sheet: the **handle is hidden** (top space stays), swipe-do
 
 1. **Header vs row alignment.** The header has 16 pt side padding; sheet rows have 24 pt. Design team to confirm the mismatch is intended.
 
+## Accessibility strings
+
+Catalog keys this component needs (never literals in code):
+
+| Key | English meaning | Used for |
+|---|---|---|
+| `common.close` | "Close" | Scrim button on dismissable sheets |
+
+Hindi text comes from the catalog; new strings need approval (D39).
+
 ## iOS (SwiftUI, iOS 16+)
 
 - **Built from:** a custom sheet view presented by a **root-level overlay host** (below). Never `.sheet` + `presentationDetents` (D10). Top-corner shape: a custom `Shape` rounding only the top corners with circular arcs (`UIBezierPath(roundedRect:byRoundingCorners: [.topLeft, .topRight], cornerRadii:)`); `UnevenRoundedRectangle` is iOS 17+, so not used. Body scroll: `ScrollView` inside a `ViewThatFits(in: .vertical)` (iOS 16) or a measured height. Drag: `DragGesture` with `predictedEndTranslation`. Rows, buttons, badge and fields from the `wiom-ios-*` skills named above.

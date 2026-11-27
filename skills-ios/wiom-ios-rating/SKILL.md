@@ -39,6 +39,17 @@ Contract: `../wiom-ios-foundations/references/decisions.md`. Tokens: `wiom-ios-f
 1. Star size 32 pt has no icon token (D24). Add `icon/xl` 32 or keep as a component constant.
 2. Figma has no rating component yet; design to draw it from this spec.
 
+## Accessibility strings
+
+Catalog keys this component needs (never literals in code):
+
+| Key | English meaning | Used for |
+|---|---|---|
+| `rating.value` | "%1$d of 5" | Rating value |
+| `rating.readonly` | "Rated %1$d of 5" | Read-only rating label |
+
+Hindi text comes from the catalog; new strings need approval (D39).
+
 ## iOS (SwiftUI, iOS 16+)
 
 - **Built from:** an `HStack(spacing: Wiom.Spacing.s8)` of 5 `Button`s, each a template `Image` (`Wiom.Icon.star` / `starBorder`) in a 48 pt frame.
