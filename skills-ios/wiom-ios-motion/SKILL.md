@@ -79,6 +79,25 @@ The doctrine has two scoped success motifs. **On the customer app only the confi
 ### 5.7 Data changes in place
 List reorders, pull-to-refresh results and server re-renders use `motion/instant` by default: no row insertion animation, no shuffle.
 
+### 5.8 App animations (approved, as shipped) (D38)
+
+These Lottie files already ship in the app and stay as they are. Use them only for the moment listed; no new animations without design.
+
+| File | Used for | Plays | Reduce Motion |
+|---|---|---|---|
+| `loader_infinity` | Brand loader (`wiom-ios-loader`, D37) | loop | static frame |
+| `payment_loading` | Payment in progress | loop | static frame |
+| `payment_failed` | Payment failed | once | final frame |
+| `location_checking_loader` | Checking location / serviceability | loop | static frame |
+| `location_marker_pin_loop` | Location pin on the map step | loop | static frame |
+| `confetti` | Celebration after a completed milestone | once | skip (no motion) |
+| `clapping` | Appreciation moment | once | final frame |
+| `thumbs_up_animation` | Positive confirmation | once | final frame |
+| `update_success` | App / plan update done | once | final frame |
+| `chat_typing_dots` | Chat typing indicator | loop | static dots |
+
+Files are Android's, byte for byte. Decorative: hidden from VoiceOver; the screen text carries the meaning.
+
 ## 6. Reduce Motion
 
 Read it with `@Environment(\.accessibilityReduceMotion) private var reduceMotion` and choose the reduced form **at the call site**; never ignore it. Meaning must survive with motion reduced or off.

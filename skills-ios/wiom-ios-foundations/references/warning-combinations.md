@@ -23,7 +23,7 @@ Ratios are foreground/background comparisons, not whole-component certification.
 - **Toast:** neutral `bg/default` outer surface, dark Warning glyph on `bg/warning/subtle` inside the leading icon container. Message stays `text/onWarning`. Existing spacing, motion and two-line rules remain unchanged.
 - **Input:** neutral `bg/default` field, dark Warning glyph on `bg/warning/subtle` inside the status-icon container. Helper stays `text/onWarning`; the Warning border is a separate token and contrast question. The status glyph is not an action.
 - **Icon badge:** Warning tone is `bg/warning/subtle` plus `icon/action`, preserving the badge’s documented sizes and glyph sizes. A solid surface is allowed only where specified; it does not add an unapproved badge variant.
-- **Rating:** gold `icon/warning` remains available for stars only. Do not import a Warning triangle into a rating or use a gold star as a Warning indicator.
+- **Rating:** gold `icon/warning` remains available for stars only. Component spec: `wiom-ios-rating` (D36). Do not import a Warning triangle into a rating or use a gold star as a Warning indicator.
 
 `icon/action` is a colour-role reuse for Warning status, not a command to make the icon tappable. Decorative badges and embedded indicators remain hidden from VoiceOver individually; the host carries the meaning.
 
@@ -31,4 +31,4 @@ Ratios are foreground/background comparisons, not whole-component certification.
 
 Gold Warning glyphs on neutral, subtle-yellow or solid-yellow backgrounds are prohibited. The previous gold-on-tint contrast exception no longer applies to Warning indicators. Generic same-family rules yield to D31’s dark-icon recipe.
 
-Toast/input icon-container geometry remains an explicit implementation gap: preserve the component’s documented glyph size and do not silently introduce a new container dimension. Other open issues, including input boundary contrast, pressed brand text, Dynamic Type policy and the switch-thumb semantic mapping, are not closed by this colour ruling.
+**Toast/input container (D35):** Icon Badge Sm, a 24 pt circle with a 16 pt glyph on `bg/warning/subtle`. No new size. Other open issues, including input boundary contrast, pressed brand text, Dynamic Type policy and the switch-thumb semantic mapping, are not closed by this colour ruling.

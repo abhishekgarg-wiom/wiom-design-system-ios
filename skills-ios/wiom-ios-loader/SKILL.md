@@ -132,10 +132,10 @@ Full-screen. It covers the screen, swallows every touch, and centres a vertical 
 |---|---|---|---|
 | Background | `bg/default` | `bg/brand` | `overlay/scrim` over the current screen |
 | Wordmark "Wiom" | `type/heading/xl`, `text/brand` | `type/heading/xl`, `text/onBrand` | none (the screen behind gives context) |
-| Mark | Spinner lg, Brand | Spinner lg, OnColor | Spinner lg, OnColor |
+| Mark | `loader_infinity` animation (D37) | `loader_infinity` animation | `loader_infinity` animation |
 | Message (optional) | `type/body/md`, `text/subtle` | `type/body/md`, `text/onBrand` | `type/body/md`, `text/onBrand` |
 
-**The mark is a Spinner lg today.** The design calls for a stroke-dash chase on the Wiom infinity glyph (a 25 % segment travelling the closed path, no restart seam), delivered as a Lottie file. **No Lottie file exists in the Android library**; Android renders Spinner lg in the mark slot. iOS matches what Android ships. When the Lottie file is delivered to both apps, iOS plays it with `lottie-ios` in the same slot (see §9 and Open questions).
+**The mark is the `loader_infinity` animation (D37).** It is the infinity stroke-dash chase both apps already ship (`loader_infinity.json`, copied from the Android app), played with `lottie-ios` on a loop. Spinner lg is only the fallback if the file fails to load. Known differences for design to correct in the file later: 2.0 s loop (spec 1.3 s), pink #D92B90 (token `icon/brand` #D9008D), a light-grey track.
 
 Brand Overlay is a full-screen branded-wait variant, not the required loader for payment. Blocking foreground work such as payment, syncing and submitting uses the Loading dialog (`wiom-ios-dialog`), without a duration cutoff. Routine inline waits use Spinner or Skeleton. Surface choice and the outcome follow `wiom-ios-bottomsheet` → Choosing a surface.
 
@@ -152,8 +152,8 @@ Loops use `ease/linear` (the only place it's used). Loop periods are component c
 | Linear Determinate | Fill moves to the new value, `motion/surface` · `ease/standard` | Jumps to the new value |
 | Dots | Staggered bounce, 1.0 s cycle | Stops: three dots at rest on the baseline |
 | Skeleton | Shimmer sweep, 1.2 s loop | Static mode (no sweep) |
-| Brand (today) | Spinner lg rotates | Spinner keeps rotating |
-| Brand (when the Lottie ships) | Lottie loops | Lottie paused on its static brand frame (the full infinity glyph) |
+| Brand | `loader_infinity` loops | Paused on its static frame (the full infinity glyph) |
+| Brand fallback (file fails to load) | Spinner lg rotates | Spinner keeps rotating |
 | Show / hide any loader | Instant, as Android | Instant |
 
 Read the setting with `@Environment(\.accessibilityReduceMotion)`; never cache it, as the customer can change it while the app runs.
@@ -205,7 +205,7 @@ All copy below is illustrative; real strings come from the catalog (Hindi first,
 
 ## Open questions
 
-1. **Brand-loader Lottie.** The Android library ships **no Lottie file** (no `.json` anywhere in `wiom-ds-android`, no `res/raw`, no Lottie dependency); `WiomLoader.kt:361-363` renders Spinner lg as a stand-in. iOS matches that today. Design team: deliver the final infinity stroke-dash Lottie to both apps; iOS will add `lottie-ios` and use its full-glyph frame as the Reduce Motion still. Also: Android's `loader/README.md` says the stand-in is `Icons.Rounded.AllInclusive`, but the code uses the spinner. The README is stale.
+1. **DECIDED (D37): brand-loader animation.** Use the shipped `loader_infinity.json` (both apps). Design to correct loop (2.0 s vs 1.3 s), pink (#D92B90 vs #D9008D) and the grey track in a later file; the Android library should bundle the same file.
 2. **Dots vertical padding:** source and Android use 10 vertically (`WiomLoader.kt:473`) and 12 horizontally. The rejected builder copy changed vertical padding to 12. iOS keeps 12 × 10; there is no 10 token (gap per D24). Figma's bubble is 104 × 32; Android's hugs at 56 × 28.
 3. **Skeleton shimmer:** Android 1.2 s with a `bg/default` 55 % band (`WiomLoader.kt:532`, `:551`); skill says 1.5 s, "`bg/muted` 10 % lighter". iOS follows Android.
 4. **Skeleton Card border:** skill has 1 pt `stroke/subtle`; Android draws none (`WiomLoader.kt:200-205`). iOS follows Android.

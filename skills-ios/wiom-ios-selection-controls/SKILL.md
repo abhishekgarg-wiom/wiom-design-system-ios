@@ -93,11 +93,11 @@ DS V2 names only (Swift by the rule in `IOS_DECISIONS.md` §2).
 | Glyph / dot | `icon/inverse` · `icon/disabled` |
 | Checkbox corner | `radius/tiny` |
 | Switch track | `bg/muted` · `bg/subtle` (pressed off) · `bg/brand` · `bg/brand/pressed` · `bg/disabled`; corner `radius/full` |
-| Switch thumb | Unresolved semantic token for primitive `Gray/50` (Android white). See Open questions; no new token is authorised. |
+| Switch thumb | `icon/inverse` (#FAF9FC), D34. No new token |
 | Glyph size | `icon/md` (24) |
 | Motion | `motion/micro` with `ease/standard` (selection colour/opacity; switch thumb movement) |
 
-> **Thumb gap.** Android uses primitive `Gray/50`. No approved DS V2 token has the thumb role. Report the gap; do not invent a colour or publish a proposed accessor. The design-system implementation needs an owner-approved mapping before it ships. Keep only the required ticketed TODO at that implementation point (D24).
+> **Thumb colour (D34):** `icon/inverse`, the same off-white used on pink. It replaces Android's raw white; the difference is not visible.
 
 ## 4. Rules
 
@@ -144,13 +144,13 @@ A control with no visible text is not allowed: there would be nothing to announc
 
 ## Open questions
 
-1. **Thumb token.** Android uses raw `Color.White` (`WiomSelectionControl.kt:286`), i.e. primitive `Gray/50`. Design team must approve an existing semantic mapping or add a token to DS V2 and Android. No proposed token is usable until then.
+1. **DECIDED (D34): thumb token.** `icon/inverse`. Android library to switch from raw `Color.White` to the same token.
 2. **DECIDED (D28): switch animation.** Switch thumb movement uses `motion/micro` + `ease/standard` on both platforms, not the previously recorded Android default spring. Android skills were updated in PR #18 (`b480a46`). Applying the rule to the `wiom-ds-android` library code remains a dev-team implementation task.
 3. **Indicator size.** The Android README says checkbox and radio are 20 × 20 (`selectioncontrol/README.md:16-17`, rule 2 at line 69); the Android code and the skill ship 24 × 24 (`WiomSelectionControl.kt:87`, `:192`). iOS follows the code (24). The README should be fixed.
 4. **Checkbox/radio pressed.** Standalone Android checkbox and radio use the default indication (ripple) via `toggleable` / `selectable` (`WiomSelectionControl.kt:78-82`, `:183-187`); there is no pressed token. iOS shows no pressed visual (D13). Design team: is a pressed look wanted?
 5. **Error announcement.** The skill defines Error visuals only. iOS puts the error text next to the control (in the label). Should the error also be posted as a VoiceOver announcement when it appears (as for input fields)?
 6. **Switch semantics.** Verify the native accessibility representation on iOS 16 through current versions; ensure the value is spoken once.
-7. **Switch thumb implementation.** Blocked on question 1; do not generate an invented semantic accessor. `wiomGlyph` is a local wrapper of the foundations icon chain.
+7. **Switch thumb implementation.** Use `Wiom.Colors.iconInverse` (D34).
 
 ## iOS (SwiftUI, iOS 16+)
 
@@ -198,7 +198,7 @@ The radio is the same shape with `Circle()` and a centred 10 × 10 `Circle()` do
 
 ### Switch indicator
 
-`WiomSwitchIndicator` draws the track and thumb from §1–§3. Use a leading-aligned `HStack` with conditional spacers and `space/4` inner padding; no layout offset. Track colour changes use `motion/micro` + `ease/standard`. The thumb changes alignment with the same token; Reduce Motion jumps to the new alignment and retains the colour cross-fade. The thumb colour binding is unresolved (Open question 1), so this skill deliberately provides no fabricated `Wiom.Colors` accessor. Complete that design-system mapping before shipping the switch.
+`WiomSwitchIndicator` draws the track and thumb from §1–§3. Use a leading-aligned `HStack` with conditional spacers and `space/4` inner padding; no layout offset. Track colour changes use `motion/micro` + `ease/standard`. The thumb changes alignment with the same token; Reduce Motion jumps to the new alignment and retains the colour cross-fade. The thumb is filled with `Wiom.Colors.iconInverse` (D34).
 
 ### Switch `ToggleStyle` (row and inline)
 
@@ -269,4 +269,4 @@ Button { agreed.toggle() } label: {
 - `.frame(width: 24, height: 24)` as the tap area: below 44 pt. Wrap in the parent's ≥ 48 pt element.
 - `.buttonStyle(.plain)` on an inline wrapper: dims on press. Use a no-op style.
 - Bouncing, scaling or delaying a checkbox/radio selection. Its semantic value updates immediately; colour and mark opacity use the shared micro transition (§ iOS).
-- Moving the thumb on press, or a hex white thumb.
+- Moving the thumb on press, or a hex white thumb (use `icon/inverse`, D34).
