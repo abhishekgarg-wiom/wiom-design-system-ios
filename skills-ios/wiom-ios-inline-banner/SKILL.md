@@ -42,11 +42,14 @@ Body text on critical and positive is `text/default`; their status text colours 
 4. **Not a toast.** If the message is about a single tap that just happened, use a toast (`wiom-ios-bottomsheet` → Choosing a surface).
 5. Copy is illustrative and comes from the catalog (D25); text wraps and never truncates.
 
+## Settled rules
+
+- **Dismissable (D45):** not dismissable by default. If one ever is, add a close button (`icon/action`, 48 pt hit area).
+
 ## Open questions
 
 1. **Corner radius.** Uses `radius/large` like cards; the source has no banner component. Confirm.
-2. **Dismissable banners.** Default: not dismissable. If one is needed, add a close button (`icon/action`, 48 pt hit area).
-3. **Figma.** No banner component in Figma; this recipe comes from the foundations error-surface rule.
+2. **Figma.** No banner component in Figma; this recipe comes from the foundations error-surface rule.
 
 ## Accessibility strings
 

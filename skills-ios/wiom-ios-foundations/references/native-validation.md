@@ -33,6 +33,7 @@ Keep the shared default appearance. Reflow is the response to available space an
 
 - Check a compact iPhone and a large iPhone on iOS 16 and the current supported iOS version. Record build, OS, device and language with evidence.
 - Verify actual hit frames meet the existing minimum without overlap. An invisible content shape alone does not reserve layout space.
+- Switch: verify the native accessibility representation from iOS 16 to the current version; VoiceOver speaks the value once (moved from selection-controls open questions).
 - VoiceOver reads one action once, preserves reading order after reflow, announces selection immediately, and announces each relevant error/result once. Verify a row with a separate trailing action does not hide that action.
 - On modal open, move focus to the heading rather than defaulting to a destructive button. Test allowed scrim/drag/escape paths and focus restoration. Dismissibility comes from the component skill.
 - Turn Reduce Motion on. Spatial motion uses the reduced form; selection colour/opacity changes remain. Progress and confirmation use their documented final states; non-spinner loops stop; spinner remains active.

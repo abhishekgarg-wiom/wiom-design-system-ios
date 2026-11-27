@@ -74,7 +74,7 @@ Value is clamped to 0…1. Display-only: no tap action.
 | Title | `type/label/md`, `text/default`; wraps, never truncates |
 | Value (trailing) | `type/body/sm`, `text/subtle`; gap to the title column `space/8` |
 | Title → pill | `space/4` |
-| Pill | `Capsule()`; padding `space/8` horizontal, 2 pt vertical; a 6 pt dot then the label, gap `space/4`; label `type/label/sm` |
+| Pill | `Capsule()`; padding `space/8` horizontal, `space/4` vertical (D42); a 6 pt dot (fixed component size) then the label, gap `space/4`; label `type/label/sm` |
 | Header → bar | `space/12` |
 | Bar | Linear md (8 pt), tone from the state |
 
@@ -95,9 +95,9 @@ The pill dot is the pill's text colour. Title, value and pill copy come from the
 ┌───────────────────────────── fills host width ──────────────────────────┐
 │ Your installation                                                       │  title
 │ Step 2 of 4 · Visit set                                                 │  subtitle (space/4)
-│                                                                         │  20 pt
+│                                                                         │  space/20
 │  ●━━━━━━━━━━━━━━━━●━━━━━━━━━━━━━━━━○──────────────────○                │  24 pt circles + 4 pt connectors
-│                                                                         │  20 pt
+│                                                                         │  space/20
 │   Booked        Visit set        Installing          Live               │  stage labels
 └─────────────────────────────────────────────────────────────────────────┘
 ```
@@ -107,7 +107,7 @@ The pill dot is the pill's text colour. Title, value and pill copy come from the
 | Title | `type/label/lg`, `text/default`; wraps |
 | Subtitle | `type/body/sm`, `text/subtle`; names the step and the current stage; wraps |
 | Title → subtitle | `space/4` |
-| Header → bar row, bar row → labels | **20 pt** (see the note below) |
+| Header → bar row, bar row → labels | `space/20` (D42) |
 | Stage circle | 24 × 24 pt `Circle()`, glyph `icon/xs` (16 pt) centred |
 | Circle, reached (stage ≤ current) | `bg/brand` fill, `icon/inverse` glyph |
 | Circle, not reached | `bg/muted` fill, `icon/nonAction` glyph |
@@ -115,7 +115,7 @@ The pill dot is the pill's text colour. Title, value and pill copy come from the
 | Stage label | `type/body/sm`, centred; past `text/default`, current `text/brand`, future `text/subtle` |
 | Stage glyphs | Material Rounded icons from the asset catalog (D4) |
 
-**Gap note (stated once):** the source skill says `space/24` in its anatomy and "20 dp" in its token table. Android ships **20** for both gaps, so iOS uses 20 pt for parity. There is no `space/20` token: this is a token gap reported to the design team (D24); in code it carries a `// TODO(IOS-123): …` with the ticket.
+**Gap (D42):** both Milestones gaps use `space/20`, the 20 pt Android ships.
 
 **Stage count:** 2, 3, 4 or 5 stages; pick the real count, never pad. More than 5 means per-step screens (see §7). `current` is 1-based and within the stage count.
 
@@ -123,7 +123,7 @@ The pill dot is the pill's text colour. Title, value and pill copy come from the
 
 **Stage labels, Hindi and English:**
 
-- Keep stage labels to **≤ 8 grapheme clusters** (`String.count`; "क्षि" is one). 8 is the longest stage name in the source examples ("Activate").
+- Keep stage labels to **≤ 8 grapheme clusters** (D44 target) (`String.count`; "क्षि" is one). 8 is the longest stage name in the source examples ("Activate").
 - A label **wraps to at most 2 lines, centred**. A label of ≤ 8 grapheme clusters is never truncated.
 - If, at a large Dynamic Type size, a label still needs more than 2 lines, the whole label row is hidden (use `ViewThatFits`); the subtitle already names the current stage, and VoiceOver reads it in the value. See Open questions.
 
@@ -193,7 +193,7 @@ Progress never loops. A determinate indicator must not look busy when nothing is
 
 ## Settled rules
 
-- **Milestones gap:** 20 pt.
+- **Milestones gap:** `space/20` (D42).
 - **Tone:** the caller passes it (default brand); value-driven screens use the one ladder helper (§2).
 - **Circular:** sm 24 / 3 pt and lg 48 / 4 pt, no centre label.
 - **Pill and stage labels:** `type/label/sm` (pill) and `type/body/sm` (stage labels); never `type/meta/xs` for Hindi (D18).
@@ -201,13 +201,13 @@ Progress never loops. A determinate indicator must not look busy when nothing is
 - **Linear default size:** sm (4 pt); Completion always uses md.
 - **Stage glyphs:** Material Rounded assets only (D4).
 - **Indeterminate waits** use `wiom-ios-loader`.
+- **Milestones gap (D42):** `space/20`.
+- **Pill padding (D42):** vertical padding `space/4`. The 6 pt pill dot is a fixed component size.
+- **Stage labels (D44, D45):** 8 grapheme clusters is the target for system-drafted copy. When labels need more than 2 lines at large text sizes, hide the label row; the subtitle carries the stage.
 
 ## Open questions
 
-1. **No `space/20` token** for the 20 pt Milestones gap: add the token, or keep it as a component constant?
-2. **Draw-on, count-up and colour cross-fades:** iOS changes values at once, as Android ships. Adopt animation on both, with `motion/emphasis` / `motion/surface` and the Reduce Motion jump?
-3. **Untokened values:** pill vertical padding 2 pt (`space/2` isn't a token) and the 6 pt pill dot. Gaps per D24.
-4. **Stage-label limit and fallback:** ≤ 8 grapheme clusters is taken from the longest source example. Confirm, and confirm hiding the label row (the subtitle carries the stage) when labels need more than 2 lines at large text sizes.
+1. **Draw-on, count-up and colour cross-fades:** iOS changes values at once, as Android ships. Adopt animation on both, with `motion/emphasis` / `motion/surface` and the Reduce Motion jump?
 
 ## Accessibility strings
 

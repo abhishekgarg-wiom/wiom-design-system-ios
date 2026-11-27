@@ -40,7 +40,7 @@ Wiom.Icon.close
     .foregroundColor(Wiom.Colors.iconAction)
 ```
 
-- Glyph sizes: `icon/xs` 16 · `icon/sm` 20 · `icon/md` 24 (default) · `icon/lg` 48. No other sizes. Icon size does **not** scale with Dynamic Type, except where a component skill says so (icons inside a CTA stay 20).
+- Glyph sizes: `icon/xs` 16 · `icon/sm` 20 · `icon/md` 24 (default) · `icon/xl` 32 (rating stars, D43) · `icon/lg` 48. No other sizes. Icon size does **not** scale with Dynamic Type, except where a component skill says so (icons inside a CTA stay 20).
 - Tint with `icon/*` tokens only (never `text/*`, even inside a CTA).
 - A tappable icon is a `Button` with a ≥ 44 pt hit area (default 48) and an `accessibilityLabel` from the string catalog (`layout.md` §4, `accessibility.md`).
 - A decorative icon is `.accessibilityHidden(true)`.

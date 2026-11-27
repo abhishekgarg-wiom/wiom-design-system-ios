@@ -82,7 +82,7 @@ area). Medium and Large add a **title area** below it.
 **Centered:** the title column centres its title (and subtitle) inside the
 space between the leading cell and the trailing area. With a 48 pt leading
 cell and a wider trailing text action the title sits slightly off the
-screen centre; that matches what ships (see Open questions).
+screen centre; that matches what ships.
 
 ### Search (Small only, min 64 pt)
 
@@ -138,7 +138,7 @@ screen centre; that matches what ships (see Open questions).
 | Large | Max 2 lines | Max 2 lines, then truncates; the title area grows |
 | Subtitle (Small) | 1 line | Max 2 lines, then truncates |
 
-Title copy: keep it to about 24 grapheme clusters (`String.count`) so it fits
+Title copy (D44 target): keep it to about 24 grapheme clusters (`String.count`) so it fits
 one line on a 375 pt iPhone SE at the default size. A longer idea moves into
 the subtitle. Truncated text is still read in full by VoiceOver.
 
@@ -192,7 +192,7 @@ status-bar **content style** changes:
 The shadow switches on and off without animation (as Android).
 
 **Pressed:** the back arrow, trailing icons and text action have no pressed
-token and no pressed fill on iOS (D13; see Open questions). No hover, no
+token and no pressed fill on iOS (D13, D46). No hover, no
 focus ring, no ripple.
 
 ## 6. Rules
@@ -249,14 +249,15 @@ separately, sentence case, D25). Examples here are illustrative only.
 - **Centered:** the modal header. Close leading and a subtitle are allowed; at most 1 trailing action. The title centres between leading and trailing, not on the screen.
 - **Search pill:** glyph `icon/nonAction`, cursor `text/default`, `space/8` horizontal margin around the pill. Trailing slot: text action only.
 - **Back button** VoiceOver label is the shared catalog key `common.back`.
+- **Pressed (D46):** no pressed visual for now (D13).
+- **Large two-line title (D45):** the bar grows instead of clipping.
+- **Small / Medium titles (D45):** 2 lines at larger text sizes on iOS. Android alignment stays a parity check (see Open questions).
 
 ## Open questions
 
 1. **Hamburger on the Android home tab.** The customer iOS app has no hamburger; root screens have no leading item. Confirm Android drops it too, or say where its menu content lives on iOS.
-2. **Pressed visual.** No pressed token; iOS shows none (D13). Define one (for example a `bg/subtle` circle) or confirm none.
-3. **Medium / Large action row.** iOS draws a 48 pt row with full 48 pt cells and no extra vertical padding. Confirm against the rendered Android build.
-4. **Large two-line title.** iOS grows the bar instead of clipping. Confirm.
-5. **Line limits for Small / Medium titles.** iOS allows 2 lines at larger text sizes. Confirm for Android too, so two-line Hindi doesn't clip.
+2. **Medium / Large action row.** iOS draws a 48 pt row with full 48 pt cells and no extra vertical padding. Confirm against the rendered Android build.
+3. **Android title line limits.** Android is 1 line with ellipsis for Small / Medium; confirm Android moves to 2 lines so two-line Hindi doesn't clip.
 
 ## Accessibility strings
 

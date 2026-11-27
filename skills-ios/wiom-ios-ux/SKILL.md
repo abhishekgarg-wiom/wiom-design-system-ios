@@ -17,7 +17,8 @@ description: "Wiom UX and copy rules for the SwiftUI iOS customer app: Hindi-fir
 | [`references/customer-adoption-doctrine.md`](references/customer-adoption-doctrine.md) | Product Doctrine v1.0, the Access Adoption frame (Risk / Commitment / Outflow / Effort), Journey Architecture v2.0, no-pressure visual doctrine. **Load for every screen.** | LOCKED product principles; workflow dependencies removed |
 | [`references/recharge-belief-model.md`](references/recharge-belief-model.md) | What the customer must believe about recharge, and when it is taught | Approved rows only; unapproved recharge rows moved to unused archive |
 | [`references/chat-copy-guidelines.md`](references/chat-copy-guidelines.md) | Chat thread copy: belief, not sales | Retained chat guidance; three draft state extensions excluded |
-| [`references/glossary.md`](references/glossary.md) | English → Hindi terms; iOS fixes marked ⟨iOS⟩ | LOCKED + marked changes pending lock |
+| [`references/english-copy-rules.md`](references/english-copy-rules.md) | English copy rules: written not translated, Ghar ka Net / home net, Net-Box, Autopay, net not internet, checklist | **REQUIRED for any user-facing copy** (D48) |
+| [`references/glossary.md`](references/glossary.md) | English → Hindi terms; ⟨iOS⟩ terms नेट and घर का नेट | LOCKED (RB-05) |
 | [`references/writing-playbook.md`](references/writing-playbook.md) | Voice, screen patterns, buttons, casing, limits, inputs, words to avoid | Rewritten for iOS |
 | [`references/drafts-not-in-use.md`](references/drafts-not-in-use.md) | Unapproved recharge ideas and chat-state extensions, preserved verbatim | Not in use: owner approval needed |
 | [`references/glossary-partner-not-in-use.md`](references/glossary-partner-not-in-use.md) | Partner vocabulary and original rules, preserved verbatim | Not in use for iOS |
@@ -38,13 +39,14 @@ A Bharat household member who reads Hindi first, gives a screen about 10 seconds
 3. **Audience before content:** who reads it, what they need, what our goal is.
 4. **Buttons** say the next step, are 2 to 3 words (max 5), never questions; disabled until ready, never hidden (`references/design-rules.md` §2).
 5. **Casing:** English is sentence case everywhere; Hindi has no case (`references/writing-playbook.md` §4).
-6. **Scan path:** the most important thing goes top-left and first.
-7. **Warm, casual tone:** friendly, respectful, never commanding or robotic.
-8. **Family brand:** clear to kids and grandparents; respects the household's decision-maker.
-9. **Benefit first, action later:** "नेट यहीं लगाया जाएगा", then "अपना पता बताइए" (illustrative).
-10. **Short and simple:** one primary action per screen; every word earns its place.
-11. **Errors never blame:** say what happened, reassure (only with true facts), give a next step.
-12. **Hierarchy:** headline → support → benefit → button.
+6. **English copy:** written for an English reader from the Hindi's intent, never translated; follow `references/english-copy-rules.md` (D48).
+7. **Scan path:** the most important thing goes top-left and first.
+8. **Warm, casual tone:** friendly, respectful, never commanding or robotic.
+9. **Family brand:** clear to kids and grandparents; respects the household's decision-maker.
+10. **Benefit first, action later:** "नेट यहीं लगाया जाएगा", then "अपना पता बताइए" (illustrative).
+11. **Short and simple:** one primary action per screen; every word earns its place.
+12. **Errors never blame:** say what happened, reassure (only with true facts), give a next step.
+13. **Hierarchy:** headline → support → benefit → button.
 
 ## 3. Trust on money screens
 
@@ -84,11 +86,14 @@ No "limited time", countdowns, flashing buttons, red urgency, or fake scarcity. 
 - Waits say how long they usually take.
 - No dead ends: every screen has a way forward and a way out.
 
+## Settled rules
+
+- **Glossary (RB-05):** नेट and घर का नेट are locked by approved rule RB-05.
+
 ## Open questions
 
-1. The glossary changes marked ⟨iOS⟩ (नेट and घर का नेट) need the design lead's lock.
-2. The live app copy still uses कृपया (15 times) and mixes "Cancel booking" / "Cancel Booking"; fix in the shared catalog.
-3. Should the forward-only screen's Wiom logo replace back on Android too, or is it already there? (Parity check.)
+1. The live app copy still uses कृपया (15 times) and mixes "Cancel booking" / "Cancel Booking"; fix in the shared catalog.
+2. Should the forward-only screen's Wiom logo replace back on Android too, or is it already there? (Parity check.)
 
 ## iOS (SwiftUI, iOS 16+)
 
@@ -102,6 +107,7 @@ No "limited time", countdowns, flashing buttons, red urgency, or fake scarcity. 
 - **Copy:** from the shared string catalog (`Localizable.xcstrings`), same keys and text as Android. No hard-coded strings; no iOS-only rewording. Fixes to copy are made in the catalog so both apps change together.
 - **Dynamic Type:** Hindi copy is longer and taller; every screen is checked in Hindi and English at default, xxxLarge and accessibility3 (`wiom-ios-foundations/references/typography.md`).
 - **VoiceOver:** copy is written to be heard as well as read: button labels make sense alone; errors are announced; "9+" style text has a spoken form in the catalog.
-- **Length:** limits are grapheme clusters (`String.count`).
+- **Length (D44):** limits are grapheme clusters (`String.count`). They are targets for system-drafted copy: when the copy AI writes a string, it fits the component's limit. Approved copy may exceed it; the UI grows or wraps, never truncates where the skill says grow.
+- **Copy AI (D49):** never changes existing approved copy (D39). When the system needs new copy, the copy AI drafts within D44 targets and the English copy rules (D48); Abhishek Garg approves.
 - **Behaviour iOS owns:** swipe-back (except on forward-only screens), keyboard, system share sheet, permission prompts. Their system text is iOS's; the permission *purpose strings* in `Info.plist` follow this skill's voice and come from the catalog.
 - **Not on iOS:** picture-in-picture flows from the old Android rules (iPhone PiP is for video only), hardware back, bottom tab bar (D27).

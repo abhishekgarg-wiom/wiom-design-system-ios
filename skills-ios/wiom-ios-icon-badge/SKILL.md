@@ -97,13 +97,13 @@ If a design wants the badge itself to be tappable, it is the wrong component: ma
 ## Settled rules
 
 - **Warning tone (D31):** dark `icon/action` on `bg/warning/subtle` (10.85:1), or on `bg/warning` (6.60:1) where a solid surface is specified. Gold `icon/warning` is for rating stars only.
+- **Neutral badge in a pressed row (D45):** keep parity; no change.
 
 ## Open questions
 
 | # | Question | Default in this skill |
 |---|---|---|
-| 1 | A `neutral` badge (`bg/subtle`) inside a pressed list row (pressed fill `bg/subtle`, D13) disappears into the row while pressed. Android behaves the same. Intended? | Keep parity; no change. |
-| 2 | Figma ships only the Neutral tone; the other five are built from tokens (Android does the same). Will Figma add tone variants? | Tones as in §2. |
+| 1 | Figma ships only the Neutral tone; the other five are built from tokens (Android does the same). Will Figma add tone variants? | Tones as in §2. |
 
 ## iOS (SwiftUI, iOS 16+)
 

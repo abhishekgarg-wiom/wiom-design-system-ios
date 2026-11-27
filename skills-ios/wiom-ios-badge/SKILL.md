@@ -159,7 +159,7 @@ into the secondary text.
 2. **One rule in every placement.** 1 to 9 render as the digit;
    10 to 99 render as **"9+"**; 100 or more render as **"99+"**.
    Never show a raw count of 10 or more.
-3. **Western digits, in Hindi too** (default; see Open questions). The
+3. **Western digits, in Hindi too** (D45). The
    badge renders `String(count)` / "9+" / "99+" in Western digits
    regardless of the app language. Do not run it through a
    locale-aware number formatter.
@@ -173,7 +173,7 @@ into the secondary text.
 - **Length limit:** at most **10 grapheme clusters in Hindi** and **14
   in English** (counted with `String.count`; "क्षि" is one). The source
   skill sets no number; these are the chip-label limits from
-  `wiom-ios-tabs-filters`, used until the design team sets badge ones
+  `wiom-ios-tabs-filters` (D44 target for system-drafted copy)
   (Open questions).
 - **The badge keeps its full width before its neighbours do.** In a
   row, the primary text wraps or truncates first; the badge truncates
@@ -249,13 +249,13 @@ Step 4: Tone
 - **No Brand Filled.** Brand is Tinted only; 23 variants in total. Small is always Tinted (Small Filled renders Small Tinted).
 - **Label overflow:** one line, tail truncation (ellipsis). Rewrite copy that truncates.
 - **Count display:** 1 to 9 as digits, 10 to 99 as "9+", 100+ as "99+", in every placement.
+- **Digits (D45):** counts always use Western digits, in Hindi and English.
+- **Label length (D44):** 10 Hindi / 14 English grapheme clusters is the target for system-drafted copy; approved copy may exceed it.
+- **Count minimum (D45):** the 20 pt minimum scales with Caption 2.
 
 ## Open questions
 
 1. **Count nudge.** The overlay Count sits 4 pt up and 4 pt out from top-trailing. Confirm against the shipped Android bell.
-2. **Western digits in Hindi.** Counts always use Western digits in both languages. Confirm Devanagari digits are never wanted.
-3. **Label length.** No source limit; iOS uses 10 Hindi / 14 English grapheme clusters (the chip limits) until design sets one.
-4. **Count minimum under Dynamic Type.** The 20 pt minimum scales with Caption 2 on iOS. Confirm.
 
 ## Accessibility strings
 

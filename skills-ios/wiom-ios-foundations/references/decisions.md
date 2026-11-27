@@ -52,7 +52,7 @@ So, when a question comes up:
 | D24 | Gaps | When no token fits: **don't invent, don't eyedrop.** Report the gap to the design team and the iOS lead. In code, only `// TODO(IOS-123): …` with a ticket, per the iOS code rules. | Replaces the Android `// GAP:` comment. |
 | D25 | Copy | All copy in skills is **illustrative**. Real copy comes from the string catalog (Hindi first, English written separately, sentence case). Character limits are counted in **grapheme clusters** (`String.count` in Swift; "क्षि" is one). | Agents copy examples verbatim. |
 | D27 | Bottom navigation bar | **None.** The customer app has no bottom tab bar, Top-level destinations are reached from screens. `wiom-ios-navigation-bar` is kept for reference but not used on any screen. | No tab bar in the customer app. |
-| D26 | Text/subtle on dark, brand on dark | No new tokens yet. On `bg/inverse` and `bg/brand/bold` use `text/inverse` only; never `text/brand` (3.84:1) or `text/subtle`. | Pending design-team decision (§3 Q5). |
+| D26 | Text/subtle on dark, brand on dark | No new tokens yet. On `bg/inverse` and `bg/brand/bold` use `text/inverse` only; never `text/brand` (3.84:1) or `text/subtle`. | Accepted exception per Q5: build with current tokens. |
 | D28 | Shared selection transitions | Selection colour fades use `motion/micro` + `ease/standard` (200 ms) in both directions on iOS and Android. Values commit on tap. Pressed feedback stays instant. Switch thumb movement is 200 ms on both. Includes checkbox, radio, switch stroke, chips, pill tabs, underline filters and selected list-row backgrounds together with their indicators. Transparent fade endpoints keep the same colour at opacity 0, never `.clear`. iOS Reduce Motion keeps colour/opacity fades and removes movement; Android follows the system "Remove animations" setting. | Same rule in the Android skills. The platform accessibility difference is allowed. |
 | D29 | Toast vertical clearance | `space/16` above the highest safe-area / CTA-bar / keyboard boundary. Horizontal margin stays `space/8`. | Shared Wiom spacing choice, not an Apple-prescribed toast measurement. |
 | D30 | Pill-tab count | 2 to 4 pills on both platforms. | Retain the existing implementation range; supersedes the older 1..3 source rule. |
@@ -67,6 +67,14 @@ So, when a question comes up:
 | D39 | Copy approval | Abhishek Garg approves new or changed copy. The AI never changes existing copy; it only suggests. | The AI never rewrites existing copy. |
 | D40 | Confirmation and dialog easing | The confirmation check segment uses `ease/enter`; the dialog fade uses `ease/standard`. | Arrival vs neutral change. |
 | D41 | Bottom sheet copy | Title about 40, body about 120 Hindi grapheme clusters at the default text size. At larger sizes the sheet grows and scrolls; text is never cut off. | Same approach as D33. |
+| D42 | Spacing | **DECIDED, owner 27 Nov 2026:** new token `space/20` (20 pt, `Wiom.Spacing.s20`) for the progress Milestones gaps. No 2 pt or 10 pt values: use `space/4` and `space/12` (progress pill vertical padding, loader Dots padding). The 6 pt pill dot is a fixed component size. | Removes the D24 gaps without odd values. |
+| D43 | Icon size | **DECIDED, owner 27 Nov 2026:** new token `icon/xl` = 32 pt (`Wiom.IconSize.xl`), used by rating stars. | Closes the rating size gap. |
+| D44 | Copy limits | **DECIDED, owner 27 Nov 2026:** grapheme limits in the skills are targets for system-drafted copy: when the copy AI writes a string, it fits the limit. Approved copy may exceed it; the UI grows or wraps, never truncates where a skill says grow. | Limits guide generated copy without breaking real copy. |
+| D45 | Behaviour defaults | **DECIDED, owner 27 Nov 2026:** every behaviour default stated in the skills is the rule (toast queues during a modal, VoiceOver ✕ on actionable toasts, escape closes Alerts, no auto-retry, banners not dismissable, error announced once, and the others listed under each skill's Settled rules). | Recommended defaults accepted. |
+| D46 | Pressed colours | **DECIDED, owner 27 Nov 2026:** no pressed colour for now on card, checkbox and radio, pills, filters, chips, top bar and navigation bar (D13 stays). | Can be added later on both platforms together. |
+| D47 | Phone number | **DECIDED, owner 27 Nov 2026:** only Indian numbers sign up or log in. Plain 10-digit field, number pad, no `+91` prefix and no phone icon; valid = 10 digits starting 6 to 9. | No international numbers are allowed. |
+| D48 | English copy rules | **DECIDED, owner 27 Nov 2026:** every user-facing English string follows `wiom-ios-ux/references/english-copy-rules.md` (mirrored from the Android app's binding rules). | One copy standard for both apps. |
+| D49 | Copy AI | **DECIDED, owner 27 Nov 2026:** AI never changes existing approved copy (D39). When the system needs new copy, the copy AI drafts within D44 targets and D48 rules; Abhishek Garg approves. | Keeps copy owned and consistent. |
 
 ---
 
@@ -135,4 +143,4 @@ Standing defaults:
 |---|---|
 | Android skill vs library mismatch | Library visuals win unless an owner decision overrides them. |
 | Hindi progress text | 12 pt, never 10 (D18). |
-| Missing spacing or geometry tokens | Keep the documented value and report the gap (D24); no new tokens. |
+| Missing spacing or geometry tokens | Keep the documented value and report the gap (D24). New tokens only by owner decision (D42, D43). |

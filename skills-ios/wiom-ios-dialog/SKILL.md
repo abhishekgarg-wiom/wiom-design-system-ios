@@ -116,7 +116,7 @@ Rules:
 5. Selection: 2 to 4 options. Input: one field.
 6. Buttons follow `wiom-ios-cta` §6.
 7. Tokens by DS V2 name only; icons Material Rounded (D4), never SF Symbols.
-8. Copy is illustrative; real copy comes from the string catalog (D25). Guide: title up to 40 grapheme clusters (about two lines), body up to 120.
+8. Copy is illustrative; real copy comes from the string catalog (D25). Guide (D44 target): title up to 40 grapheme clusters (about two lines), body up to 120; the dialog grows, never truncates.
 
 ## 5. Examples (illustrative copy)
 
@@ -135,11 +135,12 @@ Rules:
 - **Loading:** no button, never dismissable (escape does nothing).
 - **Illustration panel:** full-width 144 pt panel, `bg/brand/subtle` only.
 - **Type:** title `type/heading/md`, body `type/body/md`.
+- **Escape (D45):** VoiceOver escape closes Alert and Illustration; money commits belong on a non-dismissable sheet.
+- **Copy length (D44):** 40 / 120 grapheme clusters is the target for system-drafted copy; the dialog grows, never truncates.
 
 ## Open questions
 
-1. **Escape on money Alerts.** VoiceOver escape closes Alert and Illustration. Should a money-related Alert ever be escape-proof? Default: escape closes; money commits belong on a non-dismissable sheet.
-2. **Copy limits** (40 / 120 grapheme clusters) are guidance, not from Figma (§4 rule 8).
+None open.
 
 ## Accessibility strings
 

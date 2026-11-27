@@ -239,11 +239,11 @@ a second line inside the chip (the chip grows taller).
 6. **Disabled is tokens, not opacity**, and a disabled item is a truly
    disabled control (see the iOS section).
 7. **Labels name the data, not the action:** "Active", not "Show active".
-   Keep them short: aim for ≤ 10 grapheme clusters Hindi, ≤ 14 English, so
+   Keep them short: aim for ≤ 10 grapheme clusters Hindi, ≤ 14 English (D44 target), so
    3 to 4 filters fit in Fixed mode on a 375 pt screen.
 8. **Selection is instant.** No confirmation, no spinner on the control. If
    data must load, show a skeleton in the content (`wiom-ios-loader`).
-9. **No icons in pills or ordinary filter items, no badges** until supported on both apps. The trailing More icon at 7+ is the accepted exception (see Open questions).
+9. **No icons in pills or ordinary filter items, no badges** until supported on both apps. The trailing More icon at 7+ is the accepted exception (D45).
 
 ## Screen behaviour guidance
 
@@ -270,15 +270,15 @@ screen owns the selected index / set and applies these.
 - **Pill item height:** 36 pt (`space/8` around a 20 pt line), track 44 pt.
 - **Underline filter width:** equal width in fixed mode, hug content when scrolling.
 - **Chip unselected border:** `stroke/subtle`.
+- **Variants (D45):** badges and disabled variants stay unexposed; the More overflow applies at 7+ (§2.3).
+- **Chip close (D45):** not a separate target; the whole chip toggles.
+- **Chip wrapping (D45):** chip rows wrap.
+- **Pressed (D46):** no pressed fill for pill, filter or chip for now (D13).
+- **Large text (D45):** pill labels wrap; the filter bar switches to scrolling.
 
 ## Open questions
 
-1. **Disabled pills and filters, badges, More filter.** iOS keeps badges and disabled variants unexposed for parity, and implements the More overflow rule at 7+ (§2.3). Confirm.
-2. **Underline indicator position.** Drawn at the bottom of the label's padded content box (12 pt above the bar border). Looks unintended; needs a design ruling.
-3. **Chip close glyph as its own target.** On iOS it can't reach 44 pt inside a 36 pt chip, so the whole chip toggles. Confirm no separate remove action is needed.
-4. **Chip row wrapping.** iOS wraps chips (skill rule). Confirm wrapping is the rule on both platforms.
-5. **Pressed states.** No pressed token for pill, filter or chip; iOS shows none (D13). Is a pressed fill (for example `bg/subtle`) wanted on both?
-6. **Pill label wrapping at large text.** iOS wraps pill labels and switches the filter bar to scrolling. Confirm.
+1. **Underline indicator position.** Drawn at the bottom of the label's padded content box (12 pt above the bar border). Looks unintended; needs a design ruling.
 
 ## Accessibility strings
 

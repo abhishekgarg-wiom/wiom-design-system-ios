@@ -147,12 +147,12 @@ A control with no visible text is not allowed: there would be nothing to announc
 - **Thumb (D34):** `icon/inverse`.
 - **Switch motion (D28):** thumb and track colour on `motion/micro` + `ease/standard`.
 - **Indicator size:** checkbox and radio are 24 × 24 pt.
+- **Pressed (D46):** no pressed look for checkbox and radio for now (D13).
+- **Error announcement (D45):** announce the error once when it appears, as input fields do.
 
 ## Open questions
 
-1. **Checkbox and radio pressed.** There is no pressed token; iOS shows no pressed visual (D13). Is a pressed look wanted?
-2. **Error announcement.** iOS puts the error text next to the control. Should it also be announced when it appears (as for input fields)?
-3. **Switch semantics.** Verify the native accessibility representation from iOS 16 to current versions; the value must be spoken once.
+None open.
 
 ## Accessibility strings
 

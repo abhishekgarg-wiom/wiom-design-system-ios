@@ -97,7 +97,7 @@ DS V2 names only (Swift names by the rule in `wiom-ios-foundations/references/de
 
 > **Chevron is `icon/brand` (pink).** It is the row's tap affordance. Leading icons stay `icon/nonAction`.
 >
-> **Disabled icon badge:** Android renders the badge in its Neutral tone when the row is disabled (the `bg/disabled` circle it draws sits fully behind the badge). iOS matches what Android shows. The design intent was `bg/disabled` fill + `icon/disabled` glyph; see Open questions.
+> **Disabled icon badge:** Android renders the badge in its Neutral tone when the row is disabled (the `bg/disabled` circle it draws sits fully behind the badge). iOS matches what Android shows. The earlier design intent (`bg/disabled` fill + `icon/disabled` glyph) is superseded by parity (Settled rules).
 
 No shadow, no stroke, no divider on the row.
 
@@ -153,11 +153,12 @@ A switch row applies its change at once. If the change needs a "Save", use a Che
 - **Disabled icon-with-bg row:** the badge keeps the Neutral look (`bg/subtle` + `icon/nonAction`).
 - **Text wraps:** no line limits on primary, secondary or meta.
 - **Row press timing:** SwiftUI delays the pressed state slightly inside a scroll view so scrolling doesn't flash rows. Accepted platform behaviour.
+- **Trailing meta at accessibility sizes (D45):** moves under the text column.
+- **Dialog selection gap (D45):** the host adds `space/8` between rows; the row adds none.
 
 ## Open questions
 
-1. **Trailing meta at accessibility text sizes** moves under the text column (iOS-only layout adaptation). Confirm with the design team.
-2. **Dialog selection body `space/8` between rows** comes from Figma; the host adds it, not the row. Confirm with `wiom-ios-dialog`.
+None open.
 
 ## Accessibility strings
 
