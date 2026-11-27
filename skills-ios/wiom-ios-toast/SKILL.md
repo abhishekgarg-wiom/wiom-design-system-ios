@@ -69,7 +69,7 @@ it; this skill does not repeat it. The toast-specific checks:
 | Vertical padding | 12 pt | `space/12` |
 | Row | Items centred vertically; gap between every adjacent item | `space/8` |
 | Leading icon | 24 pt, Material Rounded filled glyph (D4) | `icon/md` (size) |
-| Message | Regular, fills the remaining width. **2 lines at default text size; grows at large text sizes** (never cut off, D33) | `type/body/lg` |
+| Message | Regular, fills the remaining width. **2 lines at default text size; grows at large text sizes** (never cut off, D33). Toast height caps at **40 % of the screen**; beyond that the message scrolls inside the toast | `type/body/lg` |
 | Action label (optional) | SemiBold, 1 line, text only (never a filled button) | `type/label/lg` |
 | Action label padding (visible) | 8 pt horizontal, 4 pt vertical | `space/8` · `space/4` |
 | Close ✕ (Persistent) | 24 pt glyph `close` | `icon/md` (size) · `icon/action` |
@@ -159,7 +159,9 @@ modal closes (§7 rule 1).
   confirmation. Small money acknowledgements are allowed (§1).
 - **1 line target, 2 lines max at the default text size** (about
   **80 Hindi grapheme clusters**). At larger text sizes the toast grows
-  so the whole message shows; it is never cut off (D33).
+  so the whole message shows; it is never cut off (D33). The toast
+  never grows past 40 % of the screen height; the message scrolls
+  inside it beyond that, so the CTA bar and content stay usable.
   Check both Hindi and English at the default text size: aim for about
   **40 grapheme clusters** of Hindi so one line holds on iPhone SE
   (counted with `String.count`; "क्षि" is one). Treat this number as a
@@ -214,7 +216,7 @@ modal closes (§7 rule 1).
 
 ## Open questions
 
-1. **DECIDED (D31): Warning fill and icon colours.** Whole toast stays `bg/default`. Use dark `icon/action` on `bg/warning/subtle`, measured 10.85:1, and preserve the Material Rounded Warning glyph as decorative. This is the global Warning recipe, not a toast-only exception: inputs and Warning icon badges also use dark glyphs on the approved Warning backgrounds. Gold `icon/warning` is ratings-only. **Container (D35):** Icon Badge Sm, a 24 pt circle with a 16 pt glyph (`wiom-ios-icon-badge`).
+1. **DECIDED (D31): Warning fill and icon colours.** Whole toast stays `bg/default`. Use dark `icon/action` on `bg/warning/subtle`, measured 10.85:1, and preserve the Material Rounded Warning glyph as decorative. This is the global Warning recipe, not a toast-only exception: inputs and Warning icon badges also use dark glyphs on the approved Warning backgrounds. Gold `icon/warning` is ratings-only. **Container (D35):** Icon Badge Sm, a 24 pt circle with a 16 pt glyph (`wiom-ios-icon-badge`). The Warning glyph is intentionally smaller than the 24 pt Critical / Info / Positive glyphs; the circle keeps the same 24 pt footprint so the row height and alignment match.
 2. **DECIDED: horizontal and bottom margins.** Owner commit `23f67f9` locks `space/8` horizontally (flexible width). D29 locks `space/16` above the highest safe-area / CTA-bar / keyboard boundary, matching the Android skill.
 3. **Easing: Android vs skill.** The skill (§11) and the motion
    doctrine (D-3 ruling) specify 300 ms `EaseOut` in / `EaseIn` out;
