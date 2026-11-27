@@ -333,77 +333,10 @@ Step 4: Tone
   accessibility label), the system `.badge()` modifier on `TabView` or
   `List` (it draws iOS styling, not Wiom's).
 
-### Snippets
+### Built from
 
-```swift
-struct WiomBadgeCount: View {
-    let count: Int
-    let tone: WiomBadgeTone              // .brand · .critical · .neutral
-    private var displayCount: String {
-        count >= 100 ? "99+" : count >= 10 ? "9+" : String(count)
-    }
+**Built from:** Count is `Text` with Western digits (1 to 9, then 9+, then 99+) in `type/meta/xs`, `space/4` horizontal padding and a minimum of 20 × 20 pt that scales with Caption 2, on a `Capsule` fill; hidden from VoiceOver. Label is `Text` in `type/label/md` (`type/label/sm` for Small), one line with tail truncation, `space/12` (Small: `space/8`) horizontal and `space/4` vertical padding, on a `radius/tiny` circular rectangle. It has layout priority so neighbouring text gives way first. Small is always Tinted.
 
-    @ScaledMetric(relativeTo: .caption2) private var minSide: CGFloat = 20
+**Host example (bell):** the Count sits in a top-trailing overlay on the 24 pt glyph, nudged 4 pt up and 4 pt out, and takes no taps. The host `Button` owns the 48 pt hit area and carries the label and value ("Notifications, 3 new") from the string catalog.
 
-    var body: some View {
-        if count > 0 {
-            Text(displayCount)   // Western digits
-                .wiomTextStyle(.metaXs)
-                .foregroundColor(tone.countText)
-                .lineLimit(1)
-                .padding(.horizontal, Wiom.Spacing.s4)
-                .frame(minWidth: minSide, minHeight: minSide)
-                .background(Capsule().fill(tone.fill))
-                .accessibilityHidden(true)
-        }
-    }
-}
-
-struct WiomBadgeLabel: View {
-    let text: LocalizedStringKey
-    let tone: WiomBadgeLabelTone
-    var size: WiomBadgeLabelSize = .default
-    var style: WiomBadgeLabelStyle = .tinted
-
-    var body: some View {
-        let palette = tone.palette(style: size == .small ? .tinted : style)
-        Text(text)
-            .wiomTextStyle(size == .small ? .labelSm : .labelMd)
-            .foregroundColor(palette.text)
-            .lineLimit(1)
-            .truncationMode(.tail)
-            .padding(.horizontal, size == .small ? Wiom.Spacing.s8 : Wiom.Spacing.s12)
-            .padding(.vertical, Wiom.Spacing.s4)
-            .background(
-                RoundedRectangle(cornerRadius: Wiom.Radius.tiny, style: .circular)
-                    .fill(palette.fill)
-            )
-            .layoutPriority(1)           // neighbour text gives way first
-    }
-}
-```
-
-Host carries the meaning (bell in the top bar):
-
-```swift
-Button(action: openNotifications) {
-    Image("ic_rounded_notifications")
-        .renderingMode(.template)
-        .foregroundColor(Wiom.Colors.iconAction)
-        .frame(width: Wiom.IconSize.md, height: Wiom.IconSize.md)
-        .overlay(alignment: .topTrailing) {
-            WiomBadgeCount(count: unread, tone: .critical)
-                .alignmentGuide(.top) { $0[.top] + 4 }          // 4 pt up
-                .alignmentGuide(.trailing) { $0[.trailing] - 4 } // 4 pt out
-                .allowsHitTesting(false)
-        }
-}
-.frame(minWidth: 48, minHeight: 48)
-.contentShape(Rectangle())
-.accessibilityLabel(Text("notifications.title"))           // "Notifications"
-.accessibilityValue(unread > 0 ? Text(unreadSpoken(unread)) : Text(""))
-```
-
-`unreadSpoken` returns the catalog string ("3 new", or "more than 9 new" or "more than 99 new"; illustrative). The alignment guides move the Count 4 pt up and
-4 pt outward from plain top-trailing alignment, the skill's nudge;
-check against Android side by side.
+The spoken value is a catalog string ("3 new", "more than 9 new", "more than 99 new"; illustrative). Check the 4 pt nudge against Android side by side.

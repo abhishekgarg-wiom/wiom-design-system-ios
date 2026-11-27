@@ -118,16 +118,7 @@ Read it with `@Environment(\.accessibilityReduceMotion) private var reduceMotion
 | Toast | Per wiom-ios-toast | Per wiom-ios-toast |
 | `NavigationStack` push/pop, swipe-back, `fullScreenCover` | System | System: iOS applies its own reduced form. Do nothing |
 
-```swift
-@Environment(\.accessibilityReduceMotion) private var reduceMotion
-
-var revealTransition: AnyTransition {
-    reduceMotion ? .opacity : .move(edge: .bottom).combined(with: .opacity)
-}
-var revealAnimation: Animation {
-    reduceMotion ? Wiom.Motion.microStandard : Wiom.Motion.settle   // helpers per §7
-}
-```
+Read `accessibilityReduceMotion` at the call site. Reveal transition: `.opacity` when reduced, otherwise move from the bottom plus opacity. Reveal animation: `Wiom.Motion.microStandard` when reduced, otherwise `Wiom.Motion.settle`.
 
 ## 7. SwiftUI mapping
 
@@ -137,20 +128,9 @@ Use the composed `Wiom.Motion` helpers defined in foundations. Implement each he
 
 Patterns:
 
-```swift
-// Present a surface: state change and transition share one transaction
-withAnimation(Wiom.Motion.surfaceStandard) { isSheetShown = true }
-
-// Reveal-on-condition with its exit pair
-if canContinue {
-    WiomButton(...)
-        .transition(.move(edge: .bottom).combined(with: .opacity))
-}
-// driven by: withAnimation(Wiom.Motion.settle) { canContinue = gatePassed }
-
-// Value / colour change bound to its state
-.animation(Wiom.Motion.microStandard, value: isSelected)
-```
+- **Present a surface:** the state change and its transition share one transaction (`withAnimation(Wiom.Motion.surfaceStandard)`).
+- **Reveal-on-condition:** the revealed view moves in from the bottom with opacity, driven by `withAnimation(Wiom.Motion.settle)` on the gate.
+- **Value or colour change:** `.animation(Wiom.Motion.microStandard, value: state)`, bound to that state only.
 
 ## 8. Haptics
 

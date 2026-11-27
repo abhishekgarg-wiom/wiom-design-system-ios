@@ -172,115 +172,18 @@ A switch row applies its change at once. If the change needs a "Save", use a Che
 
 ### Row button style (pressed → `bg/subtle`, selected → `bg/selected`)
 
-```swift
-struct WiomRowButtonStyle: ButtonStyle {
-    var isSelected = false
-    func makeBody(configuration: Configuration) -> some View {
-        Body(configuration: configuration, isSelected: isSelected)
-    }
-    private struct Body: View {
-        let configuration: ButtonStyle.Configuration
-        let isSelected: Bool
-        @Environment(\.isEnabled) private var isEnabled
-        var body: some View {
-            configuration.label
-                .frame(maxWidth: .infinity, minHeight: 48, alignment: .leading)
-                .background {
-                    ZStack {
-                        // Press feedback is instant and never inherits a selection animation.
-                        Rectangle()
-                            .fill(Wiom.Colors.bgSubtle)
-                            .opacity(isEnabled && !isSelected && configuration.isPressed ? 1 : 0)
-                            .transaction { $0.animation = nil }
-                        // The same RGB value at both endpoints avoids a dark mid-frame.
-                        Rectangle()
-                            .fill(isEnabled && isSelected
-                                ? Wiom.Colors.bgSelected
-                                : Wiom.Colors.bgSelected.opacity(0))
-                            .animation(Wiom.Motion.microStandard, value: isSelected)
-                    }
-                    .allowsHitTesting(false)
-                }
-                .contentShape(Rectangle())
-        }
-    }
-}
-```
+**Built from:** `Button` with a custom `ButtonStyle`: the label fills the width, minimum 48 pt, full-row content shape. The background has two layers: pressed `bg/subtle` (instant, never animated, only when enabled and not selected) and selected `bg/selected`, fading between the colour and the same colour at opacity 0 on `Wiom.Motion.microStandard` (D28).
 
 ### Row content (shared by every type)
 
-```swift
-struct WiomRowContent<Leading: View, Trailing: View>: View {
-    let primary: String
-    var secondary: String? = nil
-    var meta: String? = nil
-    @ViewBuilder var leading: Leading
-    @ViewBuilder var trailing: Trailing
-    @Environment(\.isEnabled) private var isEnabled
-    @Environment(\.dynamicTypeSize) private var size
-
-    var body: some View {
-        HStack(spacing: Wiom.Spacing.s12) {
-            leading.accessibilityHidden(true)
-            VStack(alignment: .leading, spacing: Wiom.Spacing.s4) {
-                Text(primary).wiomTextStyle(.bodyLg)
-                    .foregroundColor(isEnabled ? Wiom.Colors.textDefault : Wiom.Colors.textDisabled)
-                if let secondary { Text(secondary).wiomSecondary(isEnabled) }
-                if let meta, size.isAccessibilitySize { Text(meta).wiomSecondary(isEnabled) }
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            HStack(spacing: Wiom.Spacing.s8) {
-                if let meta, !size.isAccessibilitySize { Text(meta).wiomSecondary(isEnabled) }
-                trailing.accessibilityHidden(true)
-            }
-        }
-        .padding(Wiom.Spacing.s16)
-    }
-}
-// wiomSecondary: .wiomTextStyle(.bodySm) + text/subtle (text/disabled when disabled).
-
-extension Image {   // the icons.md §3 chain, wrapped once
-    func wiomGlyph(_ size: CGFloat, _ tint: Color) -> some View {
-        renderingMode(.template).resizable()
-            .frame(width: size, height: size).foregroundColor(tint)
-    }
-}
-```
+**Built from:** an `HStack` (`space/12`) of leading (hidden from VoiceOver), a text column (`space/4`: primary `type/body/lg` in `text/default`; secondary and meta `type/body/sm` in `text/subtle`; `text/disabled` when disabled) and trailing (meta and trailing glyph, `space/8`). At accessibility text sizes the meta moves under the text column. Row padding `space/16`. Glyphs use the template chain in `wiom-ios-foundations` `icons.md`.
 
 ### Assembling the types
 
-```swift
-// Navigation row
-Button(action: openLanguage) {
-    WiomRowContent(primary: title, meta: currentValue) {
-        Wiom.Icon.language.wiomGlyph(Wiom.IconSize.md, Wiom.Colors.iconNonAction)
-    } trailing: {
-        Wiom.Icon.chevronRight.wiomGlyph(Wiom.IconSize.sm, Wiom.Colors.iconBrand)  // icon/disabled when disabled
-    }
-}
-.buttonStyle(WiomRowButtonStyle())
-
-// Radio row: row owns the tap, radio is indicator-only
-Button { selection = option.id } label: {
-    WiomRowContent(primary: option.title, secondary: option.detail) {
-        WiomRadio(isSelected: selection == option.id)
-    } trailing: { EmptyView() }
-}
-.buttonStyle(WiomRowButtonStyle())
-.accessibilityAddTraits(selection == option.id ? .isSelected : [])
-
-// Checkbox row
-Button { selection.toggleForRow() } label: {   // unchecked / mixed → checked; checked → unchecked
-    WiomRowContent(primary: title) { WiomCheckbox(selection: selection) } trailing: { EmptyView() }
-}
-.buttonStyle(WiomRowButtonStyle())
-.accessibilityValue(selection.accessibilityValue)  // "checked" / "not checked" / "mixed", from the string catalog
-
-// Information row (not tappable)
-WiomRowContent(primary: title, meta: value) { leadingIcon } trailing: { EmptyView() }
-    .frame(maxWidth: .infinity, minHeight: 48, alignment: .leading)
-    .accessibilityElement(children: .combine)
-```
+- **Navigation row:** `Button` + row content + `chevron_right` (`icon/brand`; `icon/disabled` when disabled).
+- **Radio row:** the row owns the tap; the radio is indicator only; the row gets the `.isSelected` trait.
+- **Checkbox row:** the row toggles (unchecked or mixed → checked; checked → unchecked); value checked / not checked / mixed from the catalog.
+- **Information row:** not a button; one combined VoiceOver element, minimum 48 pt.
 
 The switch row is a `Toggle` with a row-drawing `ToggleStyle`; its code and the VoiceOver toggle-trait recipe live in `wiom-ios-selection-controls` (Switch, "Switch row").
 

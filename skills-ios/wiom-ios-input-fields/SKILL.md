@@ -189,35 +189,13 @@ Every editable field is bound to a `@FocusState` owned by the screen. "Next" mov
 - When an error appears under a focused field, scroll again so the error is visible.
 - `.scrollDismissesKeyboard(.interactively)` (iOS 16) on the form; tapping outside a field does not need to dismiss.
 
-```swift
-// Read @Environment(\.accessibilityReduceMotion) var reduceMotion in the host.
-ScrollViewReader { proxy in
-    ScrollView {
-        VStack(spacing: Wiom.Spacing.s16) {
-            WiomInput(title: titlePhone, text: $phone, prefix: "+91", helper: phoneHelper,
-                      status: phoneStatus, focus: $focus, equals: .phone)
-                .id(Field.phone)               // id covers title + wrap + helper
-            // ...
-        }
-        .padding(.horizontal, Wiom.Spacing.s16)
-    }
-    .scrollDismissesKeyboard(.interactively)
-    .onChange(of: focus) { field in            // iOS 16 one-argument form
-        guard let field else { return }
-        if reduceMotion { proxy.scrollTo(field, anchor: .bottom) }
-        else { withAnimation(Wiom.Motion.microStandard) { proxy.scrollTo(field, anchor: .bottom) } }
-    }
-    .safeAreaInset(edge: .bottom) { stickyCTABar }
-}
-```
+**Built from:** a `ScrollViewReader` around the form's `ScrollView`. Each field column (title, wrap and helper) has its own id; when focus changes, scroll that id to the bottom anchor (animated with `Wiom.Motion.microStandard`, instant under Reduce Motion). The form uses `.scrollDismissesKeyboard(.interactively)`; the sticky CTA bar attaches with `.safeAreaInset(edge: .bottom)`.
 
 ## 8. Configurations
 
 Swift shapes are illustrative; the module API may differ, the behaviour must not.
 
-```swift
-enum WiomInputStatus { case none, error, success, warning }
-```
+Status values: none, error, success, warning.
 
 **Phone.** Input · prefix `+91` · `.numberPad` · `.telephoneNumber` · helper (illustrative) "We'll send a code to this number". Error helper: "Enter a 10-digit mobile number".
 
@@ -237,45 +215,7 @@ enum WiomInputStatus { case none, error, success, warning }
 
 Never N separate fields. One `TextField` owns the whole code; the boxes are drawing only.
 
-```swift
-struct WiomOtp: View {
-    let title: String
-    @Binding var code: String
-    var length = 4                                  // 4 or 6
-    var status: WiomInputStatus = .none
-    var helper: String? = nil
-    var timer: String? = nil
-    @FocusState private var editing: Bool
-    @Environment(\.isEnabled) private var isEnabled
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: Wiom.Spacing.s8) {
-            Text(title)                             // type/label/lg, label ramp colour
-            ZStack {
-                HStack(spacing: Wiom.Spacing.s8) {
-                    ForEach(0..<length, id: \.self) { i in box(i) }
-                }
-                .accessibilityHidden(true)
-                TextField("", text: $code)
-                    .keyboardType(.numberPad)
-                    .textContentType(.oneTimeCode)
-                    .focused($editing)
-                    .foregroundColor(.clear).tint(.clear)   // no visible text or caret
-                    .accessibilityLabel(title)
-                    .accessibilityValue(otpValue)           // "2 of 6 digits entered"
-            }
-            .contentShape(Rectangle())
-            .onTapGesture { editing = true }
-            .onChange(of: code) { new in            // paste, AutoFill, typing, delete
-                let digits = new.compactMap(\.wholeNumberValue).map(String.init).joined()
-                let clamped = String(digits.prefix(length))
-                if clamped != new { code = clamped }
-            }
-            // helper row: helper (wraps) + timer, see §1
-        }
-    }
-}
-```
+**Built from:** one `TextField` (number pad, `.textContentType(.oneTimeCode)`) with clear text and caret, layered over the drawn boxes (an `HStack` with `space/8`, hidden from VoiceOver). A tap anywhere focuses it. On every change (typing, paste, AutoFill, delete) keep digits only, clamped to the length (4 or 6). VoiceOver reads the title as the label and "n of N digits entered" as the value (catalog strings).
 
 - **SMS AutoFill** shows the code above the number pad; one tap fills every box. **Paste** fills every box. Normalise pasted digits and spaces before applying the length limit. Verify AutoFill replaces the complete code; prefix-clamping alone does not guarantee duplicate-insertion handling.
 - **Delete** removes the last digit and the active box moves back one. Tapping any box focuses the one field. If the flow requires append/delete-at-end only, implement caret control in a `UITextField` wrapper; the illustrative SwiftUI field below does not enforce selection position. Never split into multiple fields.

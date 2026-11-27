@@ -277,7 +277,7 @@ modal closes (§7 rule 1).
     where `text` is the message, plus the action label for Actionable
     ("Complaint deleted. Undo available", illustrative, from the string
     catalog). Post it a moment after the toast is on screen
-    (`DispatchQueue.main.asyncAfter(deadline: .now() + 0.1)`), because
+    (about 0.1 s, a structured `Task` sleep), because
     announcements made during a screen change can be dropped.
   - Icon and message are **one element**
     (`.accessibilityElement(children: .combine)` on the icon + message
@@ -320,126 +320,34 @@ modal closes (§7 rule 1).
   top-of-screen placement, `UIAlertController` or system banners as a
   substitute.
 
-### Snippets
+### Built from
 
-Host: one at a time, FIFO, timer rules including VoiceOver. Timer cancellation and delayed announcements are scoped to a presentation identity, not the copy string: an old callback must never dismiss or announce a replacement, including one with identical text. Hiding or dismissing invalidates that identity; timers follow the existing behaviour policy, not a new lifecycle duration.
+**Host rules** (the toast layer of the one root overlay host, §5):
+
+- One toast at a time, first in, first out.
+- While a dialog or sheet is up, the current toast goes back to the front of the queue and nothing shows; the queue resumes when the modal closes.
+- Each shown toast gets a new presentation identity. Its timer and its VoiceOver announcement are tied to that identity, so an old timer can never dismiss or announce a newer toast, even one with the same text.
+- Announce about 0.1 s after the toast appears (a structured `Task` sleep, never `DispatchQueue`), only if it is still the current toast and no modal is up.
+- Turning VoiceOver on re-arms the current timer with the VoiceOver rule.
+
+Timer rule (Illustrative, not an API):
 
 ```swift
-@MainActor
-final class WiomToastHost: ObservableObject {
-    @Published private(set) var current: WiomToastMessage?
-    private var queue: [WiomToastMessage] = []
-    private var timer: Task<Void, Never>?
-    private var modalPresented = false
-    private var presentationID = UUID()
-
-    // Call from the overlay presenter before a modal appears.
-    func modalWillPresent() {
-        modalPresented = true
-        presentationID = UUID() // Invalidate callbacks for the hidden presentation.
-        timer?.cancel()
-        if let message = current { queue.insert(message, at: 0) }
-        current = nil
-    }
-
-    func modalDidDismiss() {
-        modalPresented = false
-        showNext()
-    }
-
-    // Connect to UIAccessibility.voiceOverStatusDidChangeNotification
-    // on the main actor. Turning VoiceOver on cancels action-toast expiry.
-    func voiceOverStatusChanged() {
-        timer?.cancel()
-        guard let message = current else { return }
-        armTimer(for: message)
-    }
-
-    func show(_ message: WiomToastMessage) {
-        queue.append(message)
-        if current == nil { showNext() }
-    }
-
-    func dismiss() {
-        presentationID = UUID()
-        timer?.cancel()
-        current = nil
-        showNext()
-    }
-
-    private func showNext() {
-        guard !modalPresented, current == nil, !queue.isEmpty else { return }
-        let next = queue.removeFirst()
-        presentationID = UUID()
-        current = next
-        announce(next, id: presentationID)
-        armTimer(for: next)
-    }
-
-    private func armTimer(for message: WiomToastMessage) {
-        guard let seconds = message.autoDismissSeconds(
-            voiceOverRunning: UIAccessibility.isVoiceOverRunning
-        ) else { return }                       // Persistent, or action + VoiceOver
-        let id = presentationID
-        timer = Task { [weak self] in
-            do { try await Task.sleep(nanoseconds: UInt64(seconds * 1_000_000_000)) }
-            catch { return }
-            guard !Task.isCancelled, let self, self.presentationID == id else { return }
-            self.dismiss()
-        }
-    }
-
-    private func announce(_ message: WiomToastMessage, id: UUID) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
-            guard let self, self.presentationID == id, self.current != nil,
-                  !self.modalPresented else { return }
-            UIAccessibility.post(notification: .announcement,
-                                 argument: message.spokenText)
-        }
-    }
-}
-
-extension WiomToastMessage {
-    /// 2 s Informational · 8 s Actionable · nil Persistent.
-    /// With VoiceOver running, any toast with an action stays.
-    func autoDismissSeconds(voiceOverRunning: Bool) -> Double? {
-        if action != nil && voiceOverRunning { return nil }
-        switch behavior {
-        case .informational: return 2
-        case .actionable:    return voiceOverRunning ? nil : 8
-        case .persistent:    return nil
-        }
+/// 2 s Informational · 8 s Actionable · nil = stays (Persistent).
+/// With VoiceOver running, any toast with an action stays.
+func autoDismissSeconds(behavior: ToastBehavior, hasAction: Bool, voiceOverRunning: Bool) -> Double? {
+    if hasAction && voiceOverRunning { return nil }
+    switch behavior {
+    case .informational: return 2
+    case .actionable:    return voiceOverRunning ? nil : 8
+    case .persistent:    return nil
     }
 }
 ```
 
 Placement and motion, Reduce Motion aware:
 
-```swift
-struct WiomToastOverlay: View {
-    @ObservedObject var host: WiomToastHost
-    @Environment(\.accessibilityReduceMotion) private var reduceMotion
-
-    var body: some View {
-        VStack {
-            Spacer()
-            if let message = host.current {
-                WiomToast(message: message,
-                          onAction: { message.action?.run(); host.dismiss() },
-                          onClose: { host.dismiss() })
-                    .padding(.horizontal, Wiom.Spacing.s8)
-                    .padding(.bottom, Wiom.Spacing.s16)
-                    .transition(reduceMotion
-                        ? .opacity
-                        : .move(edge: .bottom).combined(with: .opacity))
-                    .id(message.id)
-            }
-        }
-        .animation(reduceMotion ? Wiom.Motion.microStandard : Wiom.Motion.surfaceStandard,
-                   value: host.current?.id)
-    }
-}
-```
+**Placement and motion:** the toast layer is bottom-aligned in the root host, with `space/8` horizontal and `space/16` bottom padding. Transition: move from the bottom plus opacity (`.opacity` under Reduce Motion), animated with `Wiom.Motion.surfaceStandard` (`Wiom.Motion.microStandard` under Reduce Motion), keyed by the toast's identity so each new toast animates in.
 
 `Wiom.Motion.microStandard` and `Wiom.Motion.surfaceStandard` stand for the
 `Animation` values built from `motion/micro` and `motion/surface` +

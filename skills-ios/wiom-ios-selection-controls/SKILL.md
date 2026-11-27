@@ -167,32 +167,7 @@ A control with no visible text is not allowed: there would be nothing to announc
 
 ### Checkbox indicator
 
-```swift
-enum WiomCheckboxSelection { case unchecked, mixed, checked }
-
-struct WiomCheckbox: View {
-    var selection: WiomCheckboxSelection
-    var isError = false
-    @Environment(\.isEnabled) private var isEnabled
-
-    var body: some View {
-        let box = RoundedRectangle(cornerRadius: Wiom.Radius.tiny, style: .circular)
-        ZStack {
-            if selection == .unchecked {
-                box.strokeBorder(stroke, lineWidth: Wiom.BorderWidth.medium)
-            } else {
-                box.fill(fill)
-                (selection == .checked ? Wiom.Icon.check : Wiom.Icon.remove)
-                    .wiomGlyph(Wiom.IconSize.md, isEnabled ? Wiom.Colors.iconInverse : Wiom.Colors.iconDisabled)
-            }
-        }
-        .frame(width: 24, height: 24)
-        .accessibilityHidden(true)
-    }
-    private var stroke: Color { !isEnabled ? Wiom.Colors.strokeSubtle : isError ? Wiom.Colors.strokeCriticalFocus : Wiom.Colors.strokeStrong }
-    private var fill: Color   { !isEnabled ? Wiom.Colors.bgDisabled  : isError ? Wiom.Colors.bgCritical : Wiom.Colors.bgBrand }
-}
-```
+**Built from:** a 24 × 24 pt `radius/tiny` circular rectangle, hidden from VoiceOver. Unchecked: `stroke/medium` border in `stroke/strong` (`stroke/critical/focus` in error, `stroke/subtle` when disabled). Checked or mixed: fill `bg/brand` (`bg/critical` in error, `bg/disabled` when disabled) with the `check` / `remove` glyph at 24 pt in `icon/inverse` (`icon/disabled` when disabled).
 
 The radio is the same shape with `Circle()` and a centred 10 × 10 `Circle()` dot tinted `icon/inverse` (`icon/disabled` when disabled).
 
@@ -202,65 +177,13 @@ The radio is the same shape with `Circle()` and a centred 10 × 10 `Circle()` do
 
 ### Switch `ToggleStyle` (row and inline)
 
-```swift
-struct WiomSwitchStyle: ToggleStyle {
-    enum Layout { case row, inline }
-    var layout: Layout = .row
-
-    func makeBody(configuration: Configuration) -> some View {
-        Button { configuration.isOn.toggle() } label: { configuration.label }
-            .buttonStyle(SwitchButtonStyle(isOn: configuration.isOn, layout: layout))
-            .wiomToggleAccessibility(configuration)
-    }
-}
-
-private struct SwitchButtonStyle: ButtonStyle {
-    let isOn: Bool
-    let layout: WiomSwitchStyle.Layout
-    func makeBody(configuration: Configuration) -> some View {
-        let row = layout == .row
-        return HStack(spacing: Wiom.Spacing.s12) {
-            configuration.label.frame(maxWidth: row ? .infinity : nil, alignment: .leading)
-            WiomSwitchIndicator(isOn: isOn, isPressed: !row && configuration.isPressed)
-        }
-        .padding(row ? Wiom.Spacing.s16 : 0)
-        .frame(maxWidth: row ? .infinity : nil)
-        .frame(minHeight: 48)
-        .background(row && configuration.isPressed ? Wiom.Colors.bgSubtle : .clear) // row: D13; disabled check as in WiomRowButtonStyle
-        .contentShape(Rectangle())
-    }
-}
-
-extension View {
-    @ViewBuilder
-    func wiomToggleAccessibility(_ c: ToggleStyleConfiguration) -> some View {
-        self.accessibilityRepresentation {
-            Toggle(isOn: c.$isOn) { c.label }.toggleStyle(.switch)
-        }
-    }
-}
-```
+**Built from:** a custom `ToggleStyle` that renders a `Button` toggling `isOn`. Row layout fills the width with `space/16` padding and a pressed `bg/subtle` (D13); inline layout hugs and shows no pressed fill. Minimum 48 pt; `space/12` between text and indicator. Accessibility comes from `.accessibilityRepresentation` with a system switch `Toggle`, so VoiceOver says "switch button, on/off" (D12).
 
 Switch row: `Toggle(isOn: $isOn) { rowText }.toggleStyle(WiomSwitchStyle())`, where `rowText` is the list item's leading icon + primary + secondary (`wiom-ios-list-item`, `WiomRowContent` without its own padding). The row then is one element: "Push notifications, plan renewals and offers, switch button, on" (illustrative).
 
 ### Inline checkbox (own text, no row)
 
-```swift
-struct WiomNoPressStyle: ButtonStyle {           // no pressed visual (D13)
-    func makeBody(configuration: Configuration) -> some View { configuration.label }
-}
-
-Button { agreed.toggle() } label: {
-    HStack(spacing: Wiom.Spacing.s12) {
-        WiomCheckbox(selection: agreed ? .checked : .unchecked, isError: showError)
-        Text(consentText).wiomTextStyle(.bodyMd).foregroundColor(Wiom.Colors.textDefault)
-    }
-    .frame(minHeight: 48)
-    .contentShape(Rectangle())
-}
-.buttonStyle(WiomNoPressStyle())
-.accessibilityValue(agreed ? Text("checkbox.checked") : Text("checkbox.unchecked"))
-```
+**Built from:** a `Button` with a no-op `ButtonStyle` (no pressed visual, D13) around an `HStack` (`space/12`) of the checkbox and the consent text (`type/body/md`, `text/default`), minimum 48 pt, full content shape; value checked / not checked from the catalog.
 
 ### Common mistakes
 
