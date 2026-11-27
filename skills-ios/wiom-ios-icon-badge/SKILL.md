@@ -94,15 +94,16 @@ If a design wants the badge itself to be tappable, it is the wrong component: ma
 | Pick `sm` or `md` | Resize to 32 pt "because it looks better" |
 | Warning tint with dark `icon/action` glyph | Gold `icon/warning` glyph used as a Warning indicator |
 
+## Settled rules
+
+- **Warning tone (D31):** dark `icon/action` on `bg/warning/subtle` (10.85:1), or on `bg/warning` (6.60:1) where a solid surface is specified. Gold `icon/warning` is for rating stars only.
+
 ## Open questions
 
 | # | Question | Default in this skill |
 |---|---|---|
 | 1 | A `neutral` badge (`bg/subtle`) inside a pressed list row (pressed fill `bg/subtle`, D13) disappears into the row while pressed. Android behaves the same. Intended? | Keep parity; no change. |
-| 3 | **DECIDED (D31):** dark Warning glyph on subtle or solid Warning background; gold glyph is ratings-only. | 10.85:1 on subtle; 6.60:1 on solid. The old gold-on-tint exception is superseded. |
-| 2 | Figma ships only the Neutral tone; the other five are built from tokens (Android does the same, `WiomIconBadge.kt:158-167`). Will Figma add tone variants? | Tones as in §2. |
-
-The original baseline matched badge sizes/padding. D31 now overrides the old Warning tone pair; shared source and Android library alignment are separate follow-up work, not edits authorised here.
+| 2 | Figma ships only the Neutral tone; the other five are built from tokens (Android does the same). Will Figma add tone variants? | Tones as in §2. |
 
 ## iOS (SwiftUI, iOS 16+)
 

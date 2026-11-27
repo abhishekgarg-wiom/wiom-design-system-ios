@@ -27,7 +27,7 @@ So, when a question comes up:
 | # | Topic | Decision | Why |
 |---|---|---|---|
 | D1 | `text/subtle` / `Neutral/700` | **#5C5570** | Android ships #5C5570; Figma’s #665E75 is stale. Figma gets fixed. The values are also recorded in `wiom-ios-foundations/references/tokens.md`. Component skills cite the token name only, never the hex. |
-| D2 | Letter spacing | **Use the skill/Android tracking** (display −0.02em; heading/title.lg −0.01em; label +0.01em; meta +0.02em; others 0) | Android ships these values (`WiomTypography.kt:62-74`). Figma's 0 % gets fixed. On Devanagari runs, see `wiom-ios-foundations/references/typography.md` §4. |
+| D2 | Letter spacing | **Use the skill/Android tracking** (display −0.02em; heading/title.lg −0.01em; label +0.01em; meta +0.02em; others 0) | Android ships these values. Figma's 0 % gets fixed. On Devanagari runs, see `wiom-ios-foundations/references/typography.md` §4. |
 | D3 | Corner style | **Circular** (`RoundedRectangle(cornerRadius:style: .circular)`), never `.continuous` | Android corners are circular; continuous corners would visibly differ. |
 | D4 | Icons | **Material Icons Rounded, the same glyphs Android uses** (`Icons.Rounded.*`), exported as SVG from `google/material-design-icons` (`materialiconsround` style) into the asset catalog as template images. **SF Symbols are never used**, including for the back arrow, chevrons, close and share. | Icons must look identical on both platforms. |
 | D5 | Back control | Material Rounded `arrow_back` in the Wiom top bar (as Android), **plus** the iOS edge-swipe-back gesture, which must keep working. No hardware back exists. | Look = Android, behaviour = iOS. |

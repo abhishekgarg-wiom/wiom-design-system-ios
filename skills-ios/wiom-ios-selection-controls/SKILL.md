@@ -142,15 +142,17 @@ A custom `ToggleStyle` built from a `Button` can lose native toggle semantics. O
 
 A control with no visible text is not allowed: there would be nothing to announce. If a screen seems to need one, the text exists somewhere nearby and should be inside the same element.
 
+## Settled rules
+
+- **Thumb (D34):** `icon/inverse`.
+- **Switch motion (D28):** thumb and track colour on `motion/micro` + `ease/standard`.
+- **Indicator size:** checkbox and radio are 24 × 24 pt.
+
 ## Open questions
 
-1. **DECIDED (D34): thumb token.** `icon/inverse`. Android library to switch from raw `Color.White` to the same token.
-2. **DECIDED (D28): switch animation.** Switch thumb movement uses `motion/micro` + `ease/standard` on both platforms, not the previously recorded Android default spring. Android skills were updated in PR #18 (`b480a46`). Applying the rule to the `wiom-ds-android` library code remains a dev-team implementation task.
-3. **Indicator size.** The Android README says checkbox and radio are 20 × 20 (`selectioncontrol/README.md:16-17`, rule 2 at line 69); the Android code and the skill ship 24 × 24 (`WiomSelectionControl.kt:87`, `:192`). iOS follows the code (24). The README should be fixed.
-4. **Checkbox/radio pressed.** Standalone Android checkbox and radio use the default indication (ripple) via `toggleable` / `selectable` (`WiomSelectionControl.kt:78-82`, `:183-187`); there is no pressed token. iOS shows no pressed visual (D13). Design team: is a pressed look wanted?
-5. **Error announcement.** The skill defines Error visuals only. iOS puts the error text next to the control (in the label). Should the error also be posted as a VoiceOver announcement when it appears (as for input fields)?
-6. **Switch semantics.** Verify the native accessibility representation on iOS 16 through current versions; ensure the value is spoken once.
-7. **Switch thumb implementation.** Use `Wiom.Colors.iconInverse` (D34).
+1. **Checkbox and radio pressed.** There is no pressed token; iOS shows no pressed visual (D13). Is a pressed look wanted?
+2. **Error announcement.** iOS puts the error text next to the control. Should it also be announced when it appears (as for input fields)?
+3. **Switch semantics.** Verify the native accessibility representation from iOS 16 to current versions; the value must be spoken once.
 
 ## iOS (SwiftUI, iOS 16+)
 

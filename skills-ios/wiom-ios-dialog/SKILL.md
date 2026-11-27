@@ -129,17 +129,17 @@ Rules:
 | Onboarding finished | Illustration, icon `celebration` | "You're all set" / "Your home internet setup is complete." | Primary "Go to home" |
 | Processing payment | Loading | "Processing payment" / "This takes a moment." | None |
 
+## Settled rules
+
+- **Alert icon:** 48 pt neutral circle, `bg/subtle` + `icon/action` (owner lock, PODS-1). Generic Neutral icon badges keep `icon/nonAction`; the dialog owns this override.
+- **Loading:** no button, never dismissable (escape does nothing).
+- **Illustration panel:** full-width 144 pt panel, `bg/brand/subtle` only.
+- **Type:** title `type/heading/md`, body `type/body/md`.
+
 ## Open questions
 
-| # | Question | Default here |
-|---|---|---|
-| 1 | **DECIDED by owner commit `23f67f9`:** Alert uses a 48 pt neutral circle with `bg/subtle` and `icon/action`. Android still draws a brand rounded square (`WiomDialog.kt:143-159`). | iOS follows the locked dialog rule. **Android app must change.** Generic Neutral icon badges retain `icon/nonAction`; the dialog owns this override. |
-| 2 | Loading: the source skill has an optional Tertiary "Cancel" and back-press dismissal when cancellable; Android ships no button and is never dismissable (`WiomDialog.kt:366-381`). | Follow Android: no button, escape does nothing. |
-| 3 | Illustration panel: the source skill allows other subtle tones (`bg/positive/subtle`, `bg/info/subtle`); Android ships `bg/brand/subtle` only (`WiomDialog.kt:318-333`). The Android doc comment still describes a 120 circle (`WiomDialog.kt:290-292`); the code draws the 144 panel. | Brand only, 144 panel. |
-| 4 | Title style: `WiomTypography.kt:18` says dialog headers default to `heading/lg`; every dialog type ships `heading/md` (`WiomDialog.kt:164, 208, 261, 340, 404`). | `type/heading/md`; `typography.md` defers to this skill. |
-| 5 | Body style: the Android README says `body/lg`; the code uses `body/md` (`WiomDialog.kt:169`). | `type/body/md`. |
-| 6 | VoiceOver escape on Alert and Illustration closes (mirrors Android's back press, `WiomDialog.kt:82`). Should a money-related Alert ever be escape-proof? | Escape closes; money commits belong on a non-dismissable sheet anyway. |
-| 7 | Copy limits (40 / 120 grapheme clusters) are guidance, not from Figma. | As §4 rule 8. |
+1. **Escape on money Alerts.** VoiceOver escape closes Alert and Illustration. Should a money-related Alert ever be escape-proof? Default: escape closes; money commits belong on a non-dismissable sheet.
+2. **Copy limits** (40 / 120 grapheme clusters) are guidance, not from Figma (§4 rule 8).
 
 ## iOS (SwiftUI, iOS 16+)
 

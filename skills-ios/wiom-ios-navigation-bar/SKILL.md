@@ -166,26 +166,13 @@ placeholders, not concatenated in code.
 
 ## Open questions
 
-1. **Closed by D27:** the customer app has no bottom navigation bar.
-   The remaining questions concern this unused reference only.
-2. **Glyph fill: accepted correction.** Default is Rounded fill off; Selected uses the filled pair in source commit `2fa260f`. Android defaults to its supplied glyph; exact state-pair assets need verification before this unused reference is activated. Do not source substitute glyphs from another family.
-3. **Label wrapping.** Android shows 1 line and truncates
-   (`WiomNavigationBar.kt:163-164`). iOS wraps to 2 lines at larger text sizes
-   and follows the app-wide accessibility3 cap.
-   Confirm, and consider the same for Android with two-line Hindi.
-4. **Pressed visual.** Android nav items use the default `clickable`
-   indication, the Material ripple (`WiomNavigationBar.kt:122`). D13 bans
-   ripple and there is no pressed token, so iOS shows none. Design team:
-   define one or confirm none.
-5. **Badge type.** The source skill allows swapping the dot for a count badge
-   "when the count is meaningful"; Android supports only the critical dot
-   (`WiomNavigationBar.kt:48`, `:148-155`). This skill allows the dot only.
-6. **Bottom padding on Face ID iPhones.** `space/12` above the
-   home-indicator inset (Android: `WiomNavigationBar.kt:94-95`) makes the bar
-   about 114 pt tall including the 34 pt inset, against 83 pt for a system tab
-   bar. Confirm, or use the D19 value (`space/16`) as for the last bottom CTA.
-7. **Tab re-tap.** Scroll-to-top on re-tapping the selected tab is iOS
-   behaviour; Android doesn't specify one. Confirm.
+1. **Closed by D27:** the customer app has no bottom navigation bar. The questions below concern this unused reference only.
+2. **Glyph fill.** Default is Rounded fill off; Selected uses the filled pair. Verify the exact state-pair assets before this reference is ever activated. Do not source substitute glyphs from another family.
+3. **Label wrapping.** iOS wraps to 2 lines at larger text sizes and follows the accessibility3 cap. Confirm, and consider the same for Android with two-line Hindi.
+4. **Pressed visual.** No pressed token; iOS shows none (D13). Design team: define one or confirm none.
+5. **Badge type.** Dot only (the source allows a count badge "when the count is meaningful").
+6. **Bottom padding on Face ID iPhones.** `space/12` above the home-indicator inset makes the bar about 114 pt tall including the 34 pt inset, against 83 pt for a system tab bar. Confirm, or use the D19 value (`space/16`).
+7. **Tab re-tap.** Scroll-to-top on re-tapping the selected tab is iOS behaviour. Confirm.
 
 ## iOS (SwiftUI, iOS 16+)
 

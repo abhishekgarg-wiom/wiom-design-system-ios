@@ -147,15 +147,17 @@ A switch row applies its change at once. If the change needs a "Save", use a Che
 - An error on a checkbox row (consent not given) is shown as the secondary line, so it is read as part of the label.
 - A group of radio or checkbox rows may sit in a container with `.accessibilityElement(children: .contain)` and a group label when the screen has a heading for it.
 
+## Settled rules
+
+- **Secondary and meta text:** `type/body/sm` (12 pt) (owner lock, PODS-1).
+- **Disabled icon-with-bg row:** the badge keeps the Neutral look (`bg/subtle` + `icon/nonAction`).
+- **Text wraps:** no line limits on primary, secondary or meta.
+- **Row press timing:** SwiftUI delays the pressed state slightly inside a scroll view so scrolling doesn't flash rows. Accepted platform behaviour.
+
 ## Open questions
 
-0. **DECIDED: secondary/meta text.** Owner commit `23f67f9` locks `type/body/sm` (12 pt). Android still ships `type/body/md` (14). iOS follows the owner’s locked source rule; **Android app must change**. This is a known implementation mismatch, not an unanswered design choice.
-
-1. **Disabled icon-with-bg row.** Android (`WiomListItem.kt:257-271`) draws a `bg/disabled` circle *behind* a Neutral-tone `WiomIconBadge` of the same size, so the visible result is the Neutral badge (`bg/subtle` fill, `icon/nonAction` glyph), not the skill's `bg/disabled` fill + `icon/disabled` glyph. iOS follows Android for parity. Design team: confirm the intended look; if it is `bg/disabled` + `icon/disabled`, Android and iOS both change.
-2. **Text wrapping.** The older skill code set one-line limits on primary, secondary and meta; Android (`WiomListItem.kt:133-150`) sets none, so text wraps. iOS follows Android (wraps). Confirm wrapping is the intended rule for meta too.
-3. **Trailing meta at accessibility text sizes** moving under the text column is an iOS-only layout adaptation (Android has no equivalent breakpoint). Confirm with the design team.
-4. **Dialog selection body `space/8` between rows** comes from the skill (Figma dialog selection); Android's list item has no such spacing itself, the host adds it. Confirm with `wiom-ios-dialog`.
-5. **Row press timing.** SwiftUI delays the pressed state of a `Button` inside a `ScrollView` slightly so a scroll doesn't flash rows; Android shows it on touch-down. Accepted as platform behaviour unless the design team objects.
+1. **Trailing meta at accessibility text sizes** moves under the text column (iOS-only layout adaptation). Confirm with the design team.
+2. **Dialog selection body `space/8` between rows** comes from Figma; the host adds it, not the row. Confirm with `wiom-ios-dialog`.
 
 ## iOS (SwiftUI, iOS 16+)
 

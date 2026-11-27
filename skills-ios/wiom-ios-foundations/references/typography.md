@@ -21,7 +21,7 @@ Never fall back to the system font (SF Pro) for Wiom text: it would make iOS loo
 
 ## 2. The 13 text styles
 
-Same values as Android (`WiomTypography.kt`). Sizes and line heights in pt at the default text size.
+Same values as Android. Sizes and line heights in pt at the default text size.
 
 | Token | Swift | Weight | Size / LH | Tracking | Use |
 |---|---|---|---|---|---|

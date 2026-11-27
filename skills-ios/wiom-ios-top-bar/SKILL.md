@@ -244,43 +244,19 @@ separately, sentence case, D25). Examples here are illustrative only.
 - `wiom-ios-cta`: primary actions live in the body or the sticky button bar,
   never in the top bar.
 
+## Settled rules
+
+- **Centered:** the modal header. Close leading and a subtitle are allowed; at most 1 trailing action. The title centres between leading and trailing, not on the screen.
+- **Search pill:** glyph `icon/nonAction`, cursor `text/default`, `space/8` horizontal margin around the pill. Trailing slot: text action only.
+- **Back button** VoiceOver label is the shared catalog key `common.back`.
+
 ## Open questions
 
-1. **Hamburger on the Android home tab.** The Android README lists "Home tab:
-   Large · Default · `Menu` leading" (`wiom-ds-android/.../topbar/README.md`,
-   "Wiom use cases"). The customer iOS app has no hamburger; root screens have
-   no leading item. Design team: confirm Android drops it too, or say where
-   its menu content lives on iOS.
-2. **Pressed visual.** Android's `WiomTopBarIconAction` and
-   `WiomTopBarTextAction` use the default `clickable` indication, which is the
-   Material ripple (`WiomTopBar.kt:190`, `:217`). D13 bans ripple and there is
-   no pressed token, so iOS shows no pressed visual. Design team: define one
-   (for example a `bg/subtle` circle) or confirm none.
-3. **Centered state: skill vs Android.** The source skill says Centered is for
-   branded / no-back screens with no leading item and no subtitle. Android
-   ships it as the modal header with a close leading, a subtitle allowed and
-   max 1 trailing action (`WiomTopBar.kt:50`, `:276-310`; preview `:521-537`).
-   This skill follows Android. The title centres in the space between leading
-   and trailing, not on the screen; confirm that's intended.
-4. **Search pill details: skill vs Android.** Android tints the search glyph
-   `icon/nonAction` (skill: `icon/action`), uses a `text/default` insertion
-   point (skill: `text/brand`), adds `space/8` horizontal margin around the
-   pill, and passes the trailing slot through, so icons are possible there
-   (skill: text action only) (`WiomTopBar.kt:262-274`, `:365-379`). This
-   skill follows Android for the visuals and keeps "text action only" as the
-   usage rule.
-5. **Medium / Large action row.** Android pins the action row at 48 with
-   `space/8` vertical padding (`WiomTopBar.kt:470-474`), leaving 32 pt for
-   48 pt icon cells. iOS draws a 48 pt row with full 48 pt cells and no extra
-   vertical padding. Confirm against the rendered Android build.
-6. **Large two-line title.** Android allows 2 lines in a fixed 152 dp bar
-   (`WiomTopBar.kt:439`, `:457`); the title area has 60 dp for 88 dp of text,
-   so a two-line title clips on Android. iOS grows the bar instead.
-7. **Line limits for Small / Medium titles.** Android is 1 line with
-   ellipsis (`WiomTopBar.kt:288`, `:322`, `:419`). iOS allows 2 lines at
-   larger text sizes. Confirm for Android too, so two-line Hindi doesn't clip.
-8. **Back-button VoiceOver string key.** Needs a shared string-catalog entry
-   ("Back") used by every screen.
+1. **Hamburger on the Android home tab.** The customer iOS app has no hamburger; root screens have no leading item. Confirm Android drops it too, or say where its menu content lives on iOS.
+2. **Pressed visual.** No pressed token; iOS shows none (D13). Define one (for example a `bg/subtle` circle) or confirm none.
+3. **Medium / Large action row.** iOS draws a 48 pt row with full 48 pt cells and no extra vertical padding. Confirm against the rendered Android build.
+4. **Large two-line title.** iOS grows the bar instead of clipping. Confirm.
+5. **Line limits for Small / Medium titles.** iOS allows 2 lines at larger text sizes. Confirm for Android too, so two-line Hindi doesn't clip.
 
 ## iOS (SwiftUI, iOS 16+)
 

@@ -90,7 +90,7 @@ description: "Wiom DS V2 foundation tokens and rules for the iOS customer app in
 
 ## Open questions
 
-Tracked in [`references/decisions.md`](references/decisions.md) §3: Figma alignment for `text/subtle` and tracking (Q1–Q2), `bg/surface` (Q3), motion in Figma (Q4), accepted contrast exceptions (Q5, list in tokens §9), Dynamic Type anchors and cap (Q11), blue/orange mapping for server-driven screens (Q12), `codeSyntax.iOS` (Q13).
+Tracked in [`references/decisions.md`](references/decisions.md) §3: Figma alignment for `text/subtle` and tracking (Q1–Q2), `bg/surface` (Q3), motion in Figma (Q4), accepted contrast exceptions (Q5, list in tokens §9), blue/orange mapping for server-driven screens (Q12), `codeSyntax.iOS` (Q13).
 
 ## iOS (SwiftUI, iOS 16+)
 

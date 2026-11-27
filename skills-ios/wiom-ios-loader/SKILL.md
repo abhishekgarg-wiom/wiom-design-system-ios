@@ -203,20 +203,21 @@ All copy below is illustrative; real strings come from the catalog (Hindi first,
 | App cold start | Brand Light (no message, or "Getting things ready…") |
 | Receipt PDF downloading | Linear Determinate at the top of the sheet |
 
+## Settled rules
+
+- **Brand loader (D37):** the shipped `loader_infinity.json`, 200 × 200 pt; Spinner lg only if it fails to load. Design will correct the file's loop (2.0 s vs 1.3 s), pink (#D92B90 vs #D9008D) and grey track later.
+- **Skeleton:** shimmer 1.2 s with a `bg/default` 55 % band; Card has no border; ListItem trailing block 40 pt; Line widths 100 / 75 / 50 %.
+- **In-button spinner:** CTAs use their own 24 pt / 2 pt glyph (`wiom-ios-cta`); Spinner sm (20 pt) is for other inline waits.
+- **Status loader** (wait → success / error ring) is not on iOS; outcomes use the outcome surface.
+
 ## Open questions
 
-1. **DECIDED (D37): brand-loader animation.** Use the shipped `loader_infinity.json` (both apps). Design to correct loop (2.0 s vs 1.3 s), pink (#D92B90 vs #D9008D) and the grey track in a later file; the Android library should bundle the same file.
-2. **Dots vertical padding:** source and Android use 10 vertically (`WiomLoader.kt:473`) and 12 horizontally. The rejected builder copy changed vertical padding to 12. iOS keeps 12 × 10; there is no 10 token (gap per D24). Figma's bubble is 104 × 32; Android's hugs at 56 × 28.
-3. **Skeleton shimmer:** Android 1.2 s with a `bg/default` 55 % band (`WiomLoader.kt:532`, `:551`); skill says 1.5 s, "`bg/muted` 10 % lighter". iOS follows Android.
-4. **Skeleton Card border:** skill has 1 pt `stroke/subtle`; Android draws none (`WiomLoader.kt:200-205`). iOS follows Android.
-5. **Skeleton ListItem trailing block:** skill 60 pt, Android 40 pt (`WiomLoader.kt:274-277`). Line widths: skill fixed 280 / 200 / 160, Android fractions 100 / 75 / 50 % (`WiomLoader.kt:227-229`, `:271-272`). iOS follows Android. Android's Line is a single bar; the skill's three-line "Line" type is a stack of three.
-6. **Linear Determinate easing:** Android tweens 300 ms with linear easing (`WiomLoader.kt:399`); foundations keep `ease/linear` for loops, so iOS uses `motion/surface` · `ease/standard`. Confirm, or allow `ease/linear` here.
-7. **Loop periods** (spinner 1.0 s, Linear 1.5 s, Dots 1.0 s / 150 ms stagger, shimmer 1.2 s) are not motion tokens. Should `motion.md` define loop tokens?
-8. **Reduce Motion still for Linear Indeterminate:** a centred 40 % segment was chosen so it can't be read as "40 % done". Confirm.
-9. **In-button spinner:** `wiom-ios-cta` uses 24 pt / 2 pt (as `WiomButton.kt` ships); this skill's sm is 20 pt. Same open point as `wiom-ios-cta` Open question 1.
-10. **Brand message alignment:** Android doesn't centre-align the message text (`WiomLoader.kt:365-369`), so a two-line message is leading-aligned inside a centred column. The skill says centred. iOS follows Android; recommend both apps centre it.
-11. **Two indeterminate bars on Android:** the loader's Linear (40 %, 1.5 s, `bg/brand/subtle` track) and `WiomLinearProgressIndeterminate` in the progress package (25 %, 1.4 s, `bg/muted` track; `WiomProgressIndicator.kt:115-159`). iOS ships only the loader's. Retire the other?
-12. **Status loader** (wait → success / error ring): in old drafts, not shipped on Android. Not on iOS; outcomes use the outcome surface.
+1. **Dots padding:** 12 horizontal × 10 vertical; there is no 10 token (gap per D24).
+2. **Linear Determinate easing:** iOS uses `motion/surface` · `ease/standard` (Android tweens linearly). Confirm, or allow `ease/linear`.
+3. **Loop periods** (spinner 1.0 s, Linear 1.5 s, Dots 1.0 s / 150 ms stagger, shimmer 1.2 s) are not motion tokens. Should `motion.md` define loop tokens?
+4. **Reduce Motion still for Linear Indeterminate:** a centred 40 % segment, so it can't be read as "40 % done". Confirm.
+5. **Brand message alignment:** design intent is centred; check both apps centre a two-line message.
+6. **Two indeterminate bars on Android** (loader Linear and the progress package's indeterminate bar). iOS ships only the loader's. Retire the other?
 
 ## iOS (SwiftUI, iOS 16+)
 

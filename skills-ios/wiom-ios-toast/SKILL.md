@@ -214,34 +214,19 @@ modal closes (§7 rule 1).
 - `wiom-ios-dialog`: modal halts; toasts wait until it closes.
 - `wiom-ios-navigation-bar`: bottom bar the toast stacks above, if used.
 
+## Settled rules
+
+- **Warning (D31, D35):** whole toast stays `bg/default`; dark `icon/action` in an Icon Badge Sm (24 pt `bg/warning/subtle` circle, 16 pt glyph). The smaller glyph is intentional; the 24 pt footprint matches the other toast icons.
+- **Margins (D29):** `space/8` each side (owner lock, PODS-1) and `space/16` above the highest bottom boundary.
+- **Motion:** in and out over `motion/surface` with `ease/standard`, slide plus fade.
+- **Hit area:** action and ✕ have at least a 44 pt (default 48 pt) hit area (D14); no visual change.
+- **Message length (D33):** fits 2 lines at the default size (about 80 Hindi grapheme clusters); grows at large sizes, capped at 40 % of the screen.
+
 ## Open questions
 
-1. **DECIDED (D31): Warning fill and icon colours.** Whole toast stays `bg/default`. Use dark `icon/action` on `bg/warning/subtle`, measured 10.85:1, and preserve the Material Rounded Warning glyph as decorative. This is the global Warning recipe, not a toast-only exception: inputs and Warning icon badges also use dark glyphs on the approved Warning backgrounds. Gold `icon/warning` is ratings-only. **Container (D35):** Icon Badge Sm, a 24 pt circle with a 16 pt glyph (`wiom-ios-icon-badge`). The Warning glyph is intentionally smaller than the 24 pt Critical / Info / Positive glyphs; the circle keeps the same 24 pt footprint so the row height and alignment match.
-2. **DECIDED: horizontal and bottom margins.** Owner commit `23f67f9` locks `space/8` horizontally (flexible width). D29 locks `space/16` above the highest safe-area / CTA-bar / keyboard boundary, matching the Android skill.
-3. **Easing: Android vs skill.** The skill (§11) and the motion
-   doctrine (D-3 ruling) specify 300 ms `EaseOut` in / `EaseIn` out;
-   Android ships `tween(300)` with the default standard curve, plus a
-   fade, both ways (`WiomToast.kt:256-263`). iOS follows Android
-   (`motion/surface`, `ease/standard`). Confirm whether Android will be
-   moved to EaseOut / EaseIn; iOS will follow.
-4. **Hit area of action and ✕.** The skill wraps both in a ≥ 48 pt
-   interactive box; Android ships only `space/8` × `space/4` padding on
-   the action and none on ✕ (`WiomToast.kt:133-148`). iOS uses the
-   44/48 pt hit area (D14), which changes no visual. Android should add
-   the minimum interactive size.
-5. **Toast while a modal is open.** Android's toast lives in the
-   screen's `Scaffold`, so a modal sheet or dialog covers it. iOS
-   queues toasts until the modal closes (§5). Confirm, or name the
-   cases (for example "Copied" from inside a sheet) where the toast
-   should show above the modal.
-6. **Message length guide.** The source gives no grapheme number for
-   the message; "about 40 Hindi grapheme clusters per line on iPhone
-   SE" and "action ≤ 12" are iOS defaults. The design team to confirm
-   or replace.
-7. **VoiceOver ✕ on Actionable toasts.** Showing ✕ on Actionable toasts
-   only while VoiceOver runs is a behaviour-only addition (it adds a
-   visible glyph for VoiceOver users). Confirm this is acceptable, or
-   rely on the escape gesture alone.
+1. **Toast while a modal is open.** iOS queues toasts until the modal closes (§5). Confirm, or name the cases (for example "Copied" from inside a sheet) where the toast should show above the modal.
+2. **Action label length.** "Action ≤ 12 grapheme clusters" is an iOS default. Confirm or replace.
+3. **VoiceOver ✕ on Actionable toasts.** Showing ✕ on Actionable toasts only while VoiceOver runs adds a visible glyph for those users. Confirm, or rely on the escape gesture alone.
 
 ## iOS (SwiftUI, iOS 16+)
 
@@ -255,7 +240,7 @@ modal closes (§7 rule 1).
   `ObservableObject` queue plus an overlay view that the screen (or the
   app root) attaches once with `.overlay(alignment: .bottom)`.
 - **Tokens:** `bg/default`, `bg/warning/subtle`, `icon/action`, `icon/critical`,
-  `icon/info`, `icon/positive`, `icon/action`, `text/default`,
+  `icon/info`, `icon/positive`, `text/default`,
   `text/onWarning`, `text/brand`, `type/body/lg`, `type/label/lg`,
   `radius/small`, `shadow/lg`, `space/4`, `space/8`, `space/12`,
   `space/16`, `icon/md` (size), `motion/surface`, `motion/micro`,

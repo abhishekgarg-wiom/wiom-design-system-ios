@@ -235,17 +235,21 @@ Never N separate fields. One `TextField` owns the whole code; the boxes are draw
 - A trailing icon with a 20 pt hit area.
 - A fixed `.frame(height:)` on the wrap, the OTP boxes or the helper row.
 
+## Settled rules
+
+- **Read-only title:** `text/subtle`.
+- **Leading icon tint:** `icon/nonAction`.
+- **OTP status borders:** on Error or Success every resting box takes the status border; the active box shows only while editing.
+- **Warning border:** `stroke/warning`.
+- **Warning status icon (D31, D35):** dark `icon/action` in an Icon Badge Sm (24 pt `bg/warning/subtle` circle, 16 pt glyph), inside the neutral field. Not tappable.
+
 ## Open questions
 
-1. **Label weight.** Android (`WiomInput.kt:224-228, 261`) and the source skill keep the title at `type/label/lg` and change colour only. An earlier design note described the label as Bold when empty and Regular when focused or filled. This skill follows what Android ships; design team to confirm, then Figma and Android change together.
-2. **`+91` prefix vs phone icon.** This skill draws `+91` as a non-editable prefix (source skill). The Android README says not to prepend `+91` and to use a leading phone icon instead (`component/input/README.md:111-125`). Which one does the customer app ship on both platforms?
-3. **Read-only title colour.** Source skill says `text/default`; Android ships `text/subtle` (`WiomInput.kt:226`). This skill follows Android.
-4. **Leading icon tint.** Source skill code uses `icon/action`; Android ships `icon/nonAction` (`WiomInput.kt:254`). This skill follows Android.
-5. **OTP status borders.** Android draws every resting box in the status colour on Error/Success and shows the active box only while editing (`WiomOtp.kt:95-113, 141-142`); the source skill's code draws only active/inactive and an active box whenever enabled. This skill follows Android.
-6. **Warning border.** Android code uses `stroke/warning` (`WiomInput.kt:219`); the Android README table says `stroke.brandFocus` (`README.md:81`). This skill follows the code; README to be fixed.
-7. **Textarea states.** Design draws six states; Android's `WiomTextarea` also accepts Warning and read-only (`WiomInput.kt:144-146`). Are those allowed in customer screens?
-8. **DECIDED (D31): Warning status colour.** Dark `icon/action` on `bg/warning/subtle`, inside the neutral field. Gold `icon/warning` is ratings-only. The Warning status glyph remains non-tappable. Container: Icon Badge Sm, 24 pt circle, 16 pt glyph (D35). The separate Warning border contrast remains open; do not change helper text, field fill or border tokens under this icon ruling.
-9. **Number-pad "Next".** Number pads have no Return key. This skill relies on the CTA riding the keyboard; if a form needs a "Next" between two numeric fields, does design want a keyboard accessory bar (system-styled)?
+1. **Label weight.** The title stays `type/label/lg` and changes colour only. An earlier design note described Bold when empty and Regular when focused or filled. Design team to confirm, then Figma and Android change together.
+2. **`+91` prefix vs phone icon.** This skill draws `+91` as a non-editable prefix. The Android README suggests a leading phone icon instead. Which does the customer app ship on both platforms?
+3. **Textarea states.** Design draws six states; Android's Textarea also accepts Warning and read-only. Are those allowed in customer screens?
+4. **Number-pad "Next".** Number pads have no Return key. If a form needs "Next" between two numeric fields, does design want a keyboard accessory bar?
+5. **Warning border contrast** is an accepted exception (decisions Q5): build with the current tokens.
 
 ## iOS (SwiftUI, iOS 16+)
 

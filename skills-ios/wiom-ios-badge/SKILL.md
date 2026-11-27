@@ -244,39 +244,18 @@ Step 4: Tone
 - `wiom-ios-icon-badge`: glyph in a coloured circle; a different
   component.
 
+## Settled rules
+
+- **No Brand Filled.** Brand is Tinted only; 23 variants in total. Small is always Tinted (Small Filled renders Small Tinted).
+- **Label overflow:** one line, tail truncation (ellipsis). Rewrite copy that truncates.
+- **Count display:** 1 to 9 as digits, 10 to 99 as "9+", 100+ as "99+", in every placement.
+
 ## Open questions
 
-1. **Brand Filled: Android vs skill.** The source skill lists Brand as a
-   Filled tone (`bg/brand` + `text/onBrand`, a shipped Figma variant);
-   Android has no Brand Filled and falls back to Brand Tinted
-   (`WiomBadge.kt:214-215`; KDoc at `WiomBadge.kt:128` and `:150`). iOS
-   follows Android, so iOS has 23 variants, not 24. Design team to
-   confirm whether Android should add Brand Filled.
-2. **Label overflow: Android vs skill.** The skill says one line with
-   `overflow = Visible` ("rewrite shorter"); Android ships `maxLines = 1`
-   with the default clip (`WiomBadge.kt:191-196`). iOS uses one line
-   with tail truncation (an ellipsis is safer at large text sizes).
-   Confirm, and ask Android to match.
-3. **Count nudge.** The skill nudges the overlay Count 4 pt outward
-   (x +4, y −4); the Android library only documents top-end alignment
-   (`WiomBadge.kt:70-71`) and leaves the nudge to callers. iOS follows
-   the skill's 4 pt; confirm against the shipped Android bell.
-4. **Count display: source vs Android.** Source rule 6 renders 1–9 as
-   digits, 10–99 as "9+", and 100+ as "99+" in every placement. Android
-   exposes `cap` (default 99), which can render raw 10–99. The owner
-   explicitly selected the source rule for iOS. This visual exception
-   remains open for Android alignment.
-5. **Small Filled.** The skill crashes on Small Filled; Android silently
-   gives Small Tinted (`WiomBadge.kt:169`). iOS follows Android.
-6. **Western digits in Hindi.** Default: counts always use Western
-   digits, in both languages. Design team to confirm Devanagari digits
-   are never wanted.
-7. **Label grapheme limit.** The source sets none. iOS uses 10 Hindi /
-   14 English grapheme clusters (the chip limits) until the design team
-   sets badge limits.
-8. **Count minimum under Dynamic Type.** Scaling the 20 pt minimum with
-   Caption 2 is an iOS choice (Android's 20 dp is not scaled, though sp
-   text is). Confirm.
+1. **Count nudge.** The overlay Count sits 4 pt up and 4 pt out from top-trailing. Confirm against the shipped Android bell.
+2. **Western digits in Hindi.** Counts always use Western digits in both languages. Confirm Devanagari digits are never wanted.
+3. **Label length.** No source limit; iOS uses 10 Hindi / 14 English grapheme clusters (the chip limits) until design sets one.
+4. **Count minimum under Dynamic Type.** The 20 pt minimum scales with Caption 2 on iOS. Confirm.
 
 ## iOS (SwiftUI, iOS 16+)
 

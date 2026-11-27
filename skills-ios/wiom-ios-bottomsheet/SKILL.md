@@ -187,21 +187,23 @@ In a non-dismissable sheet: the **handle is hidden** (top space stays), swipe-do
 | Share plan | Share | Header "Share", rows "WhatsApp", "Copy link", "More" | None | Yes |
 | Edit name | Form | Header "Edit name", 1 field | Primary "Save" | Yes, **No** while saving |
 
+## Settled rules
+
+- **Rows:** action menus and Share use the sheet's own row (24 pt sides, 40 pt `bg/brand/subtle` circle, `type/label/lg`, `icon/disabled` chevron). Radio and checkbox pickers use `wiom-ios-list-item`.
+- **Share layout:** header + one sheet row per target.
+- **Heights are minimums:** about 30 / 50 / 75 % of the screen for Compact / Half / Expanded; `Full` fills to the 92 % cap.
+- **No half-open state** (no detents).
+- **Shadow:** `shadow/md`.
+- **Non-dismissable sheets** exist on iOS for money and commit moments (§3).
+- **Non-modal sheets:** not used.
+- **Destructive confirmation** uses a dialog. The `wiom-ios-cta` sheet row applies only when a sheet's own commit is destructive (for example a Form that cancels a request).
+- **Drag zone:** handle + header (+ action bar); a scrolled list does not drag the sheet.
+- **Header type:** `type/heading/md`.
+- **Copy (D41):** title about 40, body about 120 Hindi grapheme clusters at the default text size. At larger sizes the sheet grows and scrolls; text is never cut off.
+
 ## Open questions
 
-| # | Question | Default here |
-|---|---|---|
-| 1 | Sheet list rows: the source skill says rows are `wiom-list-item` instances with a 16 gutter; Android draws its own sheet row with 24 sides, a 40 brand circle, `label/lg` and an `icon/disabled` chevron (`WiomBottomSheet.kt:254-318`). Header padding is 16 (`WiomBottomSheet.kt:196-200`), so header and rows don't line up. | Follow Android: sheet row for action menus and share; `wiom-ios-list-item` for radio and checkbox pickers. Design team to confirm the 24 vs 16 alignment. |
-| 2 | Share layout: source skill says a horizontal row of share targets; Android previews it as header + list rows (`WiomBottomSheet.kt:561-577`). | Follow Android (rows). |
-| 3 | Size heights: source skill gives min/max ranges and `Full` = 92 % of the screen; Android ships minimums only (240 / 400 / 600) and `Full` hugging content (`WiomBottomSheet.kt:128-141`). | Minimum shares (30 / 50 / 75 %) as in Android; `Full` fills to the cap. |
-| 4 | Android opens tall non-Full sheets half-expanded (`ModalBottomSheet` default state, `WiomBottomSheet.kt:73-75`); the iOS sheet has no detents. | No half-open state on iOS. |
-| 5 | Shadow: source skill and `tokens.md` say `shadow/md`; Android sets no explicit shadow on the sheet (`WiomBottomSheet.kt:81-99`). | `shadow/md`. |
-| 6 | Non-dismissable sheets: Android has no non-dismissable mode (scrim and swipe always dismiss, `WiomBottomSheet.kt:81-87`). iOS adds it for money and commit moments. | iOS behaviour as §3; Android to follow. |
-| 7 | Non-modal sheets: Figma has `Is Modal` (default false); Android ships only modal sheets (`WiomBottomSheet.kt:87`). If design ever needs one, the overlay host can skip the scrim and leave the content beneath hit-testable on iOS 16.0 (no 16.4 API), with `.isModal` removed. | Not used. |
-| 8 | Destructive confirmation: the source sheet skill listed an Illustration sheet; the source dialog skill and Android (`WiomDialog.kt` preview "Alert · destructive") use a dialog. `wiom-ios-cta` §6.1 still has a bottom-sheet destructive row. | Dialog. The cta row applies only when a sheet's own commit is destructive (e.g. a Form that cancels a request). |
-| 9 | Swipe-to-dismiss from inside a scrolled list (pull down when at the top) needs scroll-offset tracking that iOS 16 SwiftUI does not expose cleanly. | Drag zone is handle + header (+ action bar). |
-| 10 | `WiomTypography.kt:18` says sheet and dialog headers default to `heading/lg`; the shipped sheet header uses `heading/md` (`WiomBottomSheet.kt:219`). | `type/heading/md`; `typography.md` leaves the choice to this skill. |
-| 11 | Copy limits (40 / 120 grapheme clusters) are guidance, not from Figma. | As §4 rule 11, pending design. |
+1. **Header vs row alignment.** The header has 16 pt side padding; sheet rows have 24 pt. Design team to confirm the mismatch is intended.
 
 ## iOS (SwiftUI, iOS 16+)
 
