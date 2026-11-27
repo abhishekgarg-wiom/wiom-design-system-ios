@@ -195,21 +195,7 @@ placeholders, not concatenated in code.
     it slides away with the root on push and returns on swipe-back, and
     pushed screens never draw it.
 
-  ```swift
-  ZStack {
-      ForEach(router.visitedTabs) { tab in
-          NavigationStack(path: $router.paths[tab]) {
-              tab.rootView
-                  .safeAreaInset(edge: .bottom, spacing: 0) {
-                      WiomNavigationBar(items: tabs, selected: $router.selectedTab)
-                  }
-          }
-          .opacity(tab == router.selectedTab ? 1 : 0)
-          .allowsHitTesting(tab == router.selectedTab)
-          .accessibilityHidden(tab != router.selectedTab)
-      }
-  }
-  ```
+  Built from: a `ZStack` of one `NavigationStack` per visited tab; only the selected one is visible, hit-testable and exposed to VoiceOver. Each tab root attaches the bar with `.safeAreaInset(edge: .bottom, spacing: 0)`.
 
   Tapping the already-selected item scrolls its root to the top
   (`ScrollViewReader`). Since the bar is only on root screens, there is no

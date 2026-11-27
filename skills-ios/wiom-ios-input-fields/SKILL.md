@@ -265,15 +265,7 @@ Never N separate fields. One `TextField` owns the whole code; the boxes are draw
   - Disabled reads "dimmed" (system). Read-only value reads as static text with Copy in the rotor/long-press menu.
 - **Hit area:** the whole wrap focuses the field. Trailing controls reserve an actual ≥ 44 × 44 pt layout slot, default 48 × 48, around the `icon/sm` glyph. The field grows or the text slot shrinks to fit that slot. Never negative padding or overlapping hit areas to preserve a 20 pt layout slot. Each trailing `Button` has a catalog label (illustrative: "Clear text", "Show password").
 
-  ```swift
-  Button(action: clear) {
-      Wiom.Icon.cancel.resizable()
-          .frame(width: Wiom.IconSize.sm, height: Wiom.IconSize.sm)
-          .frame(minWidth: 48, minHeight: 48)
-          .contentShape(Rectangle())
-  }
-  .accessibilityLabel(clearLabel)
-  ```
+  Built from: each trailing control is a `Button` whose 16 pt `icon/sm` glyph sits in a 48 × 48 pt frame with a full content shape, labelled from the catalog (`input.clear`, `input.password.show`).
 - **Motion:** none. Border, label colour and status changes are instant, as on Android. Scrolling to the focused field follows the keyboard animation. Reduce Motion: nothing to reduce; `withAnimation` on the scroll may be dropped when `accessibilityReduceMotion` is on.
 - **Safe areas and keyboard:** forms scroll; the focused field and its helper/error stay above the keyboard plus the sticky CTA bar (§7); CTA bar rides the keyboard with `space/12` below the button (D19); `.scrollDismissesKeyboard(.interactively)`. Per-field keyboard, content type and Return key in §6.
 - **Haptics:** none (D21), including on OTP error or success.

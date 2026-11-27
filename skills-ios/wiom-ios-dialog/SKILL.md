@@ -144,20 +144,12 @@ Rules:
 ## iOS (SwiftUI, iOS 16+)
 
 - **Built from:** a custom `WiomDialog` view presented by the same **root-level overlay host** as the bottom sheet (`wiom-ios-bottomsheet`, iOS section), in the dialog layer above the sheet layer. Never `.alert`, `.confirmationDialog`, or `.sheet` (D9). Shape: `RoundedRectangle(cornerRadius: Wiom.Radius.xlarge, style: .circular)`. Main block: `ScrollView` only when it overflows (`ViewThatFits(in: .vertical)`, iOS 16). Buttons from `wiom-ios-cta`, field from `wiom-ios-input-fields`, rows from `wiom-ios-list-item`, spinner from `wiom-ios-loader`.
-  ```swift
-  GeometryReader { proxy in
-      WiomDialogCard(model)
-          .frame(maxWidth: min(312, proxy.size.width - 2 * Wiom.Spacing.s24))
-          .frame(maxWidth: .infinity, maxHeight: .infinity)      // centered in the safe area
-  }
-  ```
+  The card is `min(312, container width − 2 × space/24)` wide and centred in the safe area.
 - **Tokens:** `bg/default`, `overlay/scrim`, `shadow/xl`, `radius/xlarge`, `radius/large`, `radius/medium`, `radius/full`, `bg/subtle`, `bg/brand/subtle`, `icon/action`, `icon/brand`, `text/default`, `text/subtle`, `type/heading/md`, `type/body/md`, `icon/md`, `icon/lg`, `space/8`, `space/16`, `space/24`, `space/48`.
 - **Size:** width `min(312, container − 48)`. Height fits content up to the safe area minus `space/24` each end. Text-holding parts have minimum heights only; fixed shapes are the 48 icon circle, the 144 illustration panel and the 40 spinner frame (D16).
 - **Dynamic Type:** title and body scale (`typography.md` §3) and wrap with no line limit. When the dialog would exceed its max height (accessibility sizes, two-line Hindi), the main block scrolls and the button group stays pinned and visible; side-by-side buttons stack per `wiom-ios-cta` §6. Check Hindi and English at xxxLarge and accessibility3 on iPhone SE (D17).
 - **VoiceOver:** the card gets `.accessibilityAddTraits(.isModal)`; the host hides everything beneath with `.accessibilityHidden(true)`. On appear, focus moves to the **title** first (`@AccessibilityFocusState`), which carries `.isHeader`; then body, content, buttons in order. Header icon and illustration are decorative (`.accessibilityHidden(true)`) unless the asset carries meaning, then it gets a label. Escape per §3:
-  ```swift
-  .accessibilityAction(.escape) { if model.type != .loading { model.onDismiss() } }
-  ```
+  Escape dismisses every type except Loading.
   **Loading** announces on appear (`UIAccessibility.post(notification: .screenChanged, argument: title)`) and posts an announcement when the work ends; the spinner is labelled from its title, not "spinner". When the dialog closes, focus returns to the control that opened it.
 - **Hit area:** buttons and radio rows ≥ 44 × 44, default 48 (D14). The scrim has no hit action.
 - **Motion:** per `wiom-ios-motion` §4: card and scrim fade in and out together on `motion/micro` `ease/standard`, one `withAnimation` transaction. No scale or slide. **Reduce Motion:** the same fade (already the reduced form, D20). The Loading spinner keeps rotating under Reduce Motion.

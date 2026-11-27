@@ -270,16 +270,7 @@ separately, sentence case, D25). Examples here are illustrative only.
   `NavigationStack` push/pop (D6). The search field is a `TextField` inside
   the pill.
 
-  ```swift
-  ScrollView { content.background(ScrollOffsetReader()) }
-      .coordinateSpace(name: "scroll")
-      .onPreferenceChange(ScrollOffsetKey.self) { isScrolled = $0 < 0 }
-      .safeAreaInset(edge: .top, spacing: 0) {
-          WiomTopBar(title: title, size: .small, isScrolled: isScrolled,
-                     leading: .back { dismiss() })
-      }
-      .toolbar(.hidden, for: .navigationBar)
-  ```
+  Built from: the screen `ScrollView` reports its offset; the bar attaches with `.safeAreaInset(edge: .top, spacing: 0)` and shows its scrolled state when the offset is below zero; the system navigation bar is hidden with `.toolbar(.hidden, for: .navigationBar)`.
 
   `ScrollOffsetReader` is a zero-height `GeometryReader` at the top of the
   content that reports `frame(in: .named("scroll")).minY` through a
@@ -349,17 +340,7 @@ separately, sentence case, D25). Examples here are illustrative only.
     `UINavigationController` a gesture delegate that allows the swipe whenever
     the stack has more than one screen.
 
-    ```swift
-    final class PopGestureDelegate: NSObject, UIGestureRecognizerDelegate {
-        weak var nav: UINavigationController?
-        func gestureRecognizerShouldBegin(_ g: UIGestureRecognizer) -> Bool {
-            (nav?.viewControllers.count ?? 0) > 1
-        }
-    }
-    // Installed by a small UIViewControllerRepresentable in the stack's root,
-    // which finds its navigationController, keeps a strong reference to the
-    // delegate, sets interactivePopGestureRecognizer?.delegate and isEnabled = true.
-    ```
+    Built from: one app-wide gesture delegate allows the pop gesture whenever the stack has more than one screen; a small representable in each stack root finds its navigation controller, keeps a strong reference to the delegate, and sets it on `interactivePopGestureRecognizer` with `isEnabled = true`.
 
     A screen that must block back (payment in progress) disables both the
     back button and this gesture for that screen.

@@ -208,36 +208,20 @@ In a non-dismissable sheet: the **handle is hidden** (top space stays), swipe-do
 ## iOS (SwiftUI, iOS 16+)
 
 - **Built from:** a custom sheet view presented by a **root-level overlay host** (below). Never `.sheet` + `presentationDetents` (D10). Top-corner shape: a custom `Shape` rounding only the top corners with circular arcs (`UIBezierPath(roundedRect:byRoundingCorners: [.topLeft, .topRight], cornerRadii:)`); `UnevenRoundedRectangle` is iOS 17+, so not used. Body scroll: `ScrollView` inside a `ViewThatFits(in: .vertical)` (iOS 16) or a measured height. Drag: `DragGesture` with `predictedEndTranslation`. Rows, buttons, badge and fields from the `wiom-ios-*` skills named above.
-- **Presentation approach (iOS 16):**
+- **Presentation: one overlay host.** One host at the app root (and again at the root of each `fullScreenCover`) draws a `ZStack` in a fixed order: app content, then the sheet layer (scrim + sheet), then the dialog layer, then the toast layer. Screens never call a presenter; they bind presentation to state their view model owns, with a declarative API such as `.wiomSheet(item:)`, `.wiomDialog(item:)` and `.wiomToast(item:)` (the app repo owns the API). The host:
+  - draws the `overlay/scrim`; a scrim tap closes only dismissable sheets, and only then is the scrim a VoiceOver "Close" button (catalog key `common.close`);
+  - hides the content beneath from VoiceOver while a sheet or dialog is up;
+  - queues toasts while a sheet or dialog is up (`wiom-ios-toast` §5);
+  - keeps the keyboard behaviour described below.
 
-  | Approach | Pros | Cons |
-  |---|---|---|
-  | **Overlay host (chosen).** A `.wiomOverlayHost()` modifier at the app root, and again at the root of each `fullScreenCover`, draws a `ZStack`: app content, then the sheet layer (scrim + sheet), then the dialog layer. Screens present through an environment presenter (`@EnvironmentObject WiomOverlayPresenter`). | Pure SwiftUI on 16.0+. Full control of scrim, animation, keyboard and accessibility. Sheet and dialog share one host, so "dialog above sheet" is just z-order. | Must be installed in every presentation context. It cannot sit above system-presented UI (it lives inside the window). The host must hide the content beneath from VoiceOver itself. |
-  | `fullScreenCover` with a clear background + the custom sheet inside | Sits above everything in the app. | Clear background needs `presentationBackground(.clear)` (16.4+) or a UIKit superview hack on 16.0 to 16.3. The system cover slide must be disabled (`Transaction.disablesAnimations`) and re-done, and the scrim fade lags. |
-
-  ```swift
-  // App root (and the root of each fullScreenCover)
-  RootView().wiomOverlayHost()
-
-  // Inside the host, sheet layer:
-  ZStack(alignment: .bottom) {
-      Wiom.Colors.overlayScrim.ignoresSafeArea()
-          .onTapGesture { if sheet.isDismissable { presenter.dismissSheet() } }
-          .accessibilityElement().accessibilityLabel("Close")     // string catalog
-          .accessibilityAddTraits(.isButton)
-          .accessibilityHidden(!sheet.isDismissable)
-      WiomSheetSurface(sheet)                                   // handle, header, body, action bar
-  }
-  ```
+  The host lives inside the window, so system-presented UI (share and permission sheets) sits above it. Not chosen: `fullScreenCover` with a clear background, which needs `presentationBackground` (iOS 16.4) and a re-done system slide.
 - **Tokens:** `bg/default`, `overlay/scrim`, `shadow/md`, `radius/xlarge`, `radius/full`, `stroke/strong`, `stroke/subtle`, `stroke/small` (width), `text/default`, `text/subtle`, `text/brand`, `icon/nonAction`, `icon/brand`, `icon/disabled`, `bg/brand/subtle`, `bg/subtle`, `type/heading/md`, `type/body/md`, `type/body/sm`, `type/label/md`, `type/label/lg`, `icon/sm`, `icon/md`, `space/4`, `space/8`, `space/12`, `space/16`, `space/24`, `space/48`.
 - **Size:** width fills. Heights per §1 (minimum share of screen height or content-fitted, capped below the top safe area). Header, rows and buttons have **minimum** heights (rows 48); only the handle glyph (32 × 4) and badge are fixed shapes (D16).
 - **Dynamic Type:** all text scales (`typography.md` §3); titles, subtitles, row labels and subtext wrap with no line limit. A sheet that grows past the cap scrolls its body. At accessibility sizes (accessibility1 and up) the header scrolls with the body so the list keeps room; the action bar stays pinned, and its group stacks per `wiom-ios-cta` §6. Check Hindi and English at xxxLarge and accessibility3 (D17).
 - **VoiceOver:** the sheet container gets `.accessibilityAddTraits(.isModal)`, and the host sets `.accessibilityHidden(true)` on the content beneath while a sheet is up. On appear, focus moves to the **title** (or the illustration heading) via `@AccessibilityFocusState`, which carries `.isHeader`. Dismissable sheets add `.accessibilityAction(.escape) { dismiss() }`; non-dismissable sheets add none. Handle and divider are `.accessibilityHidden(true)`. Picker rows announce selected state (`wiom-ios-list-item`). When the sheet closes, focus returns to the control that opened it.
 - **Hit area:** every tappable element ≥ 44 × 44, default 48 (D14): header trailing action, rows, buttons. The drag zone (handle + header) is at least 44 tall.
 - **Motion:** per `wiom-ios-motion` §4: the sheet slides up from the bottom edge and the scrim fades in, both `motion/surface` `ease/standard`, in one `withAnimation` transaction; exit mirrors it. During a drag the sheet follows the finger with no animation; on release it completes or snaps back on `motion/surface` `ease/standard`. **Reduce Motion** (`@Environment(\.accessibilityReduceMotion)`): the slide becomes a `motion/micro` cross-fade; drag-to-dismiss still works (it follows the finger) but the release closes with a fade (D20).
-  ```swift
-  .transition(reduceMotion ? .opacity : .move(edge: .bottom))
-  ```
+  Transition: move from the bottom edge; `.opacity` under Reduce Motion.
 - **Safe areas and keyboard:** the fill extends under the home indicator (`.ignoresSafeArea(.container, edges: .bottom)` on the background only); content stays inside. Last CTA: `space/16` above the home indicator on Face ID iPhones, `space/16` above the screen edge on Home-button iPhones (D19); with no action bar, the last row ends at the safe-area edge. **Form:** the sheet rides on the keyboard (content respects the keyboard safe area) with `space/12` between the last button and the keyboard; the focused field stays visible (`ScrollViewReader` scroll-to on focus). If sheet plus keyboard exceed the cap, the body scrolls. Status bar content stays dark over the scrim.
 - **Haptics:** none (D21).
 - **Not on iOS:** back press, Android `ModalBottomSheet` half-expanded state, ripple, `.sheet` / `presentationDetents`, `presentationBackgroundInteraction` (16.4+, and non-modal sheets are not used), SF Symbols, a close (X) button, `UnevenRoundedRectangle` (17+), `.continuous` corners.

@@ -5,7 +5,7 @@ description: >
   message that floats at the bottom of the screen after a tap, server
   response or system event, in 4 types (Critical, Warning, Info,
   Positive) and 3 behaviours (Informational, Actionable, Persistent).
-  Use when building, reviewing or placing a WiomToast or WiomToastHost
+  Use when building, reviewing or placing a toast
   in SwiftUI on iOS.
 ---
 
@@ -79,8 +79,7 @@ margin; height comes from padding + content.
 
 **Why 8 pt and not the 16 pt screen gutter.** The toast floats: it is a
 deliberately wider card (344 pt on a 360-wide Android reference) with an
-8 pt margin on each side, as Android ships it (`WiomToastHost` is placed
-with `space/8` padding). Do not "standardise" it to the 16 pt gutter used
+8 pt margin on each side, as Android ships it. Do not "standardise" it to the 16 pt gutter used
 by list rows, the top bar and sheet content.
 
 ## 3. The 4 types
@@ -144,11 +143,11 @@ that is showing, in this order. Sides stay `space/8`. Same as the Android skill:
 | Navigation bar (`wiom-ios-navigation-bar`, if used) | the top edge of the navigation bar |
 | Nothing | the bottom safe-area edge (the home indicator on Face ID iPhones; the screen edge on Home-button iPhones) |
 
-**Stacking order (back to front):** screen content → sticky CTA bar →
-**toast** → scrim → dialog or bottom sheet. The toast
-never covers the CTA bar's buttons and never sits under them. Do not
-show a toast while a dialog or modal sheet is up; queue it until the
-modal closes (§7 rule 1).
+**Layers of the one root overlay host (back to front):** screen content
+(with its sticky CTA bar) → sheet layer → dialog layer → **toast layer**.
+A toast never shows while a sheet or dialog is up; it waits in the queue
+until the modal closes (§7 rule 1). It sits above the CTA bar, never
+covering or under its buttons.
 
 ## 6. Copy
 
@@ -236,9 +235,10 @@ modal closes (§7 rule 1).
   `ic_rounded_check_circle`), message `Text`, optional action `Button`
   (plain style, text label), optional close `Button`. Background is a
   `RoundedRectangle(cornerRadius: radius/small, style: .circular)`
-  filled `bg/default` with `.wiomShadow(.lg)`. `WiomToastHost` is an
-  `ObservableObject` queue plus an overlay view that the screen (or the
-  app root) attaches once with `.overlay(alignment: .bottom)`.
+  filled `bg/default` with `.wiomShadow(.lg)`. The toast is the top layer
+  of the one overlay host at the app root (`wiom-ios-bottomsheet`, iOS
+  section). Screens bind it to their own state (for example
+  `.wiomToast(item:)`); they never attach their own toast host.
 - **Tokens:** `bg/default`, `bg/warning/subtle`, `icon/action`, `icon/critical`,
   `icon/info`, `icon/positive`, `text/default`,
   `text/onWarning`, `text/brand`, `type/body/lg`, `type/label/lg`,
