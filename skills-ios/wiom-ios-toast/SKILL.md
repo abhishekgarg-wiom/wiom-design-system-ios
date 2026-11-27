@@ -53,7 +53,7 @@ it; this skill does not repeat it. The toast-specific checks:
 │ ←8→ ┌─────────────────────────────────────────────────────┐ ←8→  │
 │     │ (icon)  Message text, up to 2 lines        Action  ✕ │      │
 │     └─────────────────────────────────────────────────────┘      │
-│                         ↕ space/8                                 │
+│                         ↕ space/16                                │
 │ ─────── sticky CTA bar / keyboard / home-indicator safe area ──── │
 └───────────────────────────────────────────────────────────────────┘
 ```
@@ -69,7 +69,7 @@ it; this skill does not repeat it. The toast-specific checks:
 | Vertical padding | 12 pt | `space/12` |
 | Row | Items centred vertically; gap between every adjacent item | `space/8` |
 | Leading icon | 24 pt, Material Rounded filled glyph (D4) | `icon/md` (size) |
-| Message | Regular, fills the remaining width, **max 2 lines**, tail truncation | `type/body/lg` |
+| Message | Regular, fills the remaining width. **2 lines at default text size; grows at large text sizes** (never cut off, D33) | `type/body/lg` |
 | Action label (optional) | SemiBold, 1 line, text only (never a filled button) | `type/label/lg` |
 | Action label padding (visible) | 8 pt horizontal, 4 pt vertical | `space/8` · `space/4` |
 | Close ✕ (Persistent) | 24 pt glyph `close` | `icon/md` (size) · `icon/action` |
@@ -91,7 +91,7 @@ for Warning, the message colour) carries the status.
 | Type (Figma name) | Icon glyph (Material Rounded) | Icon colour | Message colour |
 |---|---|---|---|
 | **Critical** (Error) | `error` | `icon/critical` | `text/default` |
-| **Warning** | `warning`, inside `bg/warning/subtle` (D31; geometry open) | `icon/action` (dark; decorative) | `text/onWarning` |
+| **Warning** | `warning`, in an Icon Badge **Sm** (24 pt circle, 16 pt glyph, `bg/warning/subtle`; D31, D35) | `icon/action` (dark; decorative) | `text/onWarning` |
 | **Info** | `info` | `icon/info` | `text/default` |
 | **Positive** (Success) | `check_circle` | `icon/positive` | `text/default` |
 
@@ -134,10 +134,10 @@ the timer.
 
 **Bottom only.** Never top, never middle.
 
-**Decided bottom clearance (D29):** the toast's bottom edge sits `space/8` above the highest bottom element
-that is showing, in this order. The owner chose 8 pt; the earlier source 16 pt value is superseded:
+**Decided bottom clearance (D29):** the toast's bottom edge sits `space/16` above the highest bottom element
+that is showing, in this order. Sides stay `space/8`. Same as the Android skill:
 
-| Bottom of the screen has… | Toast sits `space/8` above… |
+| Bottom of the screen has… | Toast sits `space/16` above… |
 |---|---|
 | Keyboard open | the top of the keyboard (and above the sticky CTA bar riding on it) |
 | Sticky CTA bar (`wiom-ios-cta`) | the top edge of the CTA bar |
@@ -157,8 +157,9 @@ modal closes (§7 rule 1).
 - **No congratulatory copy.** No "Great!", "Awesome!", "Done!".
 - **Positive sparingly**: only when the user genuinely needs the
   confirmation. Small money acknowledgements are allowed (§1).
-- **1 line target, 2 lines tolerated.** Beyond 2 lines the message
-  tail-truncates; that is a signal to rewrite, not to grow the toast.
+- **1 line target, 2 lines max at the default text size** (about
+  **80 Hindi grapheme clusters**). At larger text sizes the toast grows
+  so the whole message shows; it is never cut off (D33).
   Check both Hindi and English at the default text size: aim for about
   **40 grapheme clusters** of Hindi so one line holds on iPhone SE
   (counted with `String.count`; "क्षि" is one). Treat this number as a
@@ -182,7 +183,7 @@ modal closes (§7 rule 1).
    button inside a toast.
 6. **No retry loops.** One attempt, revert the state, show the toast;
    the user retries by tapping the action or the original control.
-7. **Message max 2 lines**, tail truncation.
+7. **Message fits 2 lines at default size** (about 80 Hindi grapheme clusters); at large text sizes the toast grows, never truncates (D33).
 8. **Tokens only**, by DS V2 name. No raw colours.
 9. **All four types use `bg/default`.** Never a solid status fill
    (`bg/critical`, `bg/warning`, …) or a tinted fill.
@@ -213,8 +214,8 @@ modal closes (§7 rule 1).
 
 ## Open questions
 
-1. **DECIDED (D31): Warning fill and icon colours.** Whole toast stays `bg/default`. Use dark `icon/action` on `bg/warning/subtle`, measured 10.85:1, and preserve the Material Rounded Warning glyph as decorative. This is the global Warning recipe, not a toast-only exception: inputs and Warning icon badges also use dark glyphs on the approved Warning backgrounds. Gold `icon/warning` is ratings-only. Icon-container geometry remains open; no dimensions or glyph sizes are silently changed.
-2. **DECIDED: horizontal and bottom margins.** Owner commit `23f67f9` locks `space/8` horizontally (flexible width). D29 locks `space/8` above the highest safe-area / CTA-bar / keyboard boundary; the older source 16 pt value is superseded.
+1. **DECIDED (D31): Warning fill and icon colours.** Whole toast stays `bg/default`. Use dark `icon/action` on `bg/warning/subtle`, measured 10.85:1, and preserve the Material Rounded Warning glyph as decorative. This is the global Warning recipe, not a toast-only exception: inputs and Warning icon badges also use dark glyphs on the approved Warning backgrounds. Gold `icon/warning` is ratings-only. **Container (D35):** Icon Badge Sm, a 24 pt circle with a 16 pt glyph (`wiom-ios-icon-badge`).
+2. **DECIDED: horizontal and bottom margins.** Owner commit `23f67f9` locks `space/8` horizontally (flexible width). D29 locks `space/16` above the highest safe-area / CTA-bar / keyboard boundary, matching the Android skill.
 3. **Easing: Android vs skill.** The skill (§11) and the motion
    doctrine (D-3 ruling) specify 300 ms `EaseOut` in / `EaseIn` out;
    Android ships `tween(300)` with the default standard curve, plus a
@@ -263,8 +264,8 @@ modal closes (§7 rule 1).
   Icon and ✕ glyphs are fixed 24 pt (non-text glyphs, D16).
 - **Dynamic Type:** message and action scale with their type tokens
   (anchors in `wiom-ios-foundations` `typography.md` §3). The toast
-  grows taller; the message still caps at 2 lines with tail truncation,
-  so at accessibility sizes copy must be short. Through the
+  grows taller and the message wraps fully (no line limit, D33); keep
+  copy within the 2-line default-size guide so large sizes stay compact. Through the
   accessibility3 cap, the action label keeps its full width
   (`.fixedSize()` + `.layoutPriority(1)`) and the message gives way.
   Glyphs do not scale. Check Hindi and English.
@@ -304,10 +305,10 @@ modal closes (§7 rule 1).
   Reduce Motion.
 - **Safe areas and keyboard:** the host respects the bottom safe area
   and the keyboard safe area (do not apply `.ignoresSafeArea(.keyboard)`
-  to it), so the toast rides `space/8` above the keyboard when it is
-  open and `space/8` above the home-indicator safe area otherwise. On a
+  to it), so the toast rides `space/16` above the keyboard when it is
+  open and `space/16` above the home-indicator safe area otherwise. On a
   screen with a sticky CTA bar, the host is attached
-  above that bar (or pads by its height) so the toast sits `space/8`
+  above that bar (or pads by its height) so the toast sits `space/16`
   above it (§5). The toast's shadow may spill into the margin; the
   toast itself never enters the home-indicator area.
 - **Haptics:** none (D21). Android plays none on toasts, including
@@ -425,7 +426,7 @@ struct WiomToastOverlay: View {
                           onAction: { message.action?.run(); host.dismiss() },
                           onClose: { host.dismiss() })
                     .padding(.horizontal, Wiom.Spacing.s8)
-                    .padding(.bottom, Wiom.Spacing.s8)
+                    .padding(.bottom, Wiom.Spacing.s16)
                     .transition(reduceMotion
                         ? .opacity
                         : .move(edge: .bottom).combined(with: .opacity))

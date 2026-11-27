@@ -110,7 +110,7 @@ Status (none / error / success / warning), enabled and read-only are **three ind
 | Filled (has value, not editing) | `bg/default` | `stroke/small` · `stroke/subtle` | `text/subtle` | `text/default` | `text/subtle` | caller's icon |
 | Error | `bg/default` | `stroke/medium` · `stroke/critical/focus` | `text/subtle`* | `text/default` | `text/critical` | `error` · `icon/critical` |
 | Success | `bg/default` | `stroke/medium` · `stroke/positive/focus` | `text/subtle`* | `text/default` | `text/positive` | `check_circle` · `icon/positive` |
-| Warning (Input) | `bg/default` | `stroke/medium` · `stroke/warning` | `text/subtle`* | `text/default` | `text/onWarning` | `warning` · `icon/action` inside `bg/warning/subtle` (D31) |
+| Warning (Input) | `bg/default` | `stroke/medium` · `stroke/warning` | `text/subtle`* | `text/default` | `text/onWarning` | `warning` · `icon/action` in an Icon Badge Sm (24 pt circle, 16 pt glyph, `bg/warning/subtle`; D31, D35) |
 | Disabled | `bg/disabled` | `stroke/small` · `stroke/subtle` | `text/disabled` | `text/disabled` | `text/disabled` | `icon/disabled` |
 | Read-only | `bg/subtle` | `stroke/small` · `stroke/subtle` | `text/subtle` | `text/default` | `text/subtle` | chevron `icon/action` for a picker |
 
@@ -304,7 +304,7 @@ struct WiomOtp: View {
 5. **OTP status borders.** Android draws every resting box in the status colour on Error/Success and shows the active box only while editing (`WiomOtp.kt:95-113, 141-142`); the source skill's code draws only active/inactive and an active box whenever enabled. This skill follows Android.
 6. **Warning border.** Android code uses `stroke/warning` (`WiomInput.kt:219`); the Android README table says `stroke.brandFocus` (`README.md:81`). This skill follows the code; README to be fixed.
 7. **Textarea states.** Design draws six states; Android's `WiomTextarea` also accepts Warning and read-only (`WiomInput.kt:144-146`). Are those allowed in customer screens?
-8. **DECIDED (D31): Warning status colour.** Dark `icon/action` on `bg/warning/subtle`, inside the neutral field. Gold `icon/warning` is ratings-only. The Warning status glyph remains non-tappable. Container geometry and the separate Warning border contrast remain open; do not change helper text, field fill or border tokens under this icon ruling.
+8. **DECIDED (D31): Warning status colour.** Dark `icon/action` on `bg/warning/subtle`, inside the neutral field. Gold `icon/warning` is ratings-only. The Warning status glyph remains non-tappable. Container: Icon Badge Sm, 24 pt circle, 16 pt glyph (D35). The separate Warning border contrast remains open; do not change helper text, field fill or border tokens under this icon ruling.
 9. **Number-pad "Next".** Number pads have no Return key. This skill relies on the CTA riding the keyboard; if a form needs a "Next" between two numeric fields, does design want a keyboard accessory bar (system-styled)?
 
 ## iOS (SwiftUI, iOS 16+)

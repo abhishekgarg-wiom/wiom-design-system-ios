@@ -27,6 +27,7 @@ Start with [`IOS_DECISIONS.md`](IOS_DECISIONS.md): the parity rule, the 32 decis
 | `wiom-ios-loader` | Spinner, linear, dots, skeleton, brand loader |
 | `wiom-ios-progress-indicator` | Linear, completion, milestones, circular |
 | `wiom-ios-pagination` | Dots, bars, counter, scroll indicator |
+| `wiom-ios-rating` | 5-star rating (the only gold use, D36) |
 
 Not included (not loaded by the iOS UI agent): `wiom-design-ui` (Figma plugin catalog), `design-run`, `persona-brief`, `problem-diagnosis`, and the workflow inventory files of the UX skill.
 
@@ -55,7 +56,7 @@ Governance: Abhishek Garg owns the design system. Make design changes in the sou
 
 Audit baseline: source remote HEAD `2fa260f`, Android remote HEAD `1ce3c31` (`v2.0.1`), checked 22 Nov 2026. The checkout was behind when the initial audit began; the user subsequently pulled it to `2fa260f` on 23 Nov. That was the round 2 baseline. Round 3 uses `origin/main b480a46` (Android skills PR #18) without editing Android skills.
 
-The illustrative Swift snippets describe design-system APIs to implement; they are not a compiled module. A missing semantic switch-thumb token remains an explicit implementation gap. Runtime verification on iOS 16 and current iOS, including VoiceOver and layout screenshots, is required when these skills are used to build the app.
+The illustrative Swift snippets describe design-system APIs to implement; they are not a compiled module. The switch thumb uses `icon/inverse` (D34). Runtime verification on iOS 16 and current iOS, including VoiceOver and layout screenshots, is required when these skills are used to build the app.
 
 Feedback correction, 23 Nov 2026: owner locks in `23f67f9` take precedence over differing Android code. The four PODS-1 calls are decided. List secondary/meta uses 12 pt; Dialog Alert uses the neutral circle with `icon/action`. D29-D31 now settle toast clearance, pill count and the Warning-icon placement direction. D31 now finalises dark-on-yellow Warning icons globally and gold rating stars only; icon-container geometry, input boundary contrast and switch-thumb mapping remain open.
 
@@ -68,14 +69,14 @@ HTML source rule: the canonical Wiom iOS design-system HTML reference is generat
 
 ## Implementation readiness
 
-All 19 skills are documented; that is not a native implementation or release claim. Track evidence using [native validation](wiom-ios-foundations/references/native-validation.md): specified, implemented, native-tested and parity-reviewed are separate statuses. Native status is **not assessed in this package** until linked build/device evidence exists. The HTML is a reference and preview, not a simulator. Selection transitions are shared by iOS and Android skills under D28, aligned in design-system PR #18 (`b480a46`). Only the `wiom-ds-android` library implementation remains pending with the dev team; this task does not modify Android skills or code.
+All 20 skills are documented; that is not a native implementation or release claim. Track evidence using [native validation](wiom-ios-foundations/references/native-validation.md): specified, implemented, native-tested and parity-reviewed are separate statuses. Native status is **not assessed in this package** until linked build/device evidence exists. The HTML is a reference and preview, not a simulator. Selection transitions are shared by iOS and Android skills under D28, aligned in design-system PR #18 (`b480a46`). Only the `wiom-ds-android` library implementation remains pending with the dev team; this task does not modify Android skills or code.
 
 
 ## Finalised iOS skill package, 23 Nov 2026
 
-All 19 skills are included and validated as documentation. D31 is final across components: gold icon/warning is rating-stars-only; Warning indicators use dark icon/action on bg/warning/subtle or bg/warning. See the foundation warning-combinations reference. Existing token values are unchanged. D29 keeps toast clearance at 8 pt and D30 keeps 2–4 pill tabs.
+All 20 skills are included and validated as documentation. D31 is final across components: gold icon/warning is rating-stars-only; Warning indicators use dark icon/action on bg/warning/subtle or bg/warning. See the foundation warning-combinations reference. Existing token values are unchanged. D29 keeps toast clearance at 8 pt and D30 keeps 2–4 pill tabs.
 
-Finalised documentation does not mean every implementation question is closed: switch-thumb mapping remains open by owner choice; toast/input icon-container geometry, remaining border/brand-text contrast and native/device validation remain explicit. Android source and app implementation have not been changed by this package.
+Finalised documentation does not mean every implementation question is closed: remaining border/brand-text contrast and native/device validation remain explicit. Android source and app implementation have not been changed by this package.
 
 
 Typography (D32): use **Noto Sans only for both Hindi and English**, with the four named weights in foundations. No separate Noto Sans Devanagari font family is used. Script-specific Hindi shaping checks do not introduce another font family.

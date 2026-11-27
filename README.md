@@ -11,7 +11,7 @@ The repository is public. GitHub Pages serves the complete HTML from `docs/`; no
 
 ## Read the system
 
-- [Main design-system HTML](docs/wiom-ios-design-system.html): full foundation values, 19 guides, iPhone-style examples, interactive state changes, search and a guided walkthrough.
+- [Main design-system HTML](docs/wiom-ios-design-system.html): full foundation values, 20 guides, iPhone-style examples, interactive state changes, search and a guided walkthrough.
 - [Contrast review HTML](docs/wiom-ios-contrast-review.html): approved Warning pairings and clearly labelled remaining proposals.
 - [iOS skills index](skills-ios/README.md), [decisions contract](skills-ios/IOS_DECISIONS.md), and [finalisation summary](FINALISATION.md).
 
@@ -33,14 +33,14 @@ D31 applies to toast, input, icon badge and every Warning indicator. Toast/input
 
 ## Package status
 
-All 19 skills are documented and validated; 18 are active and bottom navigation remains an unused reference (D27). This repository is design guidance and an HTML reference, not a compiled SwiftUI SDK. Existing native-app code has not been changed here.
+All 20 skills are documented and validated; 19 are active and bottom navigation remains an unused reference (D27). This repository is design guidance and an HTML reference, not a compiled SwiftUI SDK. Existing native-app code has not been changed here.
 
-Open implementation/review items remain explicit: switch-thumb mapping, toast/input icon-container geometry, input-border and pressed-brand-text contrast, Dynamic Type policy and native device validation. No unapproved contrast proposal is an agent default.
+Open implementation/review items remain explicit: input-border and pressed-brand-text contrast, Dynamic Type policy and native device validation. No unapproved contrast proposal is an agent default.
 
 ## Provenance and parity
 
 Derived from Wiom’s shared design-system repository, with owner decisions recorded through 23 Nov 2026. The inspected shared checkout was 3e6780c; D28 selection transitions were aligned in Android skills PR #18 at b480a46. Explicit owner decisions override older source/implementation mismatches. Android source/library alignment is separate work: this repository does not change Android skills, the builder, Figma or customer-app-ios.
 
-D29 records the owner’s 8 pt toast clearance; the inspected shared Android source had reverted to 16 pt. D30 records 2–4 pills. D31 records the final Warning colour rule above. These differences need coordinated downstream alignment, not silent edits by an iOS agent.
+D29 records the 16 pt toast bottom gap (sides 8 pt), same as the Android skill. D30 records 2–4 pills. D31 records the final Warning colour rule above. These differences need coordinated downstream alignment, not silent edits by an iOS agent.
 
 Public reference publication was requested by the design-system owner. See [NOTICE](NOTICE.md) for ownership and reuse terms. No global skill installation was performed.

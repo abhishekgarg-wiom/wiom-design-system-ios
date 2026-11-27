@@ -12,7 +12,7 @@ Only three combinations apply:
 
 Applied across foundations, tokens, iconography, colour usage, toast, input and icon-badge guidance. Generic same-family and decorative-icon rules now explain this explicit colour-role reuse. No new token was introduced. The main HTML includes a three-combination visual reference and the updated component examples. The review marks both dark Warning pairings approved globally and gold Warning glyphs prohibited.
 
-D29 keeps toast clearance at 8 pt. D30 keeps 2–4 pill tabs. The switch-thumb mapping remains open by owner choice. Existing reference files and the old walkthrough HTML were retained.
+D29 sets the toast bottom gap to 16 pt (sides 8 pt). D30 keeps 2–4 pill tabs. 27 Nov 2026 answers to the iOS team (D33 to D39): long toasts grow, switch thumb `icon/inverse`, Warning box = Icon Badge Sm, new `wiom-ios-rating`, `loader_infinity` is the brand loader, app animations listed, copy approved by Abhishek Garg. Existing reference files and the old walkthrough HTML were retained.
 
 ## Validation
 

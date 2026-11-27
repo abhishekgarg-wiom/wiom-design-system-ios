@@ -41,14 +41,14 @@ These are a lookup index into the component rules, not independent recipes that 
 | Input at rest | `bg/default` | Value `text/default`; placeholder `text/disabled` | `stroke/subtle`; leading `icon/nonAction` | Border width `stroke/small`; label ramp is defined by the input skill. |
 | Input being edited | `bg/default` | `text/default` | `stroke/brand/focus` | Border width `stroke/medium`; this editing state is not an iPhone keyboard focus ring. |
 | Input error | `bg/default` | Helper `text/critical` | `stroke/critical/focus`, `icon/critical` | Error must also be explained and announced. |
-| Input Warning | `bg/default` | Helper `text/onWarning` | `stroke/warning`; `icon/action` on `bg/warning/subtle` | D31 requires a dark glyph on the warning-tinted icon container; whole input stays neutral. Container geometry and border contrast remain open. |
+| Input Warning | `bg/default` | Helper `text/onWarning` | `stroke/warning`; `icon/action` on `bg/warning/subtle` | D31 requires a dark glyph on the warning-tinted icon container; whole input stays neutral. Container: Icon Badge Sm (D35). Border contrast remains open. |
 | Read-only input | `bg/subtle` | `text/default` | `stroke/subtle` | Readable and selectable; not Disabled. |
 | Pressed list row | `bg/subtle` | Existing row text roles | Existing row glyph roles | Instant pressed state. Selected wins when both states could apply. |
 | Selected row / chip | `bg/selected` | Component-defined selected text | Chip border `stroke/selected` | Rows and chips fade selection in/out with `Wiom.Motion.microStandard` (D28); a row’s radio/checkbox fades with its background. Pressed row fill remains instant. Do not copy the chip's label role into every selected row. |
 | Neutral icon badge | `bg/subtle` | No text inside | `icon/nonAction` | Decorative; parent owns meaning. |
 | Dialog Alert header | `bg/subtle`, 48 pt circle | Dialog title/body use their own roles | `icon/action` | Owner lock `23f67f9` overrides the generic Neutral badge tint. |
 | Status icon badge | Matching `bg/{tone}/subtle` | Meaning on the host | Matching `icon/{tone}` | Warning is the D31 exception to same-family naming: dark icon/action on subtle or solid Warning background. Gold icon/warning is ratings-only. |
-| Toast, all four types | `bg/default` | `text/default`, except Warning `text/onWarning` | `icon/action` for Warning (D31); other types retain their status family | Owner lock: neutral fill for all types. D31 uses dark `icon/action` on `bg/warning/subtle` for the toast Warning glyph, measured 10.85:1; geometry remains open. Action text is always `text/brand`. |
+| Toast, all four types | `bg/default` | `text/default`, except Warning `text/onWarning` | `icon/action` for Warning (D31); other types retain their status family | Owner lock: neutral fill for all types. D31 uses dark `icon/action` on `bg/warning/subtle` for the toast Warning glyph, measured 10.85:1, in an Icon Badge Sm (24 pt circle, 16 pt glyph; D35). Action text is always `text/brand`. |
 | Progress tone | `bg/muted` track; `bg/info`, `bg/brand` or `bg/positive` fill | The component's value / title / pill roles | Stage glyph roles from progress skill | Shared ladder; no warning/critical progress fill. |
 | Skeleton | `bg/muted` placeholder | No fake content text | Shimmer band as defined by loader | Static with Reduce Motion. |
 | Modal scrim | `overlay/scrim` | Not a text surface recipe | No radius or shadow on scrim | Full-screen backdrop; the dialog or sheet owns its own elevation. |
@@ -65,7 +65,7 @@ D31 closes the Warning colour contradiction: gold is ratings-only; every Warning
 
 The app is light-only. A dark brand header is a component surface, not support for an app-wide dark theme. Hover tokens, Figma-only unused surfaces, stale paint styles and the legacy blue/orange ramps are not active iOS roles. See `tokens.md` section 10.
 
-If no semantic token fits, report the gap. Do not publish an invented token or a nearest-colour substitution. This includes the switch-thumb semantic mapping. Documentation may show the recorded appearance while marking that implementation gap explicitly.
+If no semantic token fits, report the gap. Do not publish an invented token or a nearest-colour substitution. The switch thumb uses `icon/inverse` (D34). Documentation may show the recorded appearance while marking that implementation gap explicitly.
 
 ## 6. Component authority
 
