@@ -1,8 +1,8 @@
 # iOS decisions: the contract every `wiom-ios-*` skill follows
 
-**Owner:** Abhishek Garg (design) · **Date:** 22 Nov 2026 · **Applies to:** the native iOS customer app (SwiftUI, iPhone only, iOS 16+, light mode).
+**Owner:** Abhishek Garg (design) · **Applies to:** the native iOS customer app (SwiftUI, iPhone only, iOS 16+, light mode).
 
-This file answers the iOS team's review ("Wiom design skills: review for the iOS app", 19 Nov 2026) and fixes the rules the iOS skills are written against. Every `wiom-ios-*` skill must agree with it. When a skill and this file disagree, this file wins and the skill is the bug.
+These are the rules the iOS skills are written against. Every `wiom-ios-*` skill must agree with them. When a skill and this file disagree, this file wins and the skill is the bug.
 
 ---
 
@@ -42,29 +42,31 @@ So, when a question comes up:
 | D14 | Touch targets | Visible sizes stay as designed (icons 16/20/24, controls 20–32). **Hit area is always ≥ 44 × 44 pt; default 48 × 48** (`.frame(minWidth: 48, minHeight: 48)` + `.contentShape`). The Navigation (32) and Info (24) tiers are visible sizes only on iOS. | Apple HIG minimum 44 pt; no visual change. |
 | D15 | Units and widths | 1 dp = 1 pt. Every width is "fill the width minus the surface gutter", never 360/328/312. Checked from iPhone SE (375 × 667) to Pro Max (440 × 956). Dialog: max width 312, with ≥ 24 pt side margins. | iPhone widths vary. |
 | D16 | Heights | Anything that holds text has a **minimum** height, never a fixed one. Fixed sizes only for non-text glyph shapes (dot badge 8, switch track, radio ring, checkbox box, loader glyphs). | Dynamic Type and two-line Hindi. |
-| D17 | Dynamic Type | Every type token scales with a named iOS text style (anchors in `wiom-ios-foundations/references/typography.md` §3). Line height scales with it. Fully usable through **xxxLarge**; no clipping or overlap through **accessibility3**, which is the cap (`.dynamicTypeSize(...DynamicTypeSize.accessibility3)` at the app root). | iOS users set text size system-wide. Pending design-team confirmation (§3 Q11). |
+| D17 | Dynamic Type | Every type token scales with a named iOS text style (anchors in `wiom-ios-foundations/references/typography.md` §3). Line height scales with it. Fully usable through **xxxLarge**; no clipping or overlap through **accessibility3**, which is the cap (`.dynamicTypeSize(...DynamicTypeSize.accessibility3)` at the app root). | iOS users set text size system-wide. **Final.** |
 | D18 | `type/meta/xs` (10 pt) | Kept (parity), **restricted to Western-digit timestamps and badge counts**. Never Devanagari text. Scales with Caption 2. | Same restriction as the Android skill. |
-| D19 | Safe areas | Surfaces (top bar, sticky CTA bar, sheet) extend their background into the safe area; their content stays inside it. **Last bottom CTA:** `space/16` above the home indicator on Face ID iPhones, and `space/16` above the screen edge on Home-button iPhones (SE). **Keyboard up:** the sticky CTA bar rides on the keyboard with `space/12` below the button. | Same 16 as Android. Decided 19 Nov 2026 (replaces the 8 pt the iOS app ships today). |
+| D19 | Safe areas | Surfaces (top bar, sticky CTA bar, sheet) extend their background into the safe area; their content stays inside it. **Last bottom CTA:** `space/16` above the home indicator on Face ID iPhones, and `space/16` above the screen edge on Home-button iPhones (SE). **Keyboard up:** the sticky CTA bar rides on the keyboard with `space/12` below the button. | Same 16 as Android. |
 | D20 | Reduce Motion | Every motion token has a reduced form: slides and scales become a `motion/micro` cross-fade; draw-on and count-up jump to the end value; loops (spinner excepted) stop at a static frame. The spinner keeps rotating (it is the only signal that work is happening). | iOS accessibility setting. |
 | D21 | Haptics | **None by default**, on taps or otherwise. Allowed only where a component skill names one. | Android ships none; keep parity until the design team defines a vocabulary. |
 | D22 | Blue info / orange warning (current iOS, server-driven) | Mapped to DS V2: blue info → `info` family (purple), orange warning and yellow caution → `warning` family (gold). No blue or orange tokens on iOS. | Android V2 has neither. Pending confirmation (§3 Q12). |
 | D23 | Dark mode | **Light only.** The app root sets `.preferredColorScheme(.light)`. Colours are still defined as asset-catalog colour sets (one appearance) so a dark mode can be added without touching call sites. | Figma has one mode. |
 | D24 | Gaps | When no token fits: **don't invent, don't eyedrop.** Report the gap to the design team and the iOS lead. In code, only `// TODO(IOS-123): …` with a ticket, per the iOS code rules. | Replaces the Android `// GAP:` comment. |
 | D25 | Copy | All copy in skills is **illustrative**. Real copy comes from the string catalog (Hindi first, English written separately, sentence case). Character limits are counted in **grapheme clusters** (`String.count` in Swift; "क्षि" is one). | Agents copy examples verbatim. |
-| D27 | Bottom navigation bar | **None.** The customer app has no bottom tab bar, Top-level destinations are reached from screens. `wiom-ios-navigation-bar` is kept for reference but not used on any screen. | Decided 19 Nov 2026. |
+| D27 | Bottom navigation bar | **None.** The customer app has no bottom tab bar, Top-level destinations are reached from screens. `wiom-ios-navigation-bar` is kept for reference but not used on any screen. | No tab bar in the customer app. |
 | D26 | Text/subtle on dark, brand on dark | No new tokens yet. On `bg/inverse` and `bg/brand/bold` use `text/inverse` only; never `text/brand` (3.84:1) or `text/subtle`. | Pending design-team decision (§3 Q5). |
-| D28 | Shared selection transitions | **DECIDED:** selection colour fades use `motion/micro` + `ease/standard` (200 ms) in both directions on iOS and Android. Values commit on tap. Pressed feedback stays instant. Switch thumb movement is 200 ms on both. Includes checkbox, radio, switch stroke, chips, pill tabs, underline filters and selected list-row backgrounds together with their indicators. Transparent fade endpoints keep the same colour at opacity 0, never `.clear`. iOS Reduce Motion keeps colour/opacity fades and removes movement; Android follows the system "Remove animations" setting. | Android skills updated in design-system PR #18 (`b480a46`). The platform accessibility difference is allowed. Only `wiom-ds-android` library implementation remains pending with the dev team. |
-| D29 | Toast vertical clearance | **DECIDED, owner choice 23 Nov 2026:** `space/16` above the highest safe-area / CTA-bar / keyboard boundary. Horizontal margin stays `space/8`. | Shared Wiom spacing choice, not an Apple-prescribed toast measurement. Replaces the old source 16 vs implementation 8 question. |
-| D30 | Pill-tab count | **DECIDED, owner choice 23 Nov 2026:** 2 to 4 pills on both platforms. | Retain the existing implementation range; supersedes the older 1..3 source rule. |
-| D31 | Final Warning icon combinations | **DECIDED globally, owner finalisation 23 Nov 2026:** only three combinations apply: gold `icon/warning` for rating stars in the rating component; dark `icon/action` on `bg/warning/subtle`; dark `icon/action` on `bg/warning`. Gold `icon/warning` is never a Warning indicator, including inside a tinted badge. Toasts and inputs retain their neutral outer surfaces and use a tinted icon container. | Applies to toast, input, icon badge and every Warning indicator. `icon/action` names the colour, not interactivity; decorative glyphs remain non-tappable. No new token. Toast defaults to the subtle background. Container geometry and unrelated contrast questions stay explicit. |
-| D32 | Font family | **DECIDED:** Noto Sans only for both Hindi and English. Use NotoSans-Regular, NotoSans-Medium, NotoSans-SemiBold and NotoSans-Bold; do not add the separate Noto Sans Devanagari family. | The supplied Noto Sans files contain the tested Hindi characters. Devanagari shaping checks refer to the script. Existing typography tokens, weights and sizes stay unchanged. |
-| D33 | Long toast messages | **DECIDED, owner 27 Nov 2026:** copy fits 2 lines at the default text size (about 80 Hindi grapheme clusters). At larger text sizes the toast grows and shows the whole message; never truncated. Height caps at 40 % of the screen, then the message scrolls inside the toast. | Text is never lost; copy stays short by guideline. |
-| D34 | Switch thumb colour | **DECIDED, owner 27 Nov 2026:** `icon/inverse` (#FAF9FC). No new token. | Visually identical to Android's raw white; Android library to adopt the token. |
-| D35 | Warning icon container (toast, input) | **DECIDED, owner 27 Nov 2026:** Icon Badge Sm: 24 pt circle, 16 pt glyph, `bg/warning/subtle` + `icon/action`. The smaller Warning glyph is intentional; the 24 pt footprint matches the other toast icons. | Reuses an existing size; no new geometry. |
-| D36 | Rating component | **DECIDED, owner 27 Nov 2026:** new `wiom-ios-rating`: 5 Material Rounded stars, 32 pt, `space/8` apart, 48 pt tap area; filled `icon/warning`, empty `icon/nonAction`. | Gives D31's "rating component" a spec. Figma to follow. |
-| D37 | Brand loader animation | **DECIDED, owner 27 Nov 2026:** the shipped `loader_infinity.json` is the brand loader, played at 200 × 200 pt as in the app; Spinner lg only if it fails to load. | Both apps already ship it. Design to correct loop, pink and track later. |
-| D38 | App animations | **DECIDED, owner 27 Nov 2026:** the nine other shipped Lottie files stay as they are and are listed in `wiom-ios-motion` §5.8. | Documents what ships; nothing new. |
-| D39 | Copy approval | **DECIDED, owner 27 Nov 2026:** Abhishek Garg approves new or changed copy. The AI never changes existing copy; it only suggests. | Closes UX1. |
+| D28 | Shared selection transitions | Selection colour fades use `motion/micro` + `ease/standard` (200 ms) in both directions on iOS and Android. Values commit on tap. Pressed feedback stays instant. Switch thumb movement is 200 ms on both. Includes checkbox, radio, switch stroke, chips, pill tabs, underline filters and selected list-row backgrounds together with their indicators. Transparent fade endpoints keep the same colour at opacity 0, never `.clear`. iOS Reduce Motion keeps colour/opacity fades and removes movement; Android follows the system "Remove animations" setting. | Same rule in the Android skills. The platform accessibility difference is allowed. |
+| D29 | Toast vertical clearance | `space/16` above the highest safe-area / CTA-bar / keyboard boundary. Horizontal margin stays `space/8`. | Shared Wiom spacing choice, not an Apple-prescribed toast measurement. |
+| D30 | Pill-tab count | 2 to 4 pills on both platforms. | Retain the existing implementation range; supersedes the older 1..3 source rule. |
+| D31 | Final Warning icon combinations | Only three combinations apply: gold `icon/warning` for rating stars in the rating component; dark `icon/action` on `bg/warning/subtle`; dark `icon/action` on `bg/warning`. Gold `icon/warning` is never a Warning indicator, including inside a tinted badge. Toasts and inputs retain their neutral outer surfaces and use a tinted icon container. | Applies to toast, input, icon badge and every Warning indicator. `icon/action` names the colour, not interactivity; decorative glyphs remain non-tappable. No new token. Toast defaults to the subtle background. Container geometry and unrelated contrast questions stay explicit. |
+| D32 | Font family | Noto Sans only for both Hindi and English. Use NotoSans-Regular, NotoSans-Medium, NotoSans-SemiBold and NotoSans-Bold; do not add the separate Noto Sans Devanagari family. | The supplied Noto Sans files contain the tested Hindi characters. Devanagari shaping checks refer to the script. Existing typography tokens, weights and sizes stay unchanged. |
+| D33 | Long toast messages | Copy fits 2 lines at the default text size (about 80 Hindi grapheme clusters). At larger text sizes the toast grows and shows the whole message; never truncated. Height caps at 40 % of the screen, then the message scrolls inside the toast. | Text is never lost; copy stays short by guideline. |
+| D34 | Switch thumb colour | `icon/inverse` (#FAF9FC). No new token. | Visually identical to Android's raw white; Android library to adopt the token. |
+| D35 | Warning icon container (toast, input) | Icon Badge Sm: 24 pt circle, 16 pt glyph, `bg/warning/subtle` + `icon/action`. The smaller Warning glyph is intentional; the 24 pt footprint matches the other toast icons. | Reuses an existing size; no new geometry. |
+| D36 | Rating component | New `wiom-ios-rating`: 5 Material Rounded stars, 32 pt, `space/8` apart, 48 pt tap area; filled `icon/warning`, empty `icon/nonAction`. | Gives D31's "rating component" a spec. Figma to follow. |
+| D37 | Brand loader animation | The shipped `loader_infinity.json` is the brand loader, played at 200 × 200 pt as in the app; Spinner lg only if it fails to load. | Both apps already ship it. Design to correct loop, pink and track later. |
+| D38 | App animations | The nine other shipped Lottie files stay as they are and are listed in `wiom-ios-motion` §5.8. | Documents what ships; nothing new. |
+| D39 | Copy approval | Abhishek Garg approves new or changed copy. The AI never changes existing copy; it only suggests. | The AI never rewrites existing copy. |
+| D40 | Confirmation and dialog easing | The confirmation check segment uses `ease/enter`; the dialog fade uses `ease/standard`. | Arrival vs neutral change. |
+| D41 | Bottom sheet copy | Title about 40, body about 120 Hindi grapheme clusters at the default text size. At larger sizes the sheet grows and scrolls; text is never cut off. | Same approach as D33. |
 
 ---
 
@@ -92,21 +94,19 @@ If the iOS design-system module names a token differently, the **DS V2 name** is
 
 ## 3. Questions still open for the design team
 
-These are the review's §7 questions that this file does **not** close. The skills carry the default shown until the design team answers.
+The skills carry the default shown until the design team answers.
 
 | # | Question | Default in the skills |
 |---|---|---|
 | Q1–Q2 | Fix Figma from #665E75 to #5C5570 and the Android tracking? | Skills follow Android (D1, D2). Figma to be updated. |
 | Q3 | `bg/surface` #FFFFFF and paint style `Brand/Bold` #4A1434 in Figma: stale or unused? | Neither is used on iOS (Android has neither). |
 | Q4 | Motion as Figma variables? | Motion tokens live in `wiom-ios-foundations/references/motion.md` as cubic-Bézier values until Figma has them. |
-| Q5 | Contrast failures: `stroke/subtle` input border 1.40:1, `text/brand` on `bg/brand/subtle` 4.10:1, on-dark brand text | Recorded as **accepted exceptions pending a ruling**; colours unchanged for parity. Skills avoid the on-dark pairs (D26). |
-| Q11 | Dynamic Type anchors and cap | D17 values. |
+| Q5 | Contrast failures: `stroke/subtle` input border 1.40:1, `text/brand` on `bg/brand/subtle` 4.10:1, on-dark brand text | **Accepted exceptions: build with the current tokens; review with Android later.** Skills avoid the on-dark pairs (D26). |
 | Q12 | Blue info / orange warning from server-driven screens | D22 mapping. |
 | Q13 | May iOS write `codeSyntax.iOS` into Figma by script? | Naming rule in §2 is fixed either way. Writing to Figma needs the design team's yes. |
 | Q14 | Rename the stroke-width and icon-size collections in Figma? | Swift already separates them (§2). |
-| UX1 | Who owns copy? | **DECIDED (D39):** Abhishek Garg approves; the AI only suggests. |
 | n/a | Haptics vocabulary | None (D21). |
-| n/a | Brand-loader Lottie: final file? | Plain Spinner lg on both apps. No final Lottie asset ships; animation delivery remains open. |
+| n/a | Brand-loader file fixes (loop 1.3 s, pink #D9008D, track) | Use the shipped `loader_infinity.json` (D37) until design delivers the corrected file. |
 
 ---
 
@@ -120,41 +120,19 @@ These are the review's §7 questions that this file does **not** close. The skil
 - Dependencies resolve within this iOS package or to the named source repositories; retired workflows are not dependencies.
 
 
-## 5. Owner decision status: locked rulings and remaining questions
+## 5. Owner locks and standing defaults
 
-The 22 Nov context was stale for the four PODS-1 rulings. Owner commit `23f67f971e2a5187dbc07344a9041090aa494fb2` (20 Nov 2026, “Lock PODS-1”) is authoritative. These owner rulings override differing Android visuals. Other rows retain explicit defaults or open status; no new approval is inferred.
+Owner locks from PODS-1 (commit `23f67f9`) override differing Android visuals:
 
-| Question | Default until ruled |
+- Toast fill: `bg/default` for all four types.
+- List secondary and meta text: `type/body/sm` (12 pt).
+- Toast side margin: `space/8` each side (344 wide on the 360 reference; iPhone width stays flexible).
+- Dialog Alert icon: 48 pt neutral circle, `bg/subtle` + `icon/action`.
+
+Standing defaults:
+
+| Topic | Rule |
 |---|---|
-| Figma subtle text and tracking | Follow Android; values and live Figma difference are recorded in foundations. |
-| Contrast exceptions | Retain documented pairs for parity; no unapproved recolouring. |
-| Android skill vs library mismatches | Library visuals win unless an explicit owner correction in the context overrides them; update Android skills separately. |
-| Brand animation | Plain Spinner lg on both apps; final asset absent. |
-| Hindi progress text at 10 | iOS uses 12; Android should align. |
-| Figma-only surface and paint style | Not in use. |
-| Motion tokens in Figma | Keep in foundations; add to Figma later. |
-| नेट and घर का नेट | Use as the recommended customer-copy defaults. |
-| String-catalog courtesy wording and casing | Recommended shared-catalog correction; no catalog changed by this skills task. |
-| Warning toast fill | **DECIDED · `23f67f9`:** `bg/default` for all four types. D31 uses a dark icon on a pale-yellow icon container; whole-toast fill stays neutral. |
-| List secondary/meta text | **DECIDED · `23f67f9`:** `type/body/sm` (12). iOS follows the owner; Android app must change. |
-| Toast side margin | **DECIDED · `23f67f9`:** `space/8` each side, 344 wide on the 360 reference; iPhone width remains flexible. |
-| Alert icon | **DECIDED · `23f67f9`:** 48 pt neutral circle, `bg/subtle` + `icon/action`. Dialog rule overrides the generic Neutral badge tint; Android app must change. |
-| Toast bottom clearance | **DECIDED (D29):** `space/16` above the highest safe-area / CTA-bar / keyboard boundary. |
-| Tabs pill count | **DECIDED (D30):** 2 to 4 on both platforms; supersedes 1..3. |
-| Warning icon combinations | **DECIDED (D31):** gold is ratings-only; Warning indicators use dark `icon/action` on subtle or solid Warning backgrounds. Toast/input outer surfaces stay neutral. |
-| Dynamic Type anchors and cap | D17 and foundations anchors. |
-| Figma code syntax and collection renames | Naming rule fixed locally; no Figma writes authorised by this task. |
-| Selection transition refinement | **DECIDED (D28):** shared selection fades and switch timing are approved on both platforms; Android skills are aligned by PR #18 (`b480a46`). Only the Android library code implementation remains pending with the dev team. |
-| Switch white-thumb semantic token | **DECIDED (D34):** `icon/inverse`. |
-| Missing spacing/geometry tokens | Preserve documented visual values and report gaps; no new tokens created. |
-
-Source baseline checked 22 Nov 2026: design-system remote HEAD `2fa260fd374ec908ea51d2ce01f34ec69c730644`; Android remote HEAD `1ce3c313ca12273afb387bb7b18086028bc3211a` (tag `v2.0.1`). The older context calls the Android library v0.3.0; the audit uses the actual current code and retains that historical version only in the required tabs implementor note.
-
-
-Round 3 baseline, 23 Nov 2026: design-system `origin/main` and local HEAD are `b480a46`, including Android skills PR #18. Earlier source/library hashes above are historical audit references; the Android library implementation has not been re-baselined by this skills-only change.
-
-
-Owner decision session, 23 Nov 2026: D29-D31 are recorded above. Switch-thumb token was later decided as `icon/inverse` (D34, 27 Nov 2026). Contrast comparisons are requested for review only, not adoption.
-
-
-D31 finalisation supersedes the earlier toast-only scope: the same three combinations now govern every iOS Warning indicator. Gold-on-tint is prohibited, not an accepted Warning exception. Ratings retain their documented gold-star exception.
+| Android skill vs library mismatch | Library visuals win unless an owner decision overrides them. |
+| Hindi progress text | 12 pt, never 10 (D18). |
+| Missing spacing or geometry tokens | Keep the documented value and report the gap (D24); no new tokens. |
