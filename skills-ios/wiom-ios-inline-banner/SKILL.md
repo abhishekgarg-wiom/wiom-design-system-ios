@@ -45,11 +45,11 @@ Body text on critical and positive is `text/default`; their status text colours 
 ## Settled rules
 
 - **Dismissable (D45):** not dismissable by default. If one ever is, add a close button (`icon/action`, 48 pt hit area).
+- **Corner radius (D62):** `radius/large` (16 pt), the same as cards.
 
 ## Open questions
 
-1. **Corner radius.** Uses `radius/large` like cards; the source has no banner component. Confirm.
-2. **Figma.** No banner component in Figma; this recipe comes from the foundations error-surface rule.
+1. **Figma.** No banner component in Figma; this recipe comes from the foundations error-surface rule.
 
 ## Accessibility strings
 

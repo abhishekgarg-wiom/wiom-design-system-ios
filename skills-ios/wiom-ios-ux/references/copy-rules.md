@@ -136,4 +136,4 @@ Never claim a state, time or outcome the backend can't confirm (LC-O, Operationa
 - [ ] Fits at large text sizes; length within the D44 target
 - [ ] New copy is a proposal for approval (D49); approved copy is not changed
 
-**Known clash:** the glossary maps "Payable" to देय. The app now uses भुगतान (audit fix). The glossary is owned by Ashish, so this is raised as a clash (LC-CONFLICT) rather than edited.
+**Payable (D53):** the iOS glossary now says भुगतान, as the app does. Ashish's builder glossary still says देय; it is flagged for him to change.

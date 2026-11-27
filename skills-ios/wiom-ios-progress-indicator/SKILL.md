@@ -166,9 +166,7 @@ Don't stack two progress visuals on one card. When the process completes, hide t
 
 ## 8. Motion and Reduce Motion
 
-Android draws each new value **at once**: no tween on the fill or arc, no colour cross-fade, no count-up. iOS matches this: value, tone, stage and pill changes are instant.
-
-The source skill also describes a draw-on (fill and arc growing to the new value), a count-up of a centre percentage and colour cross-fades. These are not shipped on Android and are an Open question. If they are adopted, they use `motion/emphasis` · `ease/standard` for draw-on and count-up and `motion/surface` · `ease/standard` for colour changes, and under **Reduce Motion they jump straight to the final value and colour** (D20). Code should already route value changes through one place that checks `accessibilityReduceMotion`, so adding the tween later can't skip the Reduce Motion path.
+**The fill animates (D56).** When the value changes, the bar fill and the ring arc move to the new value over `motion/surface` (300 ms) with `ease/standard`. Tone colour changes fade on the same timing. Numbers change at once: no count-up. Under **Reduce Motion** the fill jumps to the new value. Android follow-up.
 
 Progress never loops. A determinate indicator must not look busy when nothing is changing.
 
@@ -204,10 +202,11 @@ Progress never loops. A determinate indicator must not look busy when nothing is
 - **Milestones gap (D42):** `space/20`.
 - **Pill padding (D42):** vertical padding `space/4`. The 6 pt pill dot is a fixed component size.
 - **Stage labels (D44, D45):** 8 grapheme clusters is the target for system-drafted copy. When labels need more than 2 lines at large text sizes, hide the label row; the subtitle carries the stage.
+- **Fill motion (D56):** fill and arc animate to the new value in 300 ms; colour fades; no count-up; Reduce Motion jumps.
 
 ## Open questions
 
-1. **Draw-on, count-up and colour cross-fades:** iOS changes values at once, as Android ships. Adopt animation on both, with `motion/emphasis` / `motion/surface` and the Reduce Motion jump?
+None.
 
 ## Accessibility strings
 
@@ -228,7 +227,7 @@ Hindi text comes from the catalog; new strings need approval (D39).
 - **Dynamic Type:** titles, values, subtitles and pill labels scale with their anchors in `typography.md` §3 and wrap. Completion: when `dynamicTypeSize.isAccessibilitySize`, the value moves under the title instead of beside it. Milestones: stage labels `lineLimit(2)`, `.multilineTextAlignment(.center)`, never truncated at ≤ 8 grapheme clusters; the label-row fallback in §5. Check Hindi and English at xxxLarge and accessibility3.
 - **VoiceOver:** each indicator is **one element** (`.accessibilityElement(children: .ignore)`) with a label and a value. Linear and Circular: label = what is progressing (from the host, e.g. "Profile completion"), value = percent (illustrative "40 percent", from the catalog's percent format). Completion: label = title, value = the value string plus the pill copy (illustrative "3 of 5 details, in progress"); don't speak the state's fixed fill percent. Milestones: label = title, value = "step 2 of 4, <stage name>" (catalog format string). Add `.updatesFrequently` while a value is changing live (a download). When a stage or state changes while the customer is on the screen, post one `.announcement` with the new value.
 - **Hit area:** none; indicators are not tappable. The hosting row or card has the ≥ 44 pt target.
-- **Motion:** §8. Today all changes are instant on both platforms. If draw-on / count-up / cross-fades are adopted: `motion/emphasis` / `motion/surface` with `ease/standard`, and under Reduce Motion they jump to the final value. Nothing loops.
+- **Motion:** §8 (D56). Fill and arc move over `motion/surface` with `ease/standard`; colour fades; no count-up; Reduce Motion jumps. Nothing loops.
 - **Safe areas and keyboard:** no special handling; indicators live inside their host's safe area. A Milestones strip pinned under the top bar sits below the status bar with the top bar (D8).
 - **Haptics:** none, including on completion (D21).
 - **Not on iOS:** default `ProgressView` / `UIProgressView` styling, Material progress indicators, ripple on hosting cards, SF Symbols for stage glyphs (D4), `minimumScaleFactor` on stage labels.

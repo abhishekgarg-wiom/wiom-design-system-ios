@@ -47,7 +47,7 @@ So, when a question comes up:
 | D19 | Safe areas | Surfaces (top bar, sticky CTA bar, sheet) extend their background into the safe area; their content stays inside it. **Last bottom CTA:** `space/16` above the home indicator on Face ID iPhones, and `space/16` above the screen edge on Home-button iPhones (SE). **Keyboard up:** the sticky CTA bar rides on the keyboard with `space/12` below the button. | Same 16 as Android. |
 | D20 | Reduce Motion | Every motion token has a reduced form: slides and scales become a `motion/micro` cross-fade; draw-on and count-up jump to the end value; loops (spinner excepted) stop at a static frame. The spinner keeps rotating (it is the only signal that work is happening). | iOS accessibility setting. |
 | D21 | Haptics | **None by default**, on taps or otherwise. Allowed only where a component skill names one. | Android ships none; keep parity until the design team defines a vocabulary. |
-| D22 | Blue info / orange warning (current iOS, server-driven) | Mapped to DS V2: blue info → `info` family (purple), orange warning and yellow caution → `warning` family (gold). No blue or orange tokens on iOS. | Android V2 has neither. Pending confirmation (§3 Q12). |
+| D22 | Blue info / orange warning (current iOS, server-driven) | Mapped to DS V2: blue info → `info` family (purple), orange warning and yellow caution → `warning` family (gold). No blue or orange tokens on iOS. | Android V2 has neither. Final (owner, 27 Nov 2026). |
 | D23 | Dark mode | **Light only.** The app root sets `.preferredColorScheme(.light)`. Colours are still defined as asset-catalog colour sets (one appearance) so a dark mode can be added without touching call sites. | Figma has one mode. |
 | D24 | Gaps | When no token fits: **don't invent, don't eyedrop.** Report the gap to the design team and the iOS lead. In code, only `// TODO(IOS-123): …` with a ticket, per the iOS code rules. | Replaces the Android `// GAP:` comment. |
 | D25 | Copy | All copy in skills is **illustrative**. Real copy comes from the string catalog (Hindi first, English written separately, sentence case). Character limits are counted in **grapheme clusters** (`String.count` in Swift; "क्षि" is one). | Agents copy examples verbatim. |
@@ -78,6 +78,16 @@ So, when a question comes up:
 | D50 | Input label weight | **DECIDED, owner 27 Nov 2026:** empty and not focused `type/title/sm` (Bold 16/24); focused, filled or read-only `type/body/lg` (Regular 16/24). Colour ramp unchanged. | Matches the Figma frames; Android library to follow. |
 | D51 | Android parity calls | **DECIDED, owner 27 Nov 2026:** where iOS made a small layout call (title wrapping, counter centring, action row, message centring, dialog pairings, count nudge, forward-only logo, no hamburger), the iOS rule stands. Android follow-ups are listed in `skills-ios/README.md`. | Android aligns later. |
 | D52 | Copy rules | **DECIDED, owner 27 Nov 2026:** all user-facing copy follows `wiom-ios-ux/references/copy-rules.md` (Hindi and English) and `english-copy-rules.md`. They mirror the Wiom live copy audit (LC checks), the copy agent checks and the app's binding rules (CLAUDE.md rule 6, UI-06). | Copy that follows them passes the audit. |
+| D53 | Payable term | **DECIDED, owner 27 Nov 2026:** भुगतान (कुल भुगतान), as the app ships. | Ashish's builder glossary still says देय; flagged for him. |
+| D54 | Brand loader file | **DECIDED, owner 27 Nov 2026:** corrected `assets/animations/loader_infinity.json`: 1.3 s loop, brand pink #D9008D. | Matches the D37 spec; apps swap it in. |
+| D55 | Underline position | **DECIDED, owner 27 Nov 2026:** on the bar's bottom edge, full item width. | The old inside-padding position looked unintended. |
+| D56 | Progress motion | **DECIDED, owner 27 Nov 2026:** fill and arc animate over `motion/surface` with `ease/standard`; colour fades; no count-up; Reduce Motion jumps. | Smoother change on both platforms. |
+| D57 | Contrast exceptions | **DECIDED, owner 27 Nov 2026:** input rest border (1.40:1) and pressed `text/brand` on `bg/brand/subtle` (4.10:1) are final exceptions. | The label and focus border identify the field; the pressed pairing is momentary. |
+| D58 | Loader loops | **DECIDED, owner 27 Nov 2026:** loop timings stay fixed component values; one indeterminate bar (the loader's). | No extra tokens; Android retires its second bar. |
+| D59 | Textarea states | **DECIDED, owner 27 Nov 2026:** Warning and Read-only allowed. | Parity with the Android library. |
+| D60 | Number pad | **DECIDED, owner 27 Nov 2026:** no keyboard accessory bar. | Customer forms rarely chain number fields. |
+| D61 | Page-state art | **DECIDED, owner 27 Nov 2026:** Icon Badge Lg until illustrations exist. | |
+| D62 | Banner radius | **DECIDED, owner 27 Nov 2026:** `radius/large` (16 pt). | Same family as cards. |
 
 ---
 
@@ -112,8 +122,8 @@ The skills carry the default shown until the design team answers.
 | Q1–Q2 | Fix Figma from #665E75 to #5C5570 and the Android tracking? | Skills follow Android (D1, D2). Figma to be updated. |
 | Q3 | `bg/surface` #FFFFFF and paint style `Brand/Bold` #4A1434 in Figma: stale or unused? | Neither is used on iOS (Android has neither). |
 | Q4 | Motion as Figma variables? | Motion tokens live in `wiom-ios-foundations/references/motion.md` as cubic-Bézier values until Figma has them. |
-| Q5 | Contrast failures: `stroke/subtle` input border 1.40:1, `text/brand` on `bg/brand/subtle` 4.10:1, on-dark brand text | **Accepted exceptions: build with the current tokens; review with Android later.** Skills avoid the on-dark pairs (D26). |
-| Q12 | Blue info / orange warning from server-driven screens | D22 mapping. |
+| Q5 | Contrast failures: `stroke/subtle` input border 1.40:1, `text/brand` on `bg/brand/subtle` 4.10:1, on-dark brand text | **DECIDED (D57):** both accepted as final exceptions. Skills avoid the on-dark pairs (D26). |
+| Q12 | Blue info / orange warning from server-driven screens | **DECIDED:** D22 is final. |
 | Q13 | May iOS write `codeSyntax.iOS` into Figma by script? | Naming rule in §2 is fixed either way. Writing to Figma needs the design team's yes. |
 | Q14 | Rename the stroke-width and icon-size collections in Figma? | Swift already separates them (§2). |
 | n/a | Haptics vocabulary | None (D21). |

@@ -135,7 +135,7 @@ Full-screen. It covers the screen, swallows every touch, and centres a vertical 
 | Mark | `loader_infinity` animation, 200 × 200 pt (D37) | same, 200 × 200 pt | same, 200 × 200 pt |
 | Message (optional) | `type/body/md`, `text/subtle` | `type/body/md`, `text/onBrand` | `type/body/md`, `text/onBrand` |
 
-**The mark is the `loader_infinity` animation (D37), played in a 200 × 200 pt frame**, as the app does. The file is a 1920 × 1080 canvas with wide empty margins, so never squeeze it into the 128 × 53 glyph size or it looks tiny. It is the infinity stroke-dash chase both apps already ship (`loader_infinity.json`, copied from the Android app), played with `lottie-ios` on a loop. Spinner lg is only the fallback if the file fails to load. Known differences for design to correct in the file later: 2.0 s loop (spec 1.3 s), pink #D92B90 (token `icon/brand` #D9008D), a light-grey track.
+**The mark is the `loader_infinity` animation (D37), played in a 200 × 200 pt frame**, as the app does. The file is a 1920 × 1080 canvas with wide empty margins, so never squeeze it into the 128 × 53 glyph size or it looks tiny. It is the infinity stroke-dash chase both apps already ship (`loader_infinity.json`, copied from the Android app), played with `lottie-ios` on a loop. Spinner lg is only the fallback if the file fails to load. **Corrected file (D54):** `assets/animations/loader_infinity.json` in this repo loops in 1.3 s and uses brand pink #D9008D (the light-grey track stays). Apps swap it in for the old 2.0 s file.
 
 Brand Overlay is a full-screen branded-wait variant, not the required loader for payment. Blocking foreground work such as payment, syncing and submitting uses the Loading dialog (`wiom-ios-dialog`), without a duration cutoff. Routine inline waits use Spinner or Skeleton. Surface choice and the outcome follow `wiom-ios-bottomsheet` → Choosing a surface.
 
@@ -205,7 +205,7 @@ All copy below is illustrative; real strings come from the catalog (Hindi first,
 
 ## Settled rules
 
-- **Brand loader (D37):** the shipped `loader_infinity.json`, 200 × 200 pt; Spinner lg only if it fails to load. Design will correct the file's loop (2.0 s vs 1.3 s), pink (#D92B90 vs #D9008D) and grey track later.
+- **Brand loader (D37):** the shipped `loader_infinity.json`, 200 × 200 pt; Spinner lg only if it fails to load. The corrected file (1.3 s, #D9008D) is `assets/animations/loader_infinity.json` (D54).
 - **Skeleton:** shimmer 1.2 s with a `bg/default` 55 % band; Card has no border; ListItem trailing block 40 pt; Line widths 100 / 75 / 50 %.
 - **In-button spinner:** CTAs use their own 24 pt / 2 pt glyph (`wiom-ios-cta`); Spinner sm (20 pt) is for other inline waits.
 - **Status loader** (wait → success / error ring) is not on iOS; outcomes use the outcome surface.
@@ -213,11 +213,12 @@ All copy below is illustrative; real strings come from the catalog (Hindi first,
 - **Linear Determinate easing (D45):** `motion/surface` · `ease/standard`.
 - **Reduce Motion still for Linear Indeterminate (D45):** a centred 40 % segment, so it is not read as progress.
 - **Brand message alignment (D51):** a two-line message is centred. Android follow-up: centre it too.
+- **Loop timings (D58):** spinner 1.0 s, Linear 1.5 s, Dots 1.0 s with 150 ms stagger, shimmer 1.2 s stay fixed component values; no loop tokens.
+- **One indeterminate bar (D58):** only the loader's Linear bar. Android follow-up: retire the progress package's indeterminate bar.
 
 ## Open questions
 
-1. **Loop periods** (spinner 1.0 s, Linear 1.5 s, Dots 1.0 s / 150 ms stagger, shimmer 1.2 s) are not motion tokens. Should `motion.md` define loop tokens?
-2. **Two indeterminate bars on Android** (loader Linear and the progress package's indeterminate bar). iOS ships only the loader's. Retire the other?
+None.
 
 ## Accessibility strings
 

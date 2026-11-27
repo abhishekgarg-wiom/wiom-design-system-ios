@@ -74,4 +74,13 @@ These are referenced but have no skill yet; until they do, ask the design team r
 
 ## Android follow-ups (D51)
 
-iOS rules that Android should adopt in its next update: input label weight (D50); top-bar titles wrap to 2 lines and no home-tab hamburger; Medium / Large action row; pagination counter centred; brand-loader message centred; dialog pairings Primary or Destructive + Secondary; badge count nudge; forward-only Wiom logo; D33 to D38 (toast growth, thumb token, Warning box, rating, brand loader, app animations).
+iOS rules that Android should adopt in its next update: input label weight (D50); top-bar titles wrap to 2 lines and no home-tab hamburger; Medium / Large action row; pagination counter centred; brand-loader message centred; dialog pairings Primary or Destructive + Secondary; badge count nudge; forward-only Wiom logo; D33 to D38 (toast growth, thumb token, Warning box, rating, brand loader, app animations); underline position (D55); progress fill motion (D56); retire the second indeterminate bar (D58); swap in the corrected loader file (D54).
+
+## Figma to-do (design team)
+
+Built from the skills until Figma catches up: Card, Inline banner, Page states and Rating components; icon-badge tone variants; `text/subtle` #665E75 → #5C5570 and the letter-spacing values (D1, D2).
+
+## Other teams
+
+- **App copy (engineering, later):** remove कृपया (15 places) and use one spelling of "Cancel booking"; move the 234 hard-coded Hindi texts into the string catalog.
+- **iOS app team:** test each component on a device with [native-validation.md](wiom-ios-foundations/references/native-validation.md) (VoiceOver, AutoFill, large text).
