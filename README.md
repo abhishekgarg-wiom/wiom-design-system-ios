@@ -49,3 +49,5 @@ python3 -m venv .venv && .venv/bin/pip install -r scripts/requirements.txt
 ```
 
 It re-renders only what changed. A new skill also needs a chapter entry in the page's `SKILLS` list.
+
+After editing `tokens.md`, regenerate the token JSON: `python3 scripts/build_tokens_json.py`.

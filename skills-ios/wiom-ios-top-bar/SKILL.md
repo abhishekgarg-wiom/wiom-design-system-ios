@@ -316,7 +316,7 @@ Hindi text comes from the catalog; new strings need approval (D39).
   - Title: `.accessibilityAddTraits(.isHeader)`; title and subtitle combine
     into one element (`.accessibilityElement(children: .combine)`).
   - Back: label from the string catalog for "Back", button trait
-    (`Image(...).accessibilityLabel(Text("Back"))` inside the `Button`). Close
+    (the back `Button` is labelled with the catalog key `common.back`). Close
     reads "Close".
   - Every trailing icon has a catalog label naming the action
     ("Notifications", "More options"); glyphs alone are never read.
