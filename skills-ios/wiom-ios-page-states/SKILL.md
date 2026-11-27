@@ -33,20 +33,20 @@ A centred column in the content area, inside the `space/16` gutter.
 | Title → body | | `space/8` |
 | Body | Centred, wraps | `type/body/md` · `text/subtle` |
 | Text → CTA | | `space/32` |
-| CTA | Empty: optional Primary that fixes the emptiness. Error: Primary "Retry" | `wiom-ios-cta` |
+| CTA | Empty: optional Primary that fixes the emptiness. Error: Primary "दोबारा कोशिश करें / Try again" | `wiom-ios-cta` |
 
 ## 3. Rules
 
 1. **Keep the top bar.** Never replace the whole screen; back must work.
 2. **Skeleton first** when the layout is known; a spinner only when it isn't.
-3. **Error always has a way forward:** Retry, plus back. Say what failed in plain words; no error codes.
-4. **Retry** re-runs the same call and shows Loading again; it never navigates.
+3. **Error always has a way forward:** Try again, plus back. Phone offline uses the app's line: "इंटरनेट से कनेक्ट करके दोबारा कोशिश करें" / "No internet connection on your phone." Say what failed in plain words; no error codes.
+4. **Try again** re-runs the same call and shows Loading again; it never navigates.
 5. **Empty is not an error.** Neutral tone, and a next step when there is one.
 6. Copy is illustrative and comes from the catalog (D25); text wraps and never truncates.
 
 ## Settled rules
 
-- **Auto-retry (D45):** none; the user taps Retry.
+- **Auto-retry (D45):** none; the user taps Try again.
 
 ## Open questions
 
@@ -58,7 +58,7 @@ A centred column in the content area, inside the `space/16` gutter.
 | Key | English meaning |
 |---|---|
 | `common.loading` | "Loading" |
-| `common.retry` | "Retry" |
+| `common.retry` | "दोबारा कोशिश करें" / "Try again" |
 
 Hindi text comes from the catalog; new strings need approval (D39).
 

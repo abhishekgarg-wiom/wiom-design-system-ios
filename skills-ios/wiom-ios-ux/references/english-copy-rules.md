@@ -92,3 +92,9 @@ No hard-coded UI text in code (`Text("…")` with a literal); every string comes
 - [ ] No orphan fragment; fits its frame without wrapping
 - [ ] Hindi and English updated together, and the same label spelled identically everywhere
 - [ ] Fits the component's D44 target if the copy AI drafted it; approved by Abhishek Garg (D49)
+
+## Server copy and tests
+
+- When the server sends copy (`info.message.hi` / `.en`), show it as sent for the current language; never build copy by parsing a raw `msg`.
+- Changing copy means regenerating the expected-copy test files; tests read copy from the app.
+- Hindi rules and the full audit checklist: [copy-rules.md](copy-rules.md) (D52).

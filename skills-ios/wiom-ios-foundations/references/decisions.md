@@ -77,6 +77,7 @@ So, when a question comes up:
 | D49 | Copy AI | **DECIDED, owner 27 Nov 2026:** AI never changes existing approved copy (D39). When the system needs new copy, the copy AI drafts within D44 targets and D48 rules; Abhishek Garg approves. | Keeps copy owned and consistent. |
 | D50 | Input label weight | **DECIDED, owner 27 Nov 2026:** empty and not focused `type/title/sm` (Bold 16/24); focused, filled or read-only `type/body/lg` (Regular 16/24). Colour ramp unchanged. | Matches the Figma frames; Android library to follow. |
 | D51 | Android parity calls | **DECIDED, owner 27 Nov 2026:** where iOS made a small layout call (title wrapping, counter centring, action row, message centring, dialog pairings, count nudge, forward-only logo, no hamburger), the iOS rule stands. Android follow-ups are listed in `skills-ios/README.md`. | Android aligns later. |
+| D52 | Copy rules | **DECIDED, owner 27 Nov 2026:** all user-facing copy follows `wiom-ios-ux/references/copy-rules.md` (Hindi and English) and `english-copy-rules.md`. They mirror the Wiom live copy audit (LC checks), the copy agent checks and the app's binding rules (CLAUDE.md rule 6, UI-06). | Copy that follows them passes the audit. |
 
 ---
 

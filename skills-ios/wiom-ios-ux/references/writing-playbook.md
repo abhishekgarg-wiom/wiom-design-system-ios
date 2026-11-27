@@ -55,7 +55,7 @@ Delight:  a visual / motion moment, not a "बधाई" string
 Say what happened (neutral words)
 Reassure first: is the money or data safe? Only say so if it is true
 Blame the system, never the user
-Retry button + a no-pressure way out
+"Try again" button (दोबारा कोशिश करें) + a no-pressure way out
 Specific help for this case
 ```
 
